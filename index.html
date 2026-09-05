@@ -1057,13 +1057,13 @@
         <span class="polaroid-tape polaroid-tape--br" aria-hidden="true"></span>
         <div class="founder-window" id="founderWindow">
           <img class="is-active" src="Pictures/web/founder-1.jpg" alt="Zujajah with the President of Ritsumeikan Asia Pacific University">
-          <img src="Pictures/web/founder-2.jpg" alt="Zujajah with a trophy and award from an international law moot competition">
-          <img src="Pictures/web/founder-3.jpg" alt="Zujajah receiving an award certificate">
-          <img src="Pictures/web/founder-4.jpg" alt="Zujajah with delegates at the Red Cross International Humanitarian Law Moot, Hong Kong">
-          <img src="Pictures/web/founder-5.jpg" alt="Zujajah with classmates at Sophia University">
+          <img src="Pictures/web/founder-2.jpg" alt="Zujajah celebrating victories at the ICRC IHL Moot Court Competition">
+          <img src="Pictures/web/founder-3.jpg" alt="Zujajah receiving an award at the FALIA Essay Competition">
+          <img src="Pictures/web/founder-4.jpg" alt="Zujajah at the ICRC Asia-Pacific Headquarters in Hong Kong">
+          <img src="Pictures/web/founder-5.jpg" alt="Zujajah representing APU's Student Body at Sophia University">
         </div>
       </div>
-      <p class="founder-caption" id="founderCaption" data-i18n="founder.caption">Founder, Japan Bound Education</p>
+      <p class="founder-caption" id="founderCaption">With the President of Ritsumeikan Asia Pacific University</p>
       <div class="founder-controls">
         <button class="founder-arrow founder-prev" type="button" aria-label="Previous photo"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         <div class="founder-progress">
@@ -1109,10 +1109,10 @@
         <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li4">Personalized guidance based on your goals and profile</span></li>
       </ul>
     </div>
-    <form class="consultation-form reveal" id="consultForm" action="/api/consult" method="POST" novalidate>
+    <form class="consultation-form reveal" id="consultForm" action="https://formspree.io/f/xqpkljzw" method="POST" novalidate>
       <div class="form-fields">
         <h3 class="consultation-form-kicker" data-i18n="consult.formKicker">Ready to explore Japan?</h3>
-        <input type="text" name="website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="New consultation request: Japan Bound Education">
         <div class="field">
           <label for="c-name" data-i18n="consult.labelName">Full name</label>
           <input id="c-name" name="name" type="text" required autocomplete="name">
@@ -1390,7 +1390,6 @@
     "founder.p3":"تو میں نے مدد کرنا شروع کر دی۔ شروع میں غیر رسمی طور پر، پیغامات کے جواب دینا، مضامین کا جائزہ لینا، آدھی رات کو کسی کو ویزا کی شرائط سمجھانا۔ لیکن جتنا میں نے یہ کیا، اتنا ہی مجھے احساس ہوا کہ لوگوں کو اس کی کتنی ضرورت ہے۔ پیچیدہ مشورے نہیں۔ سیلز پچ نہیں۔ بس ایک ایسے شخص کی حقیقی بات جو خود اس راستے سے گزر چکا ہے، جو آپ کی صورتحال سمجھتا ہے، اور جو جانتا ہے کہ اصل میں کیا ممکن ہے۔",
     "founder.p4":"میں یہ سفر آپ کے لیے آسان بنانا چاہتی ہوں۔ عمل کو بہت آسان بنا کر نہیں، بلکہ اس بات کو یقینی بنا کر کہ آپ یہ راستہ اکیلے نہ چلیں۔ آپ اپنی توانائی نشوونما پر لگانے کے مستحق ہیں، لاجسٹکس سلجھانے پر نہیں۔",
     "founder.close":"جاپان نے میرے لیے وہ دروازے کھولے جن کا مجھے علم بھی نہیں تھا۔ <em>اب باری آپ کی ہے</em>۔",
-    "founder.caption":"بانی، جاپان باؤنڈ ایجوکیشن",
 
     "consult.h2":"آئیے جاپان کا آپ کا راستہ بناتے ہیں۔",
     "consult.p":"شروعات کہاں سے کریں سمجھ نہیں آ رہی؟ آئیے آپ کے اہداف، بجٹ اور اختیارات پر بات کرتے ہیں، اور آپ کو یہ سمجھنے میں مدد دیتے ہیں کہ آپ کا اگلا قدم کیا ہو سکتا ہے۔",
@@ -1697,18 +1696,18 @@
 
   /* ---------- FOUNDER PHOTO DECK ---------- */
   var founderCaptionsEN = [
-    "With the President of APU, Ritsumeikan Asia Pacific University",
-    "Recognized at the International Humanitarian Law Moot Court Competition",
-    "Receiving an award for academic excellence",
-    "At the Red Cross International Humanitarian Law Moot, Hong Kong",
-    "With classmates at Sophia University, Tokyo"
+    "With the President of Ritsumeikan Asia Pacific University",
+    "Celebrating victories at the ICRC IHL Moot Court Competition",
+    "Receiving an award at the FALIA Essay Competition",
+    "At the ICRC Asia-Pacific Headquarters in Hong Kong",
+    "Representing APU's Student Body at Sophia University"
   ];
   var founderCaptionsUR = [
-    "اے پی یو (رٹسومیکان ایشیا پیسیفک یونیورسٹی) کے صدر کے ساتھ",
-    "بین الاقوامی ہیومینیٹیرین لاء موٹ کورٹ مقابلے میں پذیرائی",
-    "تعلیمی امتیاز کا ایوارڈ وصول کرتے ہوئے",
-    "ریڈ کراس انٹرنیشنل ہیومینیٹیرین لاء موٹ، ہانگ کانگ میں",
-    "سوفیا یونیورسٹی، ٹوکیو میں کلاس فیلوز کے ساتھ"
+    "رٹسومیکان ایشیا پیسیفک یونیورسٹی کے صدر کے ساتھ",
+    "آئی سی آر سی آئی ایچ ایل موٹ کورٹ مقابلے میں کامیابیوں کا جشن مناتے ہوئے",
+    "فالیا (FALIA) مضمون نویسی مقابلے میں ایوارڈ وصول کرتے ہوئے",
+    "ہانگ کانگ میں آئی سی آر سی ایشیا پیسیفک ہیڈکوارٹرز میں",
+    "سوفیا یونیورسٹی میں اے پی یو کی طلبہ یونین کی نمائندگی کرتے ہوئے"
   ];
   function initFounderReveal(){
     var window_ = document.getElementById("founderWindow");
@@ -1721,7 +1720,14 @@
 
     var n = imgs.length;
     var current = 0;
-    var interacted = false;
+
+    // Photo 1 is active by default, so its real caption should show from
+    // first paint too — not just once the visitor has clicked to another
+    // photo and this function's own render() has had a reason to run.
+    if (caption){
+      caption.setAttribute("dir", currentLang === "ur" ? "rtl" : "ltr");
+      caption.textContent = (currentLang === "ur" ? founderCaptionsUR : founderCaptionsEN)[0];
+    }
 
     function swapCaption(text){
       if (!caption) return;
@@ -1740,7 +1746,7 @@
       current = i;
     }
 
-    function goToIndex(i){ interacted = true; if (i !== current) render(i); }
+    function goToIndex(i){ if (i !== current) render(i); }
     function next(){ goToIndex((current + 1) % n); }
     function prev(){ goToIndex((current - 1 + n) % n); }
 
@@ -1757,7 +1763,7 @@
     // the caption for whichever photo is currently active (in the new
     // language) rather than snapping back to the generic default caption
     // that data-i18n would otherwise restore.
-    onLangChange(function(){ if (interacted) swapCaption((currentLang === "ur" ? founderCaptionsUR : founderCaptionsEN)[current]); });
+    onLangChange(function(){ swapCaption((currentLang === "ur" ? founderCaptionsUR : founderCaptionsEN)[current]); });
   }
 
   /* ---------- FAQ TABS + ACCORDION ---------- */
