@@ -1,6 +1,6 @@
 {
   "name": "japan-bound-education",
-  "compatibility_date": "2026-09-06",
+  "compatibility_date": "2026-09-01",
   "main": "src/index.js",
   "assets": {
     "directory": "./",
