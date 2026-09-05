@@ -1,13 +1,14 @@
 // Handles the consultation form's POST — sends a branded HTML notification
-// via Resend, instead of relying on a form service's own plain layout.
+// via MailerSend, instead of relying on a form service's own plain layout.
 //
 // Requires one environment variable, set as a secret in the Worker's
 // settings (Settings -> Variables and Secrets), never committed here:
-//   RESEND_API_KEY   — from https://resend.com, after verifying the sending
-//                       domain (japanboundeducation.com) there.
+//   MAILERSEND_API_KEY   — from https://mailersend.com, after verifying the
+//                           sending domain (japanboundeducation.com) there.
 
 const NOTIFY_TO = "info@japanboundeducation.com";
-const FROM_ADDRESS = "Japan Bound Education <notifications@japanboundeducation.com>";
+const FROM_EMAIL = "notifications@japanboundeducation.com";
+const FROM_NAME = "Japan Bound Education";
 
 const REQUIRED_FIELDS = ["name", "email", "phone", "country"];
 
@@ -142,29 +143,29 @@ export async function handleConsult(request, env) {
     });
   }
 
-  if (!env.RESEND_API_KEY) {
+  if (!env.MAILERSEND_API_KEY) {
     return new Response(JSON.stringify({ ok: false, error: "Email service not configured." }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const resendResponse = await fetch("https://api.resend.com/emails", {
+  const mailerSendResponse = await fetch("https://api.mailersend.com/v1/email", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${env.MAILERSEND_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: FROM_ADDRESS,
-      to: [NOTIFY_TO],
-      reply_to: fields.email,
+      from: { email: FROM_EMAIL, name: FROM_NAME },
+      to: [{ email: NOTIFY_TO }],
+      reply_to: { email: fields.email, name: fields.name },
       subject: "New consultation request: Japan Bound Education",
       html: buildEmailHtml(fields),
     }),
   });
 
-  if (!resendResponse.ok) {
+  if (!mailerSendResponse.ok) {
     return new Response(JSON.stringify({ ok: false, error: "Failed to send notification." }), {
       status: 502,
       headers: { "Content-Type": "application/json" },
