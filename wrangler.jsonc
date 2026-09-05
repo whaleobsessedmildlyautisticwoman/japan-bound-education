@@ -1,0 +1,9 @@
+{
+  "name": "japan-bound-education",
+  "compatibility_date": "2026-09-06",
+  "main": "src/index.js",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS"
+  }
+}

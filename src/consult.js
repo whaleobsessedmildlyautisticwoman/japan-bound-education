@@ -1,12 +1,8 @@
-// Cloudflare Pages Function — receives the consultation form's POST and
-// sends a branded HTML notification via Resend, instead of relying on a
-// form service's own plain notification layout.
+// Handles the consultation form's POST — sends a branded HTML notification
+// via Resend, instead of relying on a form service's own plain layout.
 //
-// Deploy target: Cloudflare Pages. This file lives at functions/api/consult.js,
-// which Pages automatically routes to POST /api/consult — no extra config.
-//
-// Requires one environment variable, set as a secret in the Cloudflare Pages
-// project settings (Settings -> Environment variables), never committed here:
+// Requires one environment variable, set as a secret in the Worker's
+// settings (Settings -> Variables and Secrets), never committed here:
 //   RESEND_API_KEY   — from https://resend.com, after verifying the sending
 //                       domain (japanboundeducation.com) there.
 
@@ -109,9 +105,7 @@ function buildEmailHtml(fields) {
 </html>`;
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+export async function handleConsult(request, env) {
   let formData;
   try {
     formData = await request.formData();
