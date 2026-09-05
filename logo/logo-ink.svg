@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <mask id="jbe-mask-ink" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+    <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+    <g transform="translate(12,-17.92) scale(0.88)">
+      <polygon points="100,72 178,98 100,124 22,98" fill="#000"/>
+      <rect x="64" y="118" width="72" height="16" fill="#000"/>
+      <polygon points="74,134 90,134 84,196 64,196" fill="#000"/>
+      <polygon points="110,134 126,134 136,196 116,196" fill="#000"/>
+      <rect x="68" y="160" width="64" height="10" fill="#000"/>
+    </g>
+  </mask>
+  <circle cx="100" cy="100" r="90" fill="#15120F" mask="url(#jbe-mask-ink)"/>
+</svg>

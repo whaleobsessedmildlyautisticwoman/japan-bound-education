@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legal | Japan Bound Education</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo/apple-touch-icon-180.png">
+<style>
+  /* ============ TOKENS (mirrors index.html) ============ */
+  :root{
+    --paper:#fbf8f7; --ink:#15120F; --ink-70:rgba(21,18,15,.7); --ink-55:rgba(21,18,15,.55); --ink-35:rgba(21,18,15,.35);
+    --line:rgba(21,18,15,.13); --line-strong:rgba(21,18,15,.22);
+    --red:#BC002D; --red-deep:#8C0022;
+    --cream:#F6F1E9; --cream-70:rgba(246,241,233,.7);
+    --line-on-ink:rgba(246,241,233,.16); --line-on-ink-strong:rgba(246,241,233,.3);
+    --max:1440px; --pad:clamp(1.25rem, 5vw, 4.5rem);
+    --font-display:'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-body:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; overscroll-behavior-x:none;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; overscroll-behavior-x:none;}
+  a{color:inherit; text-decoration:none;}
+  ul,ol{margin:0; padding:0; list-style:none;}
+  h1,h2,h3,p{margin:0;}
+  h1,h2,h3{font-family:var(--font-display); letter-spacing:-0.02em; line-height:1.15;}
+  button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--red); outline-offset:3px; border-radius:2px;}
+  .section-inner{max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad);}
+
+  /* ============ HEADER ============ */
+  .site-header{background:rgba(255,255,255,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10;}
+  .header-inner{max-width:var(--max); margin:0 auto; padding:0 var(--pad); height:76px; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;}
+  .brand{display:flex; align-items:center; gap:.65rem; min-width:0; flex-shrink:1; font-family:var(--font-display); font-size:1.08rem; font-weight:600; letter-spacing:-.005em; color:var(--ink);}
+  .brand-mark{width:38px; height:38px; flex-shrink:0;}
+  .brand-mark svg{width:100%; height:100%;}
+  .brand span:last-child{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;}
+  .back-link{font-size:.92rem; color:var(--ink-70); border-bottom:1px solid var(--line-strong); padding-bottom:2px; white-space:nowrap; flex-shrink:0; transition:color .3s var(--ease-out), border-color .3s var(--ease-out);}
+  .back-link:hover{color:var(--ink); border-color:var(--ink);}
+
+  /* ============ PAGE HEAD ============ */
+  .legal-hero{padding:clamp(3rem,7vw,5rem) 0 clamp(2rem,4vw,3rem); border-bottom:1px solid var(--line);}
+  .legal-eyebrow{font-size:.85rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--red); margin-bottom:1rem;}
+  .legal-hero h1{font-size:clamp(2.2rem,4.5vw,3.2rem); font-weight:500;}
+  .legal-hero p{margin-top:1.1rem; font-size:1.08rem; color:var(--ink-70); max-width:56ch;}
+
+  /* ============ TABS (mirrors the FAQ tab pattern on the main site) ============ */
+  /* padding-top/bottom only (not the shorthand) — this element also carries
+     .section-inner for its side padding, and the shorthand form here was
+     silently zeroing that out (padding: A 0 sets left/right to 0), which
+     is exactly why mobile ran edge to edge while desktop looked fine (its
+     side space was actually coming from max-width + margin:auto centering,
+     not from padding at all). */
+  /* The tab bar gets its own, wider container than the reading column below
+     it — .legal-list stays narrow (~820px) because that's a comfortable
+     line length for paragraphs, but that same width was too tight to fit
+     four tabs (one long label) on one line even though the page had far
+     more room to give on a normal desktop screen. Controls and body copy
+     don't need to share one measure. */
+  .legal-tabs-wrap{max-width:1040px; margin:0 auto; padding-top:clamp(2.5rem,5vw,4rem);}
+  .legal-list{max-width:820px; margin:0 auto; padding-bottom:clamp(2.5rem,5vw,4rem);}
+  /* Desktop: one shared bar with a sliding red highlight (all four tabs
+     comfortably fit on one line, so a single animated fill reads clearly).
+     Below ~768px four tabs — one with a long label — no longer fit on one
+     line; wrapped onto separate rows, an inactive tab with no border of
+     its own read as disconnected floating text rather than part of one
+     control. So narrower than that, every tab gets its own permanent
+     border instead, and the shared sliding indicator is hidden — each tab
+     is then a self-contained box regardless of how many end up per row. */
+  .legal-tabs{display:flex; flex-wrap:wrap; position:relative; gap:.4rem; border:1px solid var(--line-strong); border-radius:16px; padding:5px; margin-bottom:2.8rem;}
+  .legal-tab{
+    position:relative; z-index:2; flex:1 1 auto; min-width:150px; padding:.85rem 1.1rem;
+    font-size:.88rem; font-weight:500; color:var(--ink-55); text-align:center; border-radius:12px;
+    transition:color .3s var(--ease-out);
+  }
+  .legal-tab[aria-selected="true"]{color:#fff;}
+  .legal-tab-short{display:none;}
+  .legal-indicator{
+    position:absolute; z-index:1; top:0; left:0; background:var(--red); border-radius:12px;
+    transition:transform .4s var(--ease-out), width .4s var(--ease-out), height .4s var(--ease-out);
+  }
+  /* Short labels, not a second layout system — the full names ("Refund &
+     Cancellation Policy") are what forced the wrap/box pile-up here in the
+     first place. Swapping to short words keeps the exact same one-row pill
+     bar as desktop, just sized to what a phone can actually hold; the full
+     correct name still appears as the heading the moment a tab is opened,
+     so nothing is lost, only abbreviated in the control itself. */
+  @media (max-width:800px){
+    .legal-tabs{gap:.3rem; padding:4px;}
+    .legal-tab{min-width:0; padding:.7rem .4rem; font-size:.8rem;}
+    .legal-tab-full{display:none;}
+    .legal-tab-short{display:inline;}
+  }
+  .legal-panel[hidden]{display:none;}
+  .legal-panel .legal-body{padding-top:.5rem; padding-bottom:2rem; color:var(--ink-70); font-size:1rem; line-height:1.75;}
+  .legal-body p{margin-top:1rem;}
+  .legal-body p:first-child{margin-top:0;}
+  .legal-updated{font-size:.88rem; color:var(--ink-55); font-style:italic; margin-bottom:1.4rem;}
+  .legal-body h3{font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--ink); margin-top:2rem;}
+  .legal-body h4{font-family:var(--font-body); font-size:.95rem; font-weight:600; color:var(--ink); margin-top:1.3rem;}
+  .legal-body ul{margin-top:.7rem; padding-left:1.3rem; list-style:disc;}
+  .legal-body li{margin-top:.4rem; padding-left:.2rem;}
+  .legal-body li::marker{color:var(--red);}
+  .legal-body li > p{margin-top:0;}
+  .legal-body a{color:var(--ink); text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--line-strong);}
+  .legal-body a:hover{text-decoration-color:var(--red);}
+  .legal-contact-block{margin-top:1rem; padding:1.1rem 1.3rem; background:var(--paper); border:1px solid var(--line); border-radius:10px;}
+  .legal-contact-block p{margin-top:.35rem;}
+  .legal-contact-block p:first-child{margin-top:0; font-weight:600; color:var(--ink);}
+
+  /* ============ FOOTER (mirrors index.html) ============ */
+  .site-footer{background:var(--ink); color:var(--cream); margin-top:clamp(2rem,4vw,3rem);}
+  .footer-grid{display:grid; grid-template-columns:1.2fr 1.4fr 1fr; gap:clamp(2rem,5vw,4rem); padding-top:clamp(3rem,6vw,4.5rem); padding-bottom:clamp(2.5rem,5vw,3.5rem); border-bottom:1px solid var(--line-on-ink);}
+  .footer-col{display:flex; flex-direction:column; align-items:flex-start; gap:.85rem;}
+  .footer-heading{font-family:var(--font-body); font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.09em; color:var(--cream-70); margin-bottom:.3rem;}
+  .footer-col a{font-size:.95rem; line-height:1.4; color:var(--cream-70); width:fit-content; border-bottom:1px solid transparent; padding-bottom:1px; transition:color .3s var(--ease-out), border-color .3s var(--ease-out);}
+  .footer-col a:hover{color:var(--cream); border-color:var(--line-on-ink-strong);}
+  .footer-col a.is-current{color:var(--cream); border-color:var(--red);}
+  .footer-bottom-bar{padding-top:1.4rem; padding-bottom:1.8rem; font-size:.82rem; color:var(--cream-70);}
+  @media (max-width:860px){ .footer-grid{grid-template-columns:1fr; gap:2.2rem;} }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <mask id="lm-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+              <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+              <g transform="translate(12,-17.92) scale(0.88)">
+                <polygon points="100,72 178,98 100,124 22,98" fill="#000"/>
+                <rect x="64" y="118" width="72" height="16" fill="#000"/>
+                <polygon points="74,134 90,134 84,196 64,196" fill="#000"/>
+                <polygon points="110,134 126,134 136,196 116,196" fill="#000"/>
+                <rect x="68" y="160" width="64" height="10" fill="#000"/>
+              </g>
+            </mask>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#BC002D" mask="url(#lm-mask)"/>
+        </svg>
+      </span>
+      <span>Japan Bound Education</span>
+    </a>
+    <a href="index.html#top" class="back-link">← Back to homepage</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="legal-hero">
+    <div class="section-inner">
+      <p class="legal-eyebrow">Legal</p>
+      <h1>Policies &amp; disclosures</h1>
+      <p>Everything governing your use of this website and our services, organized so you can find just the part you need. Select a tab to view it.</p>
+    </div>
+  </section>
+
+  <section class="section-inner legal-tabs-wrap">
+    <div class="legal-tabs" role="tablist" id="legalTabs">
+      <div class="legal-indicator" id="legalIndicator"></div>
+      <button class="legal-tab" role="tab" aria-selected="true" data-tab="privacy-policy"><span class="legal-tab-full">Privacy Policy</span><span class="legal-tab-short">Privacy</span></button>
+      <button class="legal-tab" role="tab" aria-selected="false" data-tab="terms-of-use"><span class="legal-tab-full">Terms of Use</span><span class="legal-tab-short">Terms</span></button>
+      <button class="legal-tab" role="tab" aria-selected="false" data-tab="service-disclaimer"><span class="legal-tab-full">Service Disclaimer</span><span class="legal-tab-short">Disclaimer</span></button>
+      <button class="legal-tab" role="tab" aria-selected="false" data-tab="refund-policy"><span class="legal-tab-full">Refund &amp; Cancellation Policy</span><span class="legal-tab-short">Refund</span></button>
+    </div>
+  </section>
+
+  <section class="section-inner legal-list">
+    <div class="legal-panel" id="panel-privacy-policy" role="tabpanel">
+      <div class="legal-body">
+        <p class="legal-updated">Last Updated: September 2026</p>
+
+        <p>Japan Bound Education ("JBE", "we", "us", or "our") respects your privacy and is committed to protecting the personal information you provide to us.</p>
+        <p>This Privacy Policy explains how Japan Bound Education collects, uses, stores, and protects personal information when you visit japanboundeducation.com, contact us, book a consultation, or use our services.</p>
+        <p>By using our website or providing your information to us, you acknowledge the practices described in this Privacy Policy.</p>
+
+        <h3>1. About Japan Bound Education</h3>
+        <p>Japan Bound Education is a student-led education guidance initiative operated from Japan.</p>
+        <p>JBE provides information, guidance, and support to students interested in pursuing education in Japan.</p>
+        <p>For general inquiries or consultation-related matters, please contact:<br>Email: <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a></p>
+        <p>For privacy-related questions or requests:<br>Email: <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a></p>
+        <p>Person responsible for JBE: Zujajah Shaikh</p>
+
+        <h3>2. Information We Collect</h3>
+        <p>We collect only the information reasonably necessary to respond to your inquiry and provide our services.</p>
+        <h4>Information you provide through our website</h4>
+        <p>When you submit an inquiry or consultation request, we may collect:</p>
+        <ul>
+          <li>Full name</li>
+          <li>Email address</li>
+          <li>Country of residence</li>
+          <li>Phone or WhatsApp number</li>
+          <li>Intended study period/intake</li>
+          <li>Areas where you would like assistance</li>
+          <li>Information included in your message or inquiry</li>
+        </ul>
+        <h4>Information collected when you become a client</h4>
+        <p>If you choose to use JBE's services, we may request additional information necessary to provide the requested guidance and support.</p>
+        <p>Depending on the service, this may include:</p>
+        <ul>
+          <li>Educational background</li>
+          <li>Academic information</li>
+          <li>English or Japanese language qualifications</li>
+          <li>University or program preferences</li>
+          <li>Application-related information</li>
+          <li>Other documents or information relevant to your individual case</li>
+        </ul>
+        <p>We will explain what information is needed and why it is required when requesting such information.</p>
+        <p>We do not ask you to provide passport information, academic records, financial documents, or other sensitive application documents through the general website contact form.</p>
+
+        <h3>3. How We Use Your Information</h3>
+        <p>We may use the information we collect to:</p>
+        <ul>
+          <li>Respond to your inquiries</li>
+          <li>Contact you regarding your consultation</li>
+          <li>Understand your educational goals and circumstances</li>
+          <li>Provide personalized education guidance</li>
+          <li>Research suitable universities, programs, and scholarships</li>
+          <li>Assist with application preparation and related guidance</li>
+          <li>Communicate with you about services you have requested</li>
+          <li>Manage our client relationships</li>
+          <li>Maintain appropriate records</li>
+          <li>Improve our services and website</li>
+          <li>Comply with applicable legal obligations</li>
+        </ul>
+        <p>We will not use your personal information for purposes unrelated to those described above without an appropriate legal basis or, where required, your consent.</p>
+
+        <h3>4. Sharing of Personal Information</h3>
+        <p>JBE does not sell or rent your personal information to third parties.</p>
+        <p>Access to personal information is limited to JBE founders and authorized team members who need the information to perform their responsibilities.</p>
+        <p>We may use third-party service providers to operate our website, communication systems, data storage, scheduling, or other business functions. These providers may process information on our behalf where necessary to provide their services.</p>
+        <p>If information needs to be provided to a university, scholarship organization, or other third party as part of a service specifically requested by you, we will handle such information appropriately and, where required, obtain your permission before doing so.</p>
+
+        <h3>5. Data Storage and Security</h3>
+        <p>We take reasonable measures to protect personal information against unauthorized access, loss, misuse, alteration, or disclosure.</p>
+        <p>At our current stage, JBE primarily uses secure services provided through Google Workspace and Google Drive for storing and managing information.</p>
+        <p>Access to stored information is restricted to authorized members of JBE.</p>
+        <p>As JBE grows, we may introduce additional systems for securely managing client information. This Privacy Policy may be updated accordingly.</p>
+
+        <h3>6. How Long We Keep Your Information</h3>
+        <p>We retain personal information only for as long as reasonably necessary for the purpose for which it was collected, to provide requested services, maintain appropriate records, or comply with applicable legal obligations.</p>
+        <p>For example:</p>
+        <ul>
+          <li>General inquiries may normally be retained for approximately 2–3 months after the inquiry has been resolved.</li>
+          <li>Information relating to active clients may be retained for the duration of the service and for a reasonable period afterward.</li>
+          <li>Application-related information may be deleted when it is no longer reasonably necessary for the purposes for which it was collected.</li>
+        </ul>
+        <p>Actual retention periods may vary depending on the nature of the information and the circumstances.</p>
+        <p>When information is no longer necessary, we will take reasonable steps to delete or securely dispose of it.</p>
+
+        <h3>7. Cookies and Analytics</h3>
+        <p>At present, JBE does not intentionally use cookies or analytics technologies for behavioral tracking or targeted advertising.</p>
+        <p>If we introduce analytics, advertising technologies, or other tracking technologies in the future, we will update this Privacy Policy as appropriate.</p>
+
+        <h3>8. Students Under 18</h3>
+        <p>JBE may provide information and guidance to students under the age of 18.</p>
+        <p>We encourage students under 18 to involve a parent or legal guardian when communicating with JBE and when making decisions regarding educational services.</p>
+        <p>Where appropriate, JBE may request the involvement or confirmation of a parent or legal guardian before providing certain services.</p>
+
+        <h3>9. Third-Party Websites and Services</h3>
+        <p>Our website or communications may contain links to websites operated by universities, government organizations, scholarship providers, or other third parties.</p>
+        <p>JBE is not responsible for the privacy practices or content of those third-party websites.</p>
+        <p>We encourage users to review the privacy policies of any third-party website before providing personal information.</p>
+
+        <h3>10. Your Rights and Requests</h3>
+        <p>Depending on applicable law, you may have rights regarding your personal information, including requesting information about how it is handled and requesting correction, deletion, or other actions where applicable.</p>
+        <p>If you have questions about your personal information or would like to make a privacy-related request, please contact: <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a></p>
+        <p>We may need to verify your identity or request additional information before responding to certain requests.</p>
+
+        <h3>11. Changes to This Privacy Policy</h3>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our services, technology, business operations, or applicable laws.</p>
+        <p>The latest version will always be made available on this page, together with the date of the most recent update.</p>
+
+        <h3>12. Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy or how Japan Bound Education handles personal information, please contact us.</p>
+        <div class="legal-contact-block">
+          <p>Japan Bound Education (JBE)</p>
+          <p>General inquiries: <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a></p>
+          <p>Privacy inquiries: <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a></p>
+          <p>Person responsible: Zujajah Shaikh</p>
+          <p>Website: japanboundeducation.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal-panel" id="panel-terms-of-use" role="tabpanel" hidden>
+      <div class="legal-body">
+        <p class="legal-updated">Last Updated: September 2026</p>
+
+        <p>Welcome to Japan Bound Education (JBE).</p>
+        <p>These Terms of Use ("Terms") govern your access to and use of the Japan Bound Education website at japanboundeducation.com and the information and resources available through the website.</p>
+        <p>By accessing or using our website, you agree to these Terms. If you do not agree with these Terms, please do not use the website.</p>
+
+        <h3>1. About Japan Bound Education</h3>
+        <p>Japan Bound Education (JBE) is a student-led education guidance initiative operated from Japan.</p>
+        <p>JBE provides information, guidance, and support to individuals interested in pursuing education in Japan.</p>
+        <p>Our services are intended to help students understand their options, prepare for the application process, and navigate various aspects of studying in Japan.</p>
+        <p>JBE is not a university, educational institution, government authority, immigration authority, or scholarship-awarding organization.</p>
+
+        <h3>2. Use of Our Website</h3>
+        <p>You may use the JBE website for lawful purposes and for your personal educational research and planning.</p>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Use the website for unlawful or fraudulent purposes</li>
+          <li>Submit false or misleading information</li>
+          <li>Attempt to gain unauthorized access to the website or its systems</li>
+          <li>Copy, reproduce, or redistribute JBE content without permission</li>
+          <li>Interfere with the operation or security of the website</li>
+          <li>Use our content or services in a way that could harm JBE or others</li>
+        </ul>
+        <p>We reserve the right to restrict access to the website where reasonably necessary.</p>
+
+        <h3>3. Information Provided on the Website</h3>
+        <p>JBE aims to provide useful and accurate information about studying in Japan.</p>
+        <p>However, information relating to:</p>
+        <ul>
+          <li>University programs</li>
+          <li>Admission requirements</li>
+          <li>Tuition and fees</li>
+          <li>Scholarships</li>
+          <li>Application deadlines</li>
+          <li>Immigration procedures</li>
+          <li>COE requirements</li>
+          <li>Visa requirements</li>
+          <li>Employment opportunities</li>
+          <li>Other education-related matters</li>
+        </ul>
+        <p>may change over time.</p>
+        <p>Information published by JBE should therefore be considered general guidance and educational information, rather than a substitute for information provided directly by the relevant university, government authority, scholarship organization, or other official source.</p>
+        <p>Where appropriate, we encourage users to confirm important requirements with the relevant official organization.</p>
+
+        <h3>4. JBE Guidance and Support</h3>
+        <p>JBE provides personalized guidance based on the information available to us and the circumstances shared by the student.</p>
+        <p>Our guidance may include assistance with areas such as:</p>
+        <ul>
+          <li>University and program research</li>
+          <li>Scholarship research</li>
+          <li>Education and budget planning</li>
+          <li>Application preparation</li>
+          <li>Personal statement and essay guidance</li>
+          <li>Interview preparation</li>
+          <li>COE and visa-related guidance</li>
+          <li>Pre-departure preparation</li>
+          <li>General guidance relating to life in Japan</li>
+        </ul>
+        <p>The specific services provided to a client will depend on the service or package agreed upon between JBE and the client.</p>
+
+        <h3>5. No Guarantee of Results</h3>
+        <p>JBE provides guidance and support but does not guarantee any particular outcome.</p>
+        <p>In particular, JBE does not guarantee:</p>
+        <ul>
+          <li>Admission to any university or educational institution</li>
+          <li>Receipt of any scholarship</li>
+          <li>Issuance of a Certificate of Eligibility (COE)</li>
+          <li>Approval of a visa</li>
+          <li>Employment after graduation</li>
+          <li>A particular salary or career outcome</li>
+          <li>Acceptance into a particular program</li>
+          <li>Any other outcome determined by a third party</li>
+        </ul>
+        <p>Final decisions regarding admissions, scholarships, COE issuance, visas, employment, and other matters are made by the relevant institutions or authorities.</p>
+
+        <h3>6. Student Responsibilities</h3>
+        <p>Students using JBE's services are responsible for providing accurate, complete, and truthful information.</p>
+        <p>Students are also responsible for:</p>
+        <ul>
+          <li>Reviewing information provided by universities and relevant authorities</li>
+          <li>Meeting applicable deadlines</li>
+          <li>Providing genuine and accurate documents</li>
+          <li>Completing and submitting their own applications where applicable</li>
+          <li>Making their own final educational decisions</li>
+          <li>Following applicable laws, regulations, and institutional requirements</li>
+        </ul>
+        <p>JBE may rely on the information provided by the student when offering guidance.</p>
+        <p>If inaccurate or incomplete information is provided, the quality or suitability of our guidance may be affected.</p>
+
+        <h3>7. Applications and Third-Party Decisions</h3>
+        <p>JBE may assist students in understanding and preparing for university applications and related processes.</p>
+        <p>Unless otherwise expressly agreed and legally permitted, students remain responsible for submitting their own applications and documents to the relevant institutions.</p>
+        <p>Universities, scholarship organizations, immigration authorities, and other third parties operate independently from JBE.</p>
+        <p>JBE cannot control or guarantee their decisions, processing times, requirements, or outcomes.</p>
+
+        <h3>8. Immigration and Visa Guidance</h3>
+        <p>JBE may provide general information and guidance regarding COE and visa-related procedures as part of its services.</p>
+        <p>Such guidance is intended to help students understand the process and prepare appropriately.</p>
+        <p>JBE does not guarantee visa approval or COE issuance.</p>
+        <p>Students should follow the requirements and instructions provided by the relevant Japanese authorities and other official organizations.</p>
+        <p>Where a matter requires professional legal or immigration services, JBE may recommend that the student seek assistance from an appropriately qualified professional.</p>
+
+        <h3>9. Third-Party Websites and Links</h3>
+        <p>The JBE website may contain links to external websites, including universities, government organizations, scholarship providers, and other third-party resources.</p>
+        <p>These websites are operated independently from JBE.</p>
+        <p>JBE does not control and is not responsible for the content, availability, accuracy, or privacy practices of third-party websites.</p>
+        <p>Users should review the applicable terms and privacy policies of third-party websites before using them or providing information.</p>
+
+        <h3>10. Intellectual Property</h3>
+        <p>Unless otherwise stated, the content available on the JBE website, including:</p>
+        <ul>
+          <li>Text</li>
+          <li>Articles</li>
+          <li>Guides</li>
+          <li>Graphics</li>
+          <li>Logos</li>
+          <li>Images</li>
+          <li>Videos</li>
+          <li>Branding</li>
+          <li>Other original materials</li>
+        </ul>
+        <p>belongs to Japan Bound Education or is used with appropriate permission.</p>
+        <p>You may view and use this content for personal, non-commercial educational purposes.</p>
+        <p>You may not reproduce, modify, distribute, republish, sell, or commercially exploit JBE's original content without our prior written permission.</p>
+
+        <h3>11. Consultations</h3>
+        <p>JBE may offer free or paid consultations.</p>
+        <p>Information provided during a consultation is based on the information available at the time and the circumstances shared by the student.</p>
+        <p>A consultation does not automatically create a continuing client relationship or guarantee that JBE will provide further services.</p>
+        <p>Any paid services will be subject to the applicable service terms agreed upon separately between JBE and the client.</p>
+
+        <h3>12. Paid Services</h3>
+        <p>JBE may offer paid education guidance and support services.</p>
+        <p>Details regarding available services, fees, scope of work, payment terms, cancellation, and refunds may be provided directly to prospective clients.</p>
+        <p>Where a student purchases a service from JBE, the applicable JBE Client Service Agreement or other service-specific terms will govern that relationship.</p>
+        <p>If there is any conflict between these Website Terms and a specific written Client Service Agreement, the applicable Client Service Agreement will govern the paid service to the extent of that conflict.</p>
+
+        <h3>13. Website Availability</h3>
+        <p>We aim to keep the JBE website available and functioning properly. However, we do not guarantee that the website will always be available, uninterrupted, secure, or free from errors.</p>
+        <p>We may modify, suspend, or discontinue parts of the website when reasonably necessary.</p>
+
+        <h3>14. Limitation of Liability</h3>
+        <p>To the extent permitted by applicable law, JBE will not be responsible for losses or damages resulting from:</p>
+        <ul>
+          <li>Decisions made by universities or other educational institutions</li>
+          <li>Scholarship decisions</li>
+          <li>Immigration or visa decisions</li>
+          <li>Changes to university or government requirements</li>
+          <li>Missed deadlines resulting from information or actions outside JBE's control</li>
+          <li>Information provided incorrectly or incompletely by a student</li>
+          <li>Changes to third-party websites or services</li>
+          <li>Technical problems affecting the website or third-party services</li>
+        </ul>
+        <p>Nothing in these Terms excludes or limits liability where such exclusion or limitation is not permitted under applicable law.</p>
+
+        <h3>15. Changes to These Terms</h3>
+        <p>JBE may update these Terms from time to time to reflect changes to our website, services, business operations, or applicable requirements.</p>
+        <p>The updated version will be published on this page with a revised "Last Updated" date.</p>
+        <p>Your continued use of the website after changes are published constitutes acceptance of the updated Terms.</p>
+
+        <h3>16. Governing Law</h3>
+        <p>These Terms shall be governed by and interpreted in accordance with the laws of Japan, unless otherwise required by applicable law.</p>
+        <p>Any disputes arising in connection with these Terms will be subject to the jurisdiction of the appropriate courts in Japan.</p>
+
+        <h3>17. Contact Us</h3>
+        <p>If you have questions regarding these Terms or the JBE website, please contact us:</p>
+        <div class="legal-contact-block">
+          <p>Japan Bound Education (JBE)</p>
+          <p>Website: japanboundeducation.com</p>
+          <p>General inquiries: <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a></p>
+          <p>Privacy inquiries: <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a></p>
+          <p>Person responsible: Zujajah Shaikh</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal-panel" id="panel-service-disclaimer" role="tabpanel" hidden>
+      <div class="legal-body">
+        <p class="legal-updated">Last Updated: September 2026</p>
+
+        <p>Japan Bound Education (JBE) provides personalized education guidance and support to students who are interested in studying in Japan.</p>
+        <p>Our role is to help you understand your options, prepare for the process, and make informed decisions based on your goals and circumstances.</p>
+
+        <h3>No Guarantee of Outcomes</h3>
+        <p>JBE does not guarantee:</p>
+        <ul>
+          <li>Admission to any university, college, or educational institution</li>
+          <li>Acceptance into any particular program</li>
+          <li>Scholarships or financial aid</li>
+          <li>Certificate of Eligibility (COE) issuance</li>
+          <li>Student visa approval</li>
+          <li>Employment or career opportunities in Japan</li>
+          <li>Any specific salary, income, or career outcome</li>
+          <li>Any other decision made by a university, government authority, scholarship organization, employer, or other third party</li>
+        </ul>
+        <p>All final decisions are made by the relevant institutions or authorities, and these decisions are outside JBE's control.</p>
+
+        <h3>Admissions and Scholarship Information</h3>
+        <p>University admission requirements, application procedures, deadlines, tuition fees, and scholarship conditions may change.</p>
+        <p>JBE provides research and guidance based on information available at the time of providing the service. Students should confirm important and time-sensitive information with the relevant university, scholarship organization, or official source before making a final decision or submitting an application.</p>
+
+        <h3>COE and Visa Guidance</h3>
+        <p>JBE may provide guidance to help students understand the general COE and student visa process.</p>
+        <p>JBE does not guarantee COE issuance or visa approval and does not make decisions on behalf of Japanese immigration authorities.</p>
+        <p>JBE does not submit visa applications on behalf of students or provide legal or immigration services.</p>
+        <p>Where professional legal or immigration assistance is required, students should consult an appropriately qualified professional.</p>
+
+        <h3>Student Responsibility</h3>
+        <p>Students are responsible for providing accurate and complete information and genuine documents to JBE and to the relevant institutions or authorities.</p>
+        <p>Students remain responsible for their applications, documents, deadlines, and final decisions.</p>
+        <p>JBE's guidance is based on the information provided by the student. Incorrect or incomplete information may affect the guidance we are able to provide.</p>
+
+        <h3>Our Commitment</h3>
+        <p>We don't promise a particular outcome.</p>
+        <p>We promise to help you understand the process, explore your options, prepare carefully, and make informed decisions about your path to Japan.</p>
+
+        <h3>Contact</h3>
+        <div class="legal-contact-block">
+          <p>Japan Bound Education (JBE)</p>
+          <p>Website: japanboundeducation.com</p>
+          <p>General inquiries: <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a></p>
+          <p>Privacy inquiries: <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a></p>
+          <p>Person responsible: Zujajah Shaikh</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal-panel" id="panel-refund-policy" role="tabpanel" hidden>
+      <div class="legal-body">
+        <p class="legal-updated">Last Updated: September 2026</p>
+
+        <p>At Japan Bound Education (JBE), we aim to provide clear, personalized guidance and support throughout your journey toward studying in Japan.</p>
+        <p>This Refund &amp; Cancellation Policy explains how cancellations, refunds, and changes to JBE services are handled.</p>
+
+        <h3>1. Scope</h3>
+        <p>This policy applies to paid services provided by Japan Bound Education.</p>
+        <p>The specific service, fee, scope, and service period will be communicated to the Client before payment.</p>
+        <p>By purchasing a JBE service, the Client agrees to this policy together with the applicable JBE Client Service Agreement.</p>
+
+        <h3>2. Before Payment</h3>
+        <p>Before purchasing a service, JBE will provide the Client with information about:</p>
+        <ul>
+          <li>The service or package</li>
+          <li>Services included</li>
+          <li>Service fee</li>
+          <li>Expected service period</li>
+          <li>Payment terms</li>
+          <li>Any important limitations or conditions</li>
+        </ul>
+        <p>Clients are encouraged to ask any questions about the service before making payment.</p>
+
+        <h3>3. Cancellation by the Client</h3>
+        <p>A Client may request cancellation of a service by contacting JBE through the communication channel used for the service.</p>
+        <p>The refund amount, if any, will depend on:</p>
+        <ul>
+          <li>The service purchased</li>
+          <li>Whether the service has started</li>
+          <li>The amount of work already completed</li>
+          <li>Any services or deliverables already provided</li>
+          <li>Any applicable third-party costs</li>
+          <li>The specific cancellation terms communicated before purchase</li>
+        </ul>
+        <p>JBE will assess each cancellation request fairly and in accordance with applicable law.</p>
+
+        <h3>4. Services Already Provided</h3>
+        <p>Once JBE has begun providing a service, certain work may already have been completed.</p>
+        <p>This may include:</p>
+        <ul>
+          <li>Consultation and assessment</li>
+          <li>University research</li>
+          <li>Scholarship research</li>
+          <li>Application planning</li>
+          <li>Document review</li>
+          <li>Personalized recommendations</li>
+          <li>Preparation of application materials</li>
+          <li>Other work specifically requested by the Client</li>
+        </ul>
+        <p>Where services have already been substantially provided, the corresponding portion of the service fee may not be refundable, subject to applicable law.</p>
+
+        <h3>5. Cancellation Before Services Begin</h3>
+        <p>If a Client requests cancellation before JBE has started providing the purchased service, JBE will generally consider a refund of the amount paid, subject to any specific terms communicated at the time of purchase and applicable law.</p>
+        <p>Any applicable payment processing or third-party fees may be treated separately where permitted by law.</p>
+
+        <h3>6. Cancellation by JBE</h3>
+        <p>JBE may cancel or terminate a service where reasonably necessary, including where:</p>
+        <ul>
+          <li>The Client provides fraudulent or intentionally misleading information</li>
+          <li>The Client requests assistance with unlawful activities</li>
+          <li>The Client seriously breaches the Client Service Agreement</li>
+          <li>The Client engages in abusive, threatening, or inappropriate conduct</li>
+          <li>Continuing the service becomes impractical due to circumstances outside JBE's reasonable control</li>
+        </ul>
+        <p>Where JBE cancels a service for reasons not caused by the Client, JBE will communicate the situation and provide any applicable refund in accordance with the circumstances and applicable law.</p>
+
+        <h3>7. University, Scholarship, COE or Visa Decisions</h3>
+        <p>JBE does not guarantee university admission, scholarships, COE issuance, visa approval, employment, or any other third-party outcome.</p>
+        <p>Therefore, a negative decision or unsuccessful outcome by a university, scholarship organization, immigration authority, employer, or other third party does not automatically entitle the Client to a refund.</p>
+        <p>JBE's service is based on providing guidance, research, preparation, and support, rather than guaranteeing a particular result.</p>
+
+        <h3>8. Client Delays</h3>
+        <p>The Client is responsible for providing requested information and documents and responding to JBE within a reasonable timeframe.</p>
+        <p>Delays caused by the Client may affect the service timeline.</p>
+        <p>JBE is generally not responsible for delays or additional work resulting from:</p>
+        <ul>
+          <li>Late responses</li>
+          <li>Missing documents</li>
+          <li>Incomplete information</li>
+          <li>Incorrect information</li>
+          <li>Missed deadlines</li>
+          <li>Failure to follow agreed instructions</li>
+        </ul>
+        <p>Where additional work is required because of significant Client delays or changes in circumstances, JBE may discuss an adjusted timeline or additional fee with the Client before proceeding.</p>
+
+        <h3>9. Changes to a Service</h3>
+        <p>If a Client wishes to change the scope of a service after purchase, JBE will discuss whether the requested change can be accommodated.</p>
+        <p>Additional services outside the original agreed scope may involve an additional fee.</p>
+        <p>JBE will communicate any additional fee before providing the additional service.</p>
+
+        <h3>10. Refund Processing</h3>
+        <p>Where a refund is approved, JBE will communicate the expected refund amount and processing method to the Client.</p>
+        <p>Refunds will generally be made using the original payment method where reasonably possible.</p>
+        <p>The time required for the refund to appear may depend on the payment provider or financial institution.</p>
+
+        <h3>11. No Refund for Third-Party Fees</h3>
+        <p>Fees paid directly to universities, examination organizations, government authorities, visa application centers, accommodation providers, payment providers, or other third parties are outside JBE's control.</p>
+        <p>JBE cannot refund third-party fees that were not paid to JBE.</p>
+        <p>Clients should review the relevant third party's own refund and cancellation policies.</p>
+
+        <h3>12. Contact Us</h3>
+        <p>For cancellation or refund requests, please contact:</p>
+        <div class="legal-contact-block">
+          <p>Japan Bound Education (JBE)</p>
+          <p>Email: <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a></p>
+          <p>Website: japanboundeducation.com</p>
+          <p>Person responsible: Zujajah Shaikh</p>
+        </div>
+        <p>Please include your name, purchased service, and reason for the cancellation request.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="section-inner footer-grid">
+    <div class="footer-col">
+      <h4 class="footer-heading">Explore</h4>
+      <a href="index.html#top">Home</a>
+      <a href="index.html#study">Why Japan</a>
+      <a href="index.html#services">What We Do</a>
+      <a href="index.html#consultation">How It Works</a>
+      <a href="index.html#founder">About Us</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-heading">Legal</h4>
+      <a href="#privacy-policy" class="legal-nav-link">Privacy Policy</a>
+      <a href="#terms-of-use" class="legal-nav-link">Terms of Use</a>
+      <a href="#service-disclaimer" class="legal-nav-link">Service Disclaimer</a>
+      <a href="#refund-policy" class="legal-nav-link">Refund &amp; Cancellation Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-heading">Contact</h4>
+      <a href="mailto:info@japanboundeducation.com">info@japanboundeducation.com</a>
+      <a href="mailto:legal@japanboundeducation.com">legal@japanboundeducation.com</a>
+    </div>
+  </div>
+  <div class="section-inner footer-bottom-bar">
+    <span>© 2026 Japan Bound Education (JBE). All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var tabs = document.querySelectorAll(".legal-tab");
+  var panels = document.querySelectorAll(".legal-panel");
+  var tabsBar = document.getElementById("legalTabs");
+  var indicator = document.getElementById("legalIndicator");
+
+  // Reads the button's own layout box, so this is correct whether it's
+  // sitting in the single-row desktop bar or (indicator hidden there
+  // anyway) a wrapped mobile row.
+  function placeIndicator(btn){
+    if (!indicator || !btn) return;
+    indicator.style.width = btn.offsetWidth + "px";
+    indicator.style.height = btn.offsetHeight + "px";
+    indicator.style.transform = "translate(" + btn.offsetLeft + "px," + btn.offsetTop + "px)";
+  }
+
+  function activate(id, scroll){
+    var tab = tabsBar ? tabsBar.querySelector('[data-tab="' + id + '"]') : null;
+    if (!tab) return false;
+    tabs.forEach(function(t){ t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
+    panels.forEach(function(p){ p.hidden = p.id !== "panel-" + id; });
+    placeIndicator(tab);
+    if (scroll) tabsBar.scrollIntoView({ behavior: "smooth", block: "start" });
+    return true;
+  }
+
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      activate(tab.getAttribute("data-tab"), false);
+      history.replaceState(null, "", "#" + tab.getAttribute("data-tab"));
+    });
+  });
+
+  // Footer "Legal" links on this same page should switch tabs and scroll
+  // back up to them, not just rely on the browser's native (tab-unaware)
+  // anchor jump straight to the (now hidden-by-default) panel.
+  document.querySelectorAll(".legal-nav-link").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      var id = a.getAttribute("href").slice(1);
+      activate(id, true);
+      history.replaceState(null, "", "#" + id);
+    });
+  });
+
+  // Arriving from the homepage footer (index.html -> legal.html#privacy-policy
+  // etc.) should select that tab straight away instead of defaulting to
+  // the first one, but the page should still open at the very top rather
+  // than jump straight to that tab's content. Panel ids are deliberately
+  // prefixed ("panel-privacy-policy", not "privacy-policy") so they never
+  // collide with the hash itself — otherwise the browser's own native
+  // "scroll to the element matching this id" behavior would jump straight
+  // past the header/tabs to that content on load, which is exactly the
+  // bug this sidesteps.
+  var initial = location.hash ? location.hash.slice(1) : "privacy-policy";
+  if (!activate(initial, false)){
+    activate("privacy-policy", false);
+  }
+  window.addEventListener("resize", function(){
+    var active = document.querySelector('.legal-tab[aria-selected="true"]');
+    if (active) placeIndicator(active);
+  });
+  window.addEventListener("hashchange", function(){
+    activate(location.hash.slice(1), true);
+  });
+})();
+</script>
+</body>
+</html>

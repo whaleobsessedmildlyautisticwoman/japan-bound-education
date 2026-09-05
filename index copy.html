@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Japan Bound Education</title>
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --paper:#fbf8f7;
+    --paper-soft:#FAF8F5;
+    --ink:#15120F;
+    --ink-70:rgba(21,18,15,.7);
+    --ink-55:rgba(21,18,15,.55);
+    --ink-35:rgba(21,18,15,.35);
+    --line:rgba(21,18,15,.13);
+    --line-strong:rgba(21,18,15,.22);
+    --red:#BC002D;
+    --red-deep:#8C0022;
+    --red-soft:rgba(188,0,45,.07);
+    --red-soft-2:rgba(188,0,45,.14);
+    --cream:#F6F1E9;
+    --cream-70:rgba(246,241,233,.7);
+    --line-on-ink:rgba(246,241,233,.16);
+    --line-on-ink-strong:rgba(246,241,233,.3);
+    --max:1360px;
+    --pad:clamp(1.25rem, 5vw, 4.5rem);
+    --font-display:'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-body:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-jp:'Shippori Mincho', 'Fraunces', serif;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    --ease-in-out:cubic-bezier(.65,0,.35,1);
+    --z-nav:60; --z-mobile:70; --z-loader:100;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul,ol{margin:0; padding:0; list-style:none;}
+  h1,h2,h3,h4,p{margin:0;}
+  button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer;}
+  input,textarea,select{font:inherit; color:inherit;}
+  h1,h2,h3{font-family:var(--font-display); text-wrap:balance; letter-spacing:-0.025em; line-height:1.15;}
+  p{text-wrap:pretty;}
+  :focus-visible{outline:2px solid var(--red); outline-offset:3px; border-radius:2px;}
+
+  .skip-link{position:absolute; left:-999px; top:0; background:var(--red); color:#fff; padding:.9rem 1.4rem; z-index:1000;}
+  .skip-link:focus{left:1rem; top:1rem;}
+
+  .section-inner{max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad);}
+  .icon{width:1.5rem; height:1.5rem; stroke:currentColor; stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
+
+  /* ============ GRAIN OVERLAY ============ */
+  .grain{
+    position:fixed; inset:0; z-index:500; pointer-events:none;
+    opacity:.035; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:180px 180px;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex; align-items:center; gap:.55rem;
+    padding:.95rem 1.9rem; border-radius:999px;
+    font-weight:500; font-size:.98rem; letter-spacing:-0.005em;
+    white-space:nowrap; cursor:pointer; border:1.5px solid transparent;
+    transition:transform .25s var(--ease-out), background-color .25s var(--ease-out), border-color .25s var(--ease-out), color .25s var(--ease-out);
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-sm{padding:.7rem 1.35rem; font-size:.88rem;}
+  .btn-lg{padding:1.15rem 2.3rem; font-size:1.02rem;}
+  .btn-primary{background:var(--red); color:#fff;}
+  .btn-primary:hover{background:var(--red-deep); transform:translateY(-2px);}
+  .btn-outline{border-color:var(--line-strong); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--ink); background:var(--ink); color:var(--paper);}
+  .btn-outline-light{border-color:var(--line-on-ink-strong); color:var(--cream);}
+  .btn-outline-light:hover{border-color:var(--cream); background:var(--cream); color:var(--ink);}
+  .btn-light{background:var(--paper); color:var(--red);}
+  .btn-light:hover{background:var(--cream); transform:translateY(-2px);}
+  .btn-text{color:var(--ink); font-weight:500; border-bottom:1px solid transparent; padding:.5rem 0; border-radius:0;}
+  .btn-text:hover{border-color:var(--ink);}
+  .btn-text .icon{width:1.1rem; height:1.1rem; transition:transform .3s var(--ease-out);}
+  .btn-text:hover .icon{transform:translateX(4px);}
+
+  /* ============ REVEAL SYSTEM ============ */
+  .reveal.js-armed{opacity:0; transform:translateY(30px); transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); transition-delay:var(--d,0ms);}
+  .reveal.js-armed.in-view{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){
+    .reveal.js-armed{opacity:1!important; transform:none!important; transition:none!important;}
+  }
+
+  /* ============ LOADER ============ */
+  .loader{
+    position:fixed; inset:0; z-index:var(--z-loader); background:var(--red);
+    display:flex; align-items:center; justify-content:center;
+    animation:loaderFallback 0s 3.4s forwards;
+  }
+  .loader-mark{color:#fff; opacity:0; transform:scale(.7);}
+  @keyframes loaderFallback{to{opacity:0; visibility:hidden; pointer-events:none;}}
+  @media (prefers-reduced-motion:reduce){ .loader{display:none;} }
+
+  /* ============ HEADER ============ */
+  body{
+    --nav-bg:rgba(255,255,255,.68); --nav-border:rgba(21,18,15,.1);
+    --nav-text:var(--ink); --nav-text-soft:var(--ink-70); --nav-mark:var(--red);
+  }
+  body.nav-theme-dark{
+    --nav-bg:rgba(21,18,15,.6); --nav-border:rgba(246,241,233,.16);
+    --nav-text:#ffffff; --nav-text-soft:rgba(246,241,233,.78); --nav-mark:#ffffff;
+  }
+  body.nav-theme-red{
+    --nav-bg:rgba(140,0,34,.62); --nav-border:rgba(255,255,255,.28);
+    --nav-text:#ffffff; --nav-text-soft:rgba(255,255,255,.85); --nav-mark:#ffffff;
+  }
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:var(--z-nav);
+    background:var(--nav-bg); backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%);
+    border-bottom:1px solid transparent;
+    transition:background-color .45s var(--ease-out), border-color .45s var(--ease-out);
+  }
+  body.nav-scrolled .site-header{border-bottom-color:var(--nav-border);}
+  .header-inner{
+    max-width:var(--max); margin:0 auto; padding-left:clamp(1rem,3vw,2rem); padding-right:var(--pad);
+    height:76px; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+  }
+  .brand{display:flex; align-items:center; gap:.65rem; min-width:0; flex-shrink:1; font-family:var(--font-display); font-size:1.08rem; font-weight:600; letter-spacing:-0.005em; color:var(--nav-text); transition:color .45s var(--ease-out);}
+  .brand-mark{position:relative; width:38px; height:38px; flex-shrink:0;}
+  .brand-mark svg{position:absolute; inset:0; width:100%; height:100%; transition:opacity .4s var(--ease-out);}
+  .brand-mark .mark-onred{opacity:0;}
+  body.nav-theme-red .brand-mark .mark-normal{opacity:0;}
+  body.nav-theme-red .brand-mark .mark-onred{opacity:1;}
+  .brand-name{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;}
+  .main-nav{display:flex; align-items:center; gap:2.1rem;}
+  .main-nav a{font-size:.94rem; color:var(--nav-text-soft); padding:.4rem 0; border-bottom:1px solid transparent; transition:color .35s var(--ease-out), border-color .35s var(--ease-out);}
+  .main-nav a:hover{color:var(--nav-text); border-color:var(--nav-border);}
+  .header-actions{display:flex; align-items:center; gap:1rem;}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; width:44px; height:44px; align-items:center; justify-content:center;}
+  .menu-toggle span{width:20px; height:1.5px; background:var(--nav-text); transition:transform .35s var(--ease-out), opacity .35s var(--ease-out), background-color .45s var(--ease-out);}
+
+  .mobile-menu{
+    position:fixed; inset:0; z-index:var(--z-mobile); background:var(--ink); color:var(--cream);
+    display:flex; flex-direction:column; justify-content:center; gap:2.2rem; padding:0 var(--pad);
+    transform:translateY(-100%); transition:transform .55s var(--ease-in-out);
+  }
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{font-family:var(--font-display); font-size:2.1rem; font-weight:400;}
+  .mobile-menu .btn{align-self:flex-start; margin-top:1rem;}
+  .mobile-close{position:absolute; top:24px; right:var(--pad); width:44px; height:44px;}
+
+  /* ============ HERO ============ */
+  .hero{position:relative; min-height:min(100dvh, 760px); display:flex; align-items:center; overflow:hidden; background:var(--paper);}
+  .hero-visual{position:absolute; inset:0; z-index:0;}
+  .hero-image{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top;}
+  .hero-calligraphy{
+    position:absolute; left:0; top:0;
+    display:flex; gap:.12em; pointer-events:none; visibility:hidden;
+    font-family:'Yuji Mai', serif; font-size:clamp(1.7rem,3.4vw,2.8rem); color:var(--ink); line-height:1;
+  }
+  .hero-calligraphy.positioned{visibility:visible;}
+  .hero-calligraphy .cal-char{display:inline-block;}
+  .hero-calligraphy .cal-char.js-armed{clip-path:inset(0 100% 0 0); opacity:0; transform:translateY(.08em);}
+  .hero-calligraphy .cal-char.js-armed.on{clip-path:inset(0 0% 0 0); opacity:1; transform:translateY(0); transition:clip-path .55s cubic-bezier(.4,0,.2,1), opacity .12s linear, transform .55s cubic-bezier(.4,0,.2,1);}
+  .hero-content{position:relative; z-index:2; max-width:660px; padding:calc(76px + 3.5rem) var(--pad) 3rem;}
+  .hero-kicker{font-family:var(--font-jp); color:var(--red); font-size:1rem; margin-bottom:1.6rem; display:flex; align-items:center; gap:.6rem;}
+  .hero-kicker::before{content:''; width:26px; height:1px; background:var(--red);}
+  .hero-title{font-size:clamp(2.6rem, 5.6vw, 4.5rem); font-weight:500; line-height:1.06; letter-spacing:-0.03em; color:var(--ink);}
+  .hero-title em{font-style:italic; color:var(--red); font-weight:400;}
+  .hero-lead{margin-top:1.6rem; font-size:1.15rem; line-height:1.65; color:var(--ink-70); max-width:46ch;}
+  .hero-actions{display:flex; align-items:center; gap:2rem; margin-top:2.3rem; flex-wrap:wrap;}
+  .scroll-cue{position:absolute; left:var(--pad); bottom:2.2rem; z-index:2; display:flex; align-items:center; gap:.7rem; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-55);}
+  .scroll-cue span{width:1px; height:34px; background:var(--ink-35); position:relative; overflow:hidden;}
+  .scroll-cue span::after{content:''; position:absolute; left:0; top:-100%; width:100%; height:100%; background:var(--red); animation:cueDrop 1.8s var(--ease-in-out) infinite;}
+  @keyframes cueDrop{ 0%{top:-100%;} 60%,100%{top:100%;} }
+  @media (prefers-reduced-motion:reduce){ .scroll-cue span::after{animation:none; top:0;} }
+
+  /* ============ SECTIONS: GENERIC ============ */
+  .section{position:relative; padding:clamp(5rem,10vw,8.5rem) 0;}
+  .section-head{max-width:640px; margin-bottom:clamp(2.6rem,6vw,4.5rem);}
+  .section-eyebrow{font-family:var(--font-jp); color:var(--red); font-size:.95rem; margin-bottom:1rem;}
+  .section-head h2{font-size:clamp(2rem,4vw,2.9rem); font-weight:500; line-height:1.12;}
+  .section-head p{margin-top:1.1rem; font-size:1.08rem; color:var(--ink-70); max-width:52ch;}
+
+  /* ============ WHY JAPAN ============ */
+  .section-head.why-head{max-width:none;}
+  .section-head p.lead-wide{max-width:none;}
+  .reasons-grid{display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); border-left:1px solid var(--line);}
+  .reason-item{padding:clamp(1.8rem,3vw,2.6rem); border-right:1px solid var(--line); border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:.8rem;}
+  .reason-num{font-family:var(--font-display); font-size:1.05rem; color:var(--red); font-variant-numeric:tabular-nums;}
+  .reason-item h3{font-size:1.3rem; font-weight:500;}
+  .reason-item p{font-size:.98rem; color:var(--ink-70);}
+  .reasons-close{margin:clamp(3rem,6vw,4.5rem) auto 0; padding-top:clamp(2rem,4vw,3rem); border-top:1px solid var(--line); max-width:680px; text-align:center;}
+  .reasons-close-q{font-family:var(--font-display); font-size:clamp(1.3rem,2.6vw,1.7rem); font-weight:400; line-height:1.4; color:var(--ink);}
+  .reasons-close-q em{font-style:italic; color:var(--red); font-weight:400;}
+  .reasons-close-q + .reasons-close-q{margin-top:.4rem;}
+  .reasons-close-a{margin-top:1.5rem; font-size:1.08rem; color:var(--ink-70);}
+
+  /* ============ PARENTS ============ */
+  .parents{background:var(--cream); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .parents-eyebrow{font-family:var(--font-body); text-transform:uppercase; letter-spacing:.08em; font-weight:600;}
+  .parents-close{margin-top:clamp(3rem,6vw,4.5rem); padding-top:clamp(2rem,4vw,3rem); border-top:1px solid var(--line); display:flex; flex-direction:column; align-items:flex-start; gap:2rem;}
+  .parents-close-line{font-family:var(--font-display); font-size:clamp(1.25rem,2.4vw,1.55rem); font-weight:400; line-height:1.4; color:var(--ink);}
+  .parents-close-line + .parents-close-line{margin-top:.3rem;}
+
+  /* ============ JOURNEY LINE (station map) ============ */
+  .journey-line{margin-bottom:clamp(2.5rem,5vw,4rem); padding-bottom:clamp(2rem,4vw,3rem); border-bottom:1px solid var(--line);}
+  .stations{display:flex; justify-content:space-between; align-items:flex-start; position:relative; width:100%;}
+  .stations-track{position:absolute; left:7px; right:7px; top:7px; height:2px; background:var(--line); z-index:0; overflow:hidden;}
+  .stations-fill{position:absolute; inset:0; background:var(--red); transform:scaleX(0); transform-origin:left center;}
+  .station{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:.65rem; flex-shrink:0;}
+  .station-dot{width:14px; height:14px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong);}
+  .station-dot.is-start{background:var(--red); border-color:var(--red);}
+  .station-label{font-size:.82rem; color:var(--ink-55); white-space:nowrap;}
+  .station-label.is-start{color:var(--ink); font-weight:600;}
+  @media (max-width:640px){
+    .station-label{font-size:.72rem;}
+  }
+
+  /* ============ SERVICES BENTO ============ */
+  .bento{display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .bento-item{background:var(--paper); padding:2.4rem; grid-column:span 3; display:flex; flex-direction:column; gap:.9rem; transition:background-color .3s var(--ease-out);}
+  .bento-item:hover{background:var(--red-soft);}
+  .bento-item.bento-full{grid-column:span 6; align-items:center; text-align:center; padding-top:3rem; padding-bottom:3rem;}
+  .bento-item.bento-full p{max-width:56ch;}
+  .bento-item .icon{width:2rem; height:2rem; color:var(--ink); transition:color .3s var(--ease-out);}
+  .bento-item:hover .icon{color:var(--red);}
+  .bento-item h3{font-size:1.25rem; font-weight:500; margin-top:.2rem;}
+  .bento-hook{font-size:1rem; font-weight:500; color:var(--ink);}
+  .bento-item p{font-size:.95rem; color:var(--ink-70); max-width:56ch;}
+  .bento-num{font-size:.78rem; color:var(--ink-35); font-variant-numeric:tabular-nums;}
+  .services-close{margin:clamp(3rem,6vw,4.5rem) auto 0; padding-top:clamp(2rem,4vw,3rem); border-top:1px solid var(--line); text-align:center; max-width:640px; font-family:var(--font-display); font-size:clamp(1.3rem,2.6vw,1.7rem); font-weight:400; line-height:1.45; color:var(--ink);}
+  .services-close em{font-style:italic; color:var(--red); font-weight:400;}
+
+  /* ============ TIMELINE ============ */
+  .timeline{position:relative; padding-left:2.6rem;}
+  .tl-track{position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--line);}
+  .tl-fill{position:absolute; top:0; left:0; width:100%; height:0%; background:var(--red); transform-origin:top;}
+  .tl-fill.no-motion{height:100%;}
+  .tl-steps{display:flex; flex-direction:column;}
+  .tl-step{position:relative; padding:2.1rem 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:80px 1fr; gap:1.5rem; align-items:start;}
+  .tl-step:first-child{padding-top:0;}
+  .tl-step:last-child{border-bottom:none;}
+  .tl-dot{position:absolute; left:calc(-2.6rem + 7px - 6px); top:2.3rem; width:14px; height:14px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong); transition:border-color .3s, background-color .3s;}
+  .tl-step.in-view .tl-dot{border-color:var(--red); background:var(--red);}
+  .tl-num{font-family:var(--font-display); font-size:1.7rem; color:var(--ink-35); font-variant-numeric:tabular-nums;}
+  .tl-body h3{font-size:1.25rem; font-weight:500; margin-bottom:.6rem;}
+  .tl-hook{font-size:1.02rem; font-weight:500; color:var(--ink); margin-bottom:.5rem;}
+  .tl-body p{font-size:.98rem; color:var(--ink-70);}
+
+  /* ============ CONSULTATION ============ */
+  .consultation{background:var(--red); color:#fff;}
+  .consultation-grid{display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(2.5rem,6vw,5rem); align-items:start;}
+  .consultation h2{font-size:clamp(2rem,4vw,2.9rem); color:#fff; font-weight:500;}
+  .consultation-copy p{margin-top:1.3rem; color:rgba(255,255,255,.85); font-size:1.08rem; max-width:46ch;}
+  .consultation-list{margin-top:2rem; display:flex; flex-direction:column; gap:.9rem;}
+  .consultation-list li{display:flex; gap:.75rem; font-size:.98rem; color:rgba(255,255,255,.92);}
+  .consultation-list .icon{color:#fff; width:1.1rem; height:1.1rem; margin-top:.2rem;}
+  .consultation-form{background:#fbf8f7; color:var(--ink); padding:clamp(1.8rem,4vw,2.8rem); display:flex; flex-direction:column; gap:1.3rem;}
+  .field{display:flex; flex-direction:column; gap:.45rem;}
+  .field label{font-size:.82rem; font-weight:500; color:var(--ink-70);}
+  .field input, .field select, .field textarea{
+    border:1px solid var(--line-strong); padding:.85rem 1rem; background:var(--paper); font-size:.98rem;
+    transition:border-color .25s var(--ease-out);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--red);}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  .form-hint{font-size:.78rem; color:var(--ink-35);}
+  .consultation-form .btn{margin-top:.4rem; justify-content:center;}
+  .form-note{font-size:.85rem; min-height:1.2em;}
+  .form-note.success{color:var(--red); font-weight:500;}
+  .form-success{display:none; text-align:center; padding:1.5rem 0;}
+  .form-success.show{display:block;}
+  .form-success .icon{width:2.6rem; height:2.6rem; color:var(--red); margin:0 auto 1rem;}
+  .consultation-form.submitted .form-fields{display:none;}
+
+  /* ============ FAQ ============ */
+  .faq-tabs{display:inline-flex; position:relative; border:1px solid var(--line-strong); border-radius:999px; padding:4px; margin-bottom:2.8rem;}
+  .faq-tab{position:relative; z-index:2; padding:.75rem 1.7rem; font-size:.92rem; font-weight:500; color:var(--ink-55); border-radius:999px; transition:color .3s var(--ease-out);}
+  .faq-tab[aria-selected="true"]{color:#fff;}
+  .faq-indicator{position:absolute; z-index:1; top:4px; bottom:4px; left:4px; background:var(--red); border-radius:999px; transition:transform .4s var(--ease-out), width .4s var(--ease-out);}
+  .faq-panel[hidden]{display:none;}
+  .acc-item{border-top:1px solid var(--line);}
+  .acc-item:last-child{border-bottom:1px solid var(--line);}
+  .acc-trigger{width:100%; display:flex; justify-content:space-between; align-items:center; gap:1.5rem; padding:1.5rem 0; text-align:left; font-size:1.08rem; font-weight:500;}
+  .acc-plus{position:relative; width:18px; height:18px; flex-shrink:0;}
+  .acc-plus::before, .acc-plus::after{content:''; position:absolute; background:var(--ink); transition:transform .35s var(--ease-out);}
+  .acc-plus::before{left:0; top:50%; width:100%; height:1.5px; transform:translateY(-50%);}
+  .acc-plus::after{top:0; left:50%; width:1.5px; height:100%; transform:translateX(-50%);}
+  .acc-trigger[aria-expanded="true"] .acc-plus::after{transform:translateX(-50%) rotate(90deg); opacity:0;}
+  .acc-trigger[aria-expanded="true"] .acc-plus::before{background:var(--red);}
+  .acc-panel{display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s var(--ease-out);}
+  .acc-panel-inner{overflow:hidden;}
+  .acc-trigger[aria-expanded="true"] + .acc-panel{grid-template-rows:1fr;}
+  .acc-panel p{padding-bottom:1.6rem; color:var(--ink-70); max-width:64ch; font-size:1rem;}
+
+  /* ============ CONTACT ============ */
+  .contact{background:var(--ink); color:var(--cream);}
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:clamp(2.5rem,6vw,5rem); align-items:center;}
+  .contact h2{font-size:clamp(2.1rem,4.5vw,3.2rem); color:#fff; font-weight:500;}
+  .contact-copy > p{margin-top:1.2rem; color:var(--cream-70); font-size:1.08rem; max-width:44ch;}
+  .offices{display:grid; grid-template-columns:1fr 1fr; gap:1.6rem; margin-top:2.6rem;}
+  .offices h4{font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; color:var(--cream-70); margin-bottom:.5rem;}
+  .offices p{font-size:.92rem; color:var(--cream-70); line-height:1.55;}
+  .contact-links{display:flex; flex-direction:column; gap:.5rem; margin-top:2.2rem; font-size:1.05rem;}
+  .contact-links a{border-bottom:1px solid var(--line-on-ink-strong); width:fit-content; padding-bottom:.15rem; transition:border-color .3s;}
+  .contact-links a:hover{border-color:var(--red);}
+  .social-row{display:flex; gap:.9rem; margin-top:2rem;}
+  .social-row a{width:42px; height:42px; border:1px solid var(--line-on-ink-strong); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:border-color .3s, background-color .3s;}
+  .social-row a:hover{border-color:var(--red); background:var(--red);}
+  .social-row .icon{width:1.1rem; height:1.1rem; color:var(--cream);}
+  .contact-map{aspect-ratio:1/1; max-width:460px; margin:0 auto; width:100%;}
+
+  .footer-bottom{max-width:var(--max); margin:5rem auto 0; padding:1.8rem var(--pad) 0; border-top:1px solid var(--line-on-ink); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:.82rem; color:var(--cream-70);}
+  .footer-links{display:flex; gap:1.4rem;}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .main-nav{display:none;}
+    .menu-toggle{display:flex;}
+    .header-actions > .btn{display:none;}
+    .consultation-grid, .contact-grid{grid-template-columns:1fr;}
+    .contact-grid{gap:3rem;}
+    .contact-map{max-width:340px;}
+  }
+  @media (max-width:860px){
+    .reasons-grid{grid-template-columns:1fr;}
+    .bento-item{grid-column:span 6;}
+    .offices{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .hero{display:block; min-height:auto; overflow:visible;}
+    .hero-visual{position:relative; inset:auto; margin-top:76px; width:100%; height:52vw; min-height:220px;}
+    .hero-image{object-position:65% top;}
+    .hero-calligraphy{font-size:clamp(1rem,4.2vw,1.4rem);}
+    .hero-content{padding:2rem var(--pad) 1rem;}
+    .scroll-cue{position:static; margin:1.5rem var(--pad) 2.5rem;}
+    .field-row{grid-template-columns:1fr;}
+    .tl-step{grid-template-columns:1fr;}
+    .tl-num{display:none;}
+    .timeline{padding-left:1.8rem;}
+    .tl-dot{left:calc(-1.8rem + 7px - 6px);}
+    .mobile-menu a{font-size:1.6rem;}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="logo-mark-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+      <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+      <g transform="translate(12,-17.92) scale(0.88)">
+        <polygon points="100,72 178,98 100,124 22,98" fill="#000"/>
+        <rect x="64" y="118" width="72" height="16" fill="#000"/>
+        <polygon points="74,134 90,134 84,196 64,196" fill="#000"/>
+        <polygon points="110,134 126,134 136,196 116,196" fill="#000"/>
+        <rect x="68" y="160" width="64" height="10" fill="#000"/>
+      </g>
+    </mask>
+  </defs>
+  <symbol id="logo-mark" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#BC002D" mask="url(#logo-mark-mask)"/></symbol>
+  <symbol id="logo-mark-ink" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#15120F" mask="url(#logo-mark-mask)"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9L12 4l10 5-10 5L2 9Z"/><path d="M6 11.3V16c0 1.66 2.69 3 6 3s6-1.34 6-3v-4.7"/><path d="M22 9v6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M3 5h13v9H9l-4.5 3.3V14H3V5Z"/><path d="M21 10.5v6.5h-3v3l-4-3h-3.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6V3Z"/><path d="M15 3v4h4"/><path d="M9 12.5h6M9 15.5h4"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.7v8.6"/><path d="M9.6 9.6c0-1 1-1.7 2.4-1.7s2.4.8 2.4 1.7c0 1.1-1 1.5-2.4 1.9-1.4.4-2.4.9-2.4 1.9 0 1 1 1.7 2.4 1.7s2.4-.6 2.4-1.7"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-1.8 5.6-5.6 1.8 1.8-5.6 5.6-1.8Z"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 11c-2.5 4.65-9.5 9-9.5 9Z"/><path d="M4.5 11.5h3l1.5-2.3 2 4.6 1.5-2.3h3.4"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 21v-7h2.5l.5-3H14V9c0-.9.3-1.5 1.7-1.5H17V4.8c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H8v3h2.3v7H14Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M10 9.3v5.4l5-2.7-5-2.7Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-li" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="7" cy="7.5" r="1.3" fill="currentColor" stroke="none"/><path d="M7 10.5v7"/><path d="M11 17.5v-4.3c0-1.5.9-2.5 2.3-2.5 1.3 0 2.2 1 2.2 2.5v4.3M11 10.5v7"/></symbol>
+</svg>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-mark" id="loaderMark" viewBox="0 0 200 200" width="72" height="72" aria-hidden="true">
+    <use href="#logo-mark-ink"/>
+  </svg>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg class="mark-normal" viewBox="0 0 200 200"><use href="#logo-mark"/></svg>
+        <svg class="mark-onred" viewBox="0 0 200 200"><use href="#logo-mark-ink"/></svg>
+      </span>
+      <span class="brand-name">Japan Bound Education</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#study">Why Japan</a>
+      <a href="#parents">For Parents</a>
+      <a href="#services">Services</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#consultation" class="btn btn-primary btn-sm">Book Free Consultation</a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <button class="mobile-close icon" id="mobileClose" aria-label="Close menu"><svg class="icon" style="color:inherit;width:100%;height:100%"><use href="#i-close"/></svg></button>
+  <a href="#study">Why Japan</a>
+  <a href="#parents">For Parents</a>
+  <a href="#services">Services</a>
+  <a href="#how-it-works">How It Works</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Contact</a>
+  <a href="#consultation" class="btn btn-primary">Book Free Consultation</a>
+</nav>
+
+<main id="main">
+
+<section class="hero" id="top" data-nav-theme="light">
+  <div class="hero-visual">
+    <img class="hero-image" src="Website_Overview.png" alt="" aria-hidden="true">
+    <p class="hero-calligraphy" id="heroCalligraphy" aria-hidden="true">
+      <span class="cal-char">日</span><span class="cal-char">本</span><span class="cal-char">で</span><span class="cal-char">、</span><span class="cal-char">夢</span><span class="cal-char">を</span><span class="cal-char">叶</span><span class="cal-char">え</span><span class="cal-char">る</span>
+    </p>
+  </div>
+  <div class="hero-content">
+    <p class="hero-kicker">Japan Education Consulting</p>
+    <h1 class="hero-title">Your gateway to Japan</h1>
+    <p class="hero-lead">Japan Bound Education is an educational consultancy dedicated to helping high school students pursue higher education at Japanese universities. We provide comprehensive guidance throughout the entire journey, from university selection to pre-departure support.</p>
+    <div class="hero-actions">
+      <a href="#consultation" class="btn btn-primary btn-lg magnetic">Book a Free Consultation</a>
+      <a href="#how-it-works" class="btn btn-text">See how it works <svg class="icon"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span></span>Scroll</div>
+</section>
+
+<section class="section study" id="study" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head why-head reveal">
+      <p class="section-eyebrow">なぜ今、日本か</p>
+      <h2>Why Japan, Why Now?</h2>
+      <p class="lead-wide">Japan offers a different path to an international education. While the US, UK, Canada and Australia remain popular choices, Japan offers students another opportunity: respected education, comparatively accessible costs, scholarship opportunities, and the chance to gain experience in a country where international talent is becoming increasingly important.</p>
+    </header>
+
+    <div class="reasons-grid reveal">
+      <div class="reason-item">
+        <span class="reason-num">01</span>
+        <h3>More accessible education</h3>
+        <p>Strong universities without the same tuition costs as many traditional destinations.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">02</span>
+        <h3>Real scholarship opportunities</h3>
+        <p>Government, university, local and private scholarship programs can help reduce the cost of studying in Japan.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">03</span>
+        <h3>A changing job market</h3>
+        <p>Japan's demographic and workforce challenges are creating growing opportunities for international graduates with the right skills.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">04</span>
+        <h3>Education + experience</h3>
+        <p>Study, learn the language, work part-time where permitted, build your network and gain experience while you're here.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">05</span>
+        <h3>English-taught options</h3>
+        <p>You don't necessarily need advanced Japanese to begin your journey. A growing number of Japanese universities offer degree programs taught entirely in English.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">06</span>
+        <h3>A future beyond graduation</h3>
+        <p>For students who want to stay longer, Japan can be more than a place to earn a degree. It can become a place to build professional experience and explore a career.</p>
+      </div>
+    </div>
+
+    <div class="reasons-close reveal">
+      <p class="reasons-close-q">The question isn't simply <em>&ldquo;Can I study in Japan?&rdquo;</em></p>
+      <p class="reasons-close-q">It's <em>&ldquo;Could Japan be the right place for my future?&rdquo;</em></p>
+      <p class="reasons-close-a">That's what Japan Bound Education helps you figure out.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section parents" id="parents" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head parents-head reveal">
+      <p class="section-eyebrow parents-eyebrow">For Parents</p>
+      <h2>For your child.<br>For your peace of mind.</h2>
+      <p>Sending your child abroad is a major decision. We help you understand what studying and living in Japan actually means, so you can make that decision with confidence.</p>
+    </header>
+
+    <div class="reasons-grid reveal">
+      <div class="reason-item">
+        <span class="reason-num">01</span>
+        <h3>Is Japan safe?</h3>
+        <p>Japan is consistently recognized as one of the safest countries in the world, with low crime, reliable public transportation, and a well-organized society. It gives students the opportunity to experience independence while living in a secure environment.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">02</span>
+        <h3>Will my child be welcomed?</h3>
+        <p>Japan is becoming increasingly international, with students and professionals arriving from around the world. Regardless of their nationality, culture, or religious background, students can build their own community while experiencing Japanese society.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">03</span>
+        <h3>What will it cost?</h3>
+        <p>Studying in Japan can be more affordable than many traditional study-abroad destinations, particularly when it comes to tuition and living costs. With careful planning and the right university or scholarship, Japan can offer a high-quality education at a manageable cost.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">04</span>
+        <h3>Are there scholarships?</h3>
+        <p>Yes. Japan offers a wide range of scholarships and tuition-reduction opportunities, including government, university, local and private scholarships. The challenge is knowing which opportunities your child is eligible for and how to apply for them.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">05</span>
+        <h3>What happens after graduation?</h3>
+        <p>Studying in Japan can be more than earning a degree. Students can develop Japanese language skills, gain international experience and explore opportunities to begin their careers in Japan after graduation.</p>
+      </div>
+      <div class="reason-item">
+        <span class="reason-num">06</span>
+        <h3>Who will support my child?</h3>
+        <p>Japan Bound Education supports students throughout the journey, from choosing the right university and preparing applications to understanding life in Japan and getting settled after arrival. Your child doesn't have to figure everything out alone.</p>
+      </div>
+    </div>
+
+    <div class="parents-close reveal">
+      <div class="parents-close-text">
+        <p class="parents-close-line">You don't have to make the decision alone.</p>
+        <p class="parents-close-line">Let's explore whether Japan is the right choice for your child.</p>
+      </div>
+      <a href="#consultation" class="btn btn-primary btn-lg magnetic">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<section class="section services" id="services" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">サービス</p>
+      <h2>What we actually do for you.</h2>
+      <p>Not a stack of vague promises — seven concrete pieces of work, from your first shortlist to your first month settled in.</p>
+    </header>
+
+    <div class="journey-line" aria-label="Discover, Plan, Apply, Prepare, Arrive, Settle, Build">
+      <div class="stations">
+        <div class="stations-track"><div class="stations-fill"></div></div>
+        <div class="station"><span class="station-dot is-start"></span><span class="station-label is-start">Discover</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Plan</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Apply</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Prepare</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Arrive</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Settle</span></div>
+        <div class="station"><span class="station-dot"></span><span class="station-label">Build</span></div>
+      </div>
+    </div>
+
+    <div class="bento reveal">
+      <article class="bento-item">
+        <span class="bento-num">01</span>
+        <svg class="icon"><use href="#i-compass"/></svg>
+        <h3>Understand Your Goals</h3>
+        <p class="bento-hook">We start with you, not a university.</p>
+        <p>We learn about your academic background, interests, budget, Japanese level and future goals to understand what kind of path in Japan could actually make sense for you.</p>
+      </article>
+      <article class="bento-item">
+        <span class="bento-num">02</span>
+        <svg class="icon"><use href="#i-cap"/></svg>
+        <h3>Find Your Best-Fit Path</h3>
+        <p class="bento-hook">Not every university is right for every student.</p>
+        <p>We research universities, programs, cities, admission requirements and costs to help you find options that match your goals, qualifications and budget.</p>
+      </article>
+      <article class="bento-item">
+        <span class="bento-num">03</span>
+        <svg class="icon"><use href="#i-coin"/></svg>
+        <h3>Find Scholarships &amp; Plan Your Budget</h3>
+        <p class="bento-hook">Know what you're committing to before you commit.</p>
+        <p>We help you understand tuition, living expenses, accommodation and available scholarships or tuition reductions, so you and your family can make an informed financial decision.</p>
+      </article>
+      <article class="bento-item">
+        <span class="bento-num">04</span>
+        <svg class="icon"><use href="#i-doc"/></svg>
+        <h3>Build Your Application</h3>
+        <p class="bento-hook">Your application should tell your story.</p>
+        <p>From application strategies to SOPs and documentation, we help you present your experiences, goals and strengths clearly and authentically.</p>
+      </article>
+      <article class="bento-item">
+        <span class="bento-num">05</span>
+        <svg class="icon"><use href="#i-chat"/></svg>
+        <h3>Prepare for the Next Step</h3>
+        <p class="bento-hook">Getting accepted is only part of the journey.</p>
+        <p>We help you prepare for interviews, understand the visa process, organize important documents and get ready for the transition from your home country to Japan.</p>
+      </article>
+      <article class="bento-item">
+        <span class="bento-num">06</span>
+        <svg class="icon"><use href="#i-plane"/></svg>
+        <h3>Get Ready for Japan</h3>
+        <p class="bento-hook">Moving to another country is a big step.</p>
+        <p>Before you arrive, we'll help you understand accommodation, living costs, transportation, essential procedures and what to expect from everyday life in Japan.</p>
+      </article>
+      <article class="bento-item bento-full">
+        <span class="bento-num">07</span>
+        <svg class="icon"><use href="#i-heart"/></svg>
+        <h3>Settle In &amp; Find Your Way</h3>
+        <p class="bento-hook">Our goal isn't just to get you to Japan.</p>
+        <p>We want you to feel prepared once you get here. We help you understand your new environment, find useful resources and navigate the early stages of student life in Japan.</p>
+      </article>
+    </div>
+
+    <p class="services-close reveal">We don't choose your future for you. We help you understand your options, make informed decisions and <em>build a path that fits you</em>.</p>
+  </div>
+</section>
+
+<section class="section timeline-section" id="how-it-works" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">流れ</p>
+      <h2>How It Works, Step by Step.</h2>
+      <p>From your first question to your first days in Japan, we help you navigate the journey with a clear, personalized plan.</p>
+    </header>
+    <div class="timeline">
+      <div class="tl-track"><div class="tl-fill" id="tlFill"></div></div>
+      <ol class="tl-steps" id="tlSteps">
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">01</span><div class="tl-body"><h3>Book a Free Consultation</h3><p class="tl-hook">Let's start with you.</p><p>A 30-minute conversation to understand your goals, academic background, budget, timeline, and what you're looking for in Japan.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">02</span><div class="tl-body"><h3>Profile Review &amp; Personalized Plan</h3><p class="tl-hook">Understand the path that's right for you.</p><p>We review your academic profile, interests, budget, Japanese level, and future goals to build a realistic pathway for studying in Japan.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">03</span><div class="tl-body"><h3>University &amp; Scholarship Research</h3><p class="tl-hook">Find options that actually fit you.</p><p>We research universities, programs, admission requirements, locations, tuition fees, scholarships, and other important factors to create a personalized shortlist.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">04</span><div class="tl-body"><h3>Application Strategy &amp; Preparation</h3><p class="tl-hook">Build an application that represents you.</p><p>We help you plan your application, prepare your SOP and essays, organize your documents, and prepare for interviews, with guidance tailored to your chosen programs.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">05</span><div class="tl-body"><h3>Application Submission &amp; Follow-Up</h3><p class="tl-hook">Stay organized from start to finish.</p><p>We guide you through application forms, required documents, deadlines, and submission requirements, helping you stay on track throughout the process.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">06</span><div class="tl-body"><h3>Acceptance, COE &amp; Visa Guidance</h3><p class="tl-hook">Know what comes next.</p><p>Once you receive an offer, we guide you through the COE process and help you understand the student visa requirements, documents, and application procedures.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">07</span><div class="tl-body"><h3>Pre-Departure Preparation</h3><p class="tl-hook">Know what to expect before you leave home.</p><p>We help you prepare for your move to Japan, including accommodation, living costs, essential documents, transportation, phone plans, and practical aspects of everyday life.</p></div></li>
+        <li class="tl-step reveal"><span class="tl-dot"></span><span class="tl-num">08</span><div class="tl-body"><h3>Arrival &amp; Ongoing Guidance</h3><p class="tl-hook">Getting to Japan is only the beginning.</p><p>We provide guidance and support as you begin your life in Japan, helping you understand the practical side of settling in and directing you toward the right resources when you need them.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section consultation" id="consultation" data-nav-theme="red">
+  <div class="section-inner consultation-grid">
+    <div class="consultation-copy reveal">
+      <h2>Let's talk about your next step.</h2>
+      <p>A short, honest conversation — about your goals, your budget, and whether Japan is genuinely the right fit before you spend a rupee, a taka or a rupiah on anything.</p>
+      <ul class="consultation-list">
+        <li><svg class="icon"><use href="#i-check"/></svg>30-minute video or phone call, at a time that suits you</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Available in English, Urdu, Hindi, Bengali and Nepali</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Free of cost, with no obligation to continue</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>A personalised university shortlist within 5 working days</li>
+      </ul>
+    </div>
+    <form class="consultation-form reveal" id="consultForm" novalidate>
+      <div class="form-fields" style="display:contents">
+        <div class="field">
+          <label for="c-name">Full name</label>
+          <input id="c-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-email">Email</label>
+            <input id="c-email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="c-phone">Phone / WhatsApp</label>
+            <input id="c-phone" name="phone" type="tel" required autocomplete="tel">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-country">Country</label>
+            <select id="c-country" name="country" required>
+              <option value="">Select country</option>
+              <option>Pakistan</option><option>India</option><option>Bangladesh</option>
+              <option>Nepal</option><option>Sri Lanka</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="c-intake">Preferred intake</label>
+            <select id="c-intake" name="intake">
+              <option value="">Not sure yet</option>
+              <option>April 2027</option><option>October 2027</option><option>April 2028</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-msg">Anything we should know? <span class="form-hint">(optional)</span></label>
+          <textarea id="c-msg" name="message" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" id="consultSubmit">Book My Free Call</button>
+        <p class="form-note" id="formNote" aria-live="polite"></p>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <svg class="icon"><use href="#i-check"/></svg>
+        <h3 style="font-size:1.3rem;font-weight:500;">Thank you — we've got it.</h3>
+        <p style="margin-top:.6rem;color:var(--ink-70);">Someone from our team will reach out within one business day to schedule your call.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section faq" id="faq" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">よくある質問</p>
+      <h2>Questions we hear the most.</h2>
+      <p>Students and parents tend to worry about different things — so we've split the answers.</p>
+    </header>
+
+    <div class="faq-tabs reveal" role="tablist" id="faqTabs">
+      <div class="faq-indicator" id="faqIndicator"></div>
+      <button class="faq-tab" role="tab" aria-selected="true" data-tab="students" id="tab-students">For Students</button>
+      <button class="faq-tab" role="tab" aria-selected="false" data-tab="parents" id="tab-parents">For Parents</button>
+    </div>
+
+    <div class="faq-panels reveal">
+      <div class="faq-panel" data-panel="students" role="tabpanel">
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="true">Do I need to speak Japanese before I apply?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Not for every pathway. Language schools take complete beginners and teach from zero, but reaching JLPT N4–N5 before you go opens up more university and scholarship options later.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">How much does studying in Japan actually cost?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>It depends heavily on the institution type — language schools and vocational colleges are generally more affordable than private universities. We build a realistic year-by-year budget with you before you commit to anything.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">Can I work part-time while studying?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Yes, with a permission-to-work stamp from immigration, generally up to 28 hours a week during term time and more during long holidays.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">What's the difference between a language school and a university pathway?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>A language school focuses on Japanese fluency and typically runs one to two years; it's often a stepping stone into a vocational college or university. A direct university pathway skips that step if your Japanese or English is already strong enough for the program.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">What happens if my visa is refused?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>We check every document ourselves before filing, which keeps refusals rare. If one does happen, we review the reason with you and support a resubmission where it's possible.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">Can I choose which city I study in?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Yes. We match you to institutions based on your goals, budget and preferred region, and we'll always tell you honestly if a preference isn't realistic for your profile.</p></div></div>
+        </div>
+      </div>
+
+      <div class="faq-panel" data-panel="parents" role="tabpanel" hidden>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="true">How do you verify student housing?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Our partner desk in Tokyo visits dormitories and private housing options in person before we recommend them, and we send photos and floor plans before any deposit is paid.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">What happens in an emergency while our child is in Japan?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>There's a 24/7 emergency line staffed by our team, plus a local guardian network that can reach your child in person if a phone call isn't enough.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">Are your fees actually transparent?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>The initial consultation is free. Every service fee after that is set out in a written agreement before you pay anything — nothing is added later.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">Can we speak directly with the school our child is applying to?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Yes, we regularly arrange video calls and virtual campus tours so families can hear directly from the institution, not just from us.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">What if our child struggles academically or emotionally?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>Our support team checks in regularly and can refer students to counselling or academic support through the institution or local community resources.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false">Is a visa guaranteed?<span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p>No consultancy can guarantee a government decision, and we're wary of anyone who claims otherwise. What we can offer is the preparation behind our 94.6% approval rate.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact" data-nav-theme="dark">
+  <div class="section-inner contact-grid">
+    <div class="contact-copy reveal">
+      <h2>Your door is open.</h2>
+      <p>Reach us directly, or book a free consultation and we'll come to you.</p>
+      <div class="offices">
+        <div><h4>Lahore (HQ)</h4><p>12 Gulberg Boulevard,<br>Lahore, Pakistan</p></div>
+        <div><h4>Dhaka</h4><p>House 7, Road 11,<br>Banani, Dhaka, Bangladesh</p></div>
+        <div><h4>Kathmandu</h4><p>Durbar Marg,<br>Kathmandu, Nepal</p></div>
+        <div><h4>Tokyo (Partner Desk)</h4><p>Shinjuku 3-chome,<br>Tokyo, Japan</p></div>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:hello@japanboundeducation.com">hello@japanboundeducation.com</a>
+        <a href="tel:+923218847710">+92 321 884 7710 (WhatsApp)</a>
+      </div>
+      <div class="social-row">
+        <a href="#" aria-label="Instagram"><svg class="icon"><use href="#i-ig"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg class="icon"><use href="#i-fb"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg class="icon"><use href="#i-yt"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg class="icon"><use href="#i-li"/></svg></a>
+      </div>
+    </div>
+    <div class="contact-map reveal" aria-hidden="true">
+      <svg viewBox="0 0 400 400" width="100%" height="100%">
+        <circle cx="200" cy="200" r="170" fill="none" stroke="var(--line-on-ink)" stroke-width="1"/>
+        <circle cx="200" cy="200" r="110" fill="none" stroke="var(--line-on-ink)" stroke-width="1"/>
+        <g fill="var(--cream-70)" font-family="Outfit" font-size="11">
+          <circle cx="90" cy="150" r="4" fill="#BC002D"/><text x="98" y="153">Pakistan</text>
+          <circle cx="100" cy="230" r="4" fill="#BC002D"/><text x="108" y="233">India</text>
+          <circle cx="150" cy="300" r="4" fill="#BC002D"/><text x="158" y="303">Bangladesh</text>
+          <circle cx="130" cy="270" r="4" fill="#BC002D"/><text x="80" y="285">Nepal</text>
+          <circle cx="290" cy="140" r="6" fill="#fff"/><text x="300" y="143" fill="#fff">Japan</text>
+        </g>
+        <path d="M90 150 Q190 90 290 140" fill="none" stroke="#BC002D" stroke-width="1.2" stroke-dasharray="3 4"/>
+        <path d="M100 230 Q190 140 290 140" fill="none" stroke="#BC002D" stroke-width="1.2" stroke-dasharray="3 4"/>
+        <path d="M150 300 Q220 180 290 140" fill="none" stroke="#BC002D" stroke-width="1.2" stroke-dasharray="3 4"/>
+        <path d="M130 270 Q210 170 290 140" fill="none" stroke="#BC002D" stroke-width="1.2" stroke-dasharray="3 4"/>
+      </svg>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Japan Bound Education. All rights reserved.</span>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasGSAP = typeof gsap !== "undefined";
+  if (hasGSAP && typeof ScrollTrigger !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- LOADER ---------- */
+  function runLoader(){
+    var loader = document.getElementById("loader");
+    if (!loader) return;
+    if (reduced || !hasGSAP){ loader.style.display = "none"; return; }
+    document.body.style.overflow = "hidden";
+    var mark = document.getElementById("loaderMark");
+    var tl = gsap.timeline({ onComplete: function(){
+      loader.style.display = "none";
+      document.body.style.overflow = "";
+    }});
+    tl.to(mark, { opacity:1, scale:1, duration:.5, ease:"power3.out" })
+      .to(mark, { opacity:0, scale:1.06, duration:.35, ease:"power2.in" }, "+=0.35")
+      .to(loader, { yPercent:-100, duration:.65, ease:"power4.inOut" }, "-=0.1");
+  }
+
+  /* ---------- HERO CALLIGRAPHY ---------- */
+  function initCalligraphy(){
+    var cal = document.getElementById("heroCalligraphy");
+    var img = document.querySelector(".hero-image");
+    var visual = document.querySelector(".hero-visual");
+    var chars = cal ? cal.querySelectorAll(".cal-char") : [];
+    if (!cal || !img || !visual || !chars.length) return;
+
+    // Reproduce the browser's own object-fit:cover math using the actual
+    // rendered box, so this stays correct at any viewport size instead of
+    // relying on a fixed vw guess (which broke once the hero's height caps out).
+    var NATURAL_W = 1920, NATURAL_H = 1080;
+    var STEM_X = 1159, STEM_Y = 838; // pixel location of the branch tip in the source image
+
+    function position(){
+      var boxW = visual.clientWidth, boxH = visual.clientHeight;
+      if (!boxW || !boxH) return;
+      var scale = Math.max(boxW / NATURAL_W, boxH / NATURAL_H);
+      var renderedW = NATURAL_W * scale, renderedH = NATURAL_H * scale;
+      var posStr = getComputedStyle(img).objectPosition || "50% 0%";
+      var parts = posStr.split(" ");
+      var pctX = parseFloat(parts[0]) / 100;
+      var pctY = parts[1] && parts[1].indexOf("%") > -1 ? parseFloat(parts[1]) / 100 : 0;
+      var offsetX = (boxW - renderedW) * pctX;
+      var offsetY = (boxH - renderedH) * pctY;
+      var tipX = offsetX + STEM_X * scale;
+      var py = offsetY + STEM_Y * scale + 16;
+
+      // Centered in the gap between the branch tip and the right edge of the
+      // screen, rather than starting flush at the tip.
+      var textW = cal.offsetWidth || 200, textH = cal.offsetHeight || 40;
+      var px = tipX + (boxW - tipX) / 2 - textW / 2;
+
+      // On very wide screens the hero's capped height crops the actual branch
+      // tip out of the visible image before we ever get this far down, so
+      // clamp to the visible box instead of placing text outside it.
+      var maxTop = boxH - textH - 12;
+      if (py > maxTop) py = maxTop;
+      var minLeft = 12, maxLeft = boxW - textW - 12;
+      if (px < minLeft) px = minLeft;
+      if (px > maxLeft) px = maxLeft;
+
+      cal.style.left = px + "px";
+      cal.style.top = py + "px";
+      cal.classList.add("positioned");
+    }
+    position();
+    window.addEventListener("resize", position);
+
+    if (reduced){ chars.forEach(function(c){ c.classList.add("on"); }); return; }
+    chars.forEach(function(c){ c.classList.add("js-armed"); });
+    setTimeout(function(){
+      chars.forEach(function(c, i){
+        setTimeout(function(){ c.classList.add("on"); }, i * 220);
+      });
+    }, 1800);
+  }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  function initReveal(){
+    var els = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)){ return; }
+    els.forEach(function(el, i){
+      el.classList.add("js-armed");
+      el.style.setProperty("--d", (i % 4) * 70 + "ms");
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- NAV THEME + SOLID ON SCROLL ---------- */
+  function initNav(){
+    var header = document.getElementById("siteHeader");
+    var sections = document.querySelectorAll("[data-nav-theme]");
+    function onScroll(){
+      document.body.classList.toggle("nav-scrolled", window.scrollY > 10);
+    }
+    window.addEventListener("scroll", onScroll, { passive:true });
+    onScroll();
+    if ("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            var theme = entry.target.getAttribute("data-nav-theme");
+            document.body.classList.remove("nav-theme-dark","nav-theme-red");
+            if (theme === "dark") document.body.classList.add("nav-theme-dark");
+            if (theme === "red") document.body.classList.add("nav-theme-red");
+          }
+        });
+      }, { rootMargin: "-50% 0px -49% 0px" });
+      sections.forEach(function(s){ io.observe(s); });
+    }
+
+    var toggle = document.getElementById("menuToggle");
+    var closeBtn = document.getElementById("mobileClose");
+    var menu = document.getElementById("mobileMenu");
+    function openMenu(){ menu.classList.add("open"); toggle.setAttribute("aria-expanded","true"); document.body.style.overflow="hidden"; }
+    function closeMenu(){ menu.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); document.body.style.overflow=""; }
+    toggle.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+    menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMenu); });
+  }
+
+  /* ---------- TIMELINE FILL + DOTS ---------- */
+  function initTimeline(){
+    var fill = document.getElementById("tlFill");
+    var steps = document.querySelectorAll(".tl-step");
+    if (reduced || !hasGSAP){
+      if (fill) fill.classList.add("no-motion");
+    } else {
+      gsap.to(fill, {
+        height: "100%", ease: "none",
+        scrollTrigger: { trigger: "#tlSteps", start: "top 65%", end: "bottom 75%", scrub: 0.6 }
+      });
+    }
+    if ("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add("in-view"); });
+      }, { threshold: 0.5 });
+      steps.forEach(function(s){ io.observe(s); });
+    }
+  }
+
+  /* ---------- JOURNEY LINE (station map) ---------- */
+  function initJourney(){
+    var line = document.querySelector(".journey-line");
+    var fill = document.querySelector(".stations-fill");
+    var dots = document.querySelectorAll(".station-dot");
+    var labels = document.querySelectorAll(".station-label");
+    if (!line || !dots.length) return;
+
+    var RED = "#BC002D";
+    var DIM_BORDER = "rgba(21,18,15,.28)";
+    var DIM_TEXT = "rgba(21,18,15,.55)";
+    var INK = "#15120F";
+
+    // dots[0]/"Discover" is the starting point, always shown reached;
+    // the remaining stations light up one at a time as the fill line reaches them.
+    var restDots = Array.prototype.slice.call(dots, 1);
+    var restLabels = Array.prototype.slice.call(labels, 1);
+
+    function showAll(){
+      if (fill) fill.style.transform = "scaleX(1)";
+      restDots.forEach(function(d){ d.style.backgroundColor = RED; d.style.borderColor = RED; });
+      restLabels.forEach(function(l){ l.style.color = INK; l.style.fontWeight = "600"; });
+    }
+
+    if (reduced || !hasGSAP){ showAll(); return; }
+
+    gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
+    gsap.set(restDots, { backgroundColor: "#fbf8f7", borderColor: DIM_BORDER, scale: 1 });
+    gsap.set(restLabels, { color: DIM_TEXT, fontWeight: 400 });
+
+    // Slow, deliberate build: a wide scroll range, and a scrub value that
+    // lags slightly behind the scrollbar so the motion feels weighted
+    // rather than snapping directly to scroll position.
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: line,
+        start: "top bottom",
+        end: "top 20%",
+        scrub: 1.6
+      }
+    });
+
+    // The line itself sweeps continuously and linearly across the whole
+    // range — it must track scroll position directly, not ease on its own.
+    tl.to(fill, { scaleX: 1, ease: "none", duration: 1 }, 0);
+
+    // Each station "arrives" the instant the sweeping line reaches it —
+    // a quick state change, not an independent fade, so it reads as the
+    // line lighting the station up rather than two unrelated animations.
+    var count = restDots.length; // 6 remaining stations after "Discover"
+    restDots.forEach(function(dot, i){
+      var at = ((i + 1) / count) * 1; // matches the fill's 0–1 progress
+      tl.to(dot, { backgroundColor: RED, borderColor: RED, scale: 1.15, duration: 0.04, ease: "none" }, at - 0.04)
+        .to(dot, { scale: 1, duration: 0.05, ease: "none" }, at)
+        .to(restLabels[i], { color: INK, fontWeight: 600, duration: 0.04, ease: "none" }, at - 0.04);
+    });
+  }
+
+  /* ---------- MAGNETIC BUTTONS ---------- */
+  function initMagnetic(){
+    if (reduced || !window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+    document.querySelectorAll(".magnetic").forEach(function(el){
+      el.style.transition = "transform .35s cubic-bezier(.16,1,.3,1)";
+      el.addEventListener("mousemove", function(e){
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left - r.width/2) * 0.28;
+        var y = (e.clientY - r.top - r.height/2) * 0.35;
+        el.style.transform = "translate(" + x + "px," + y + "px)";
+      });
+      el.addEventListener("mouseleave", function(){ el.style.transform = "translate(0,0)"; });
+    });
+  }
+
+  /* ---------- FAQ TABS + ACCORDION ---------- */
+  function initFaq(){
+    var tabs = document.querySelectorAll(".faq-tab");
+    var panels = document.querySelectorAll(".faq-panel");
+    var indicator = document.getElementById("faqIndicator");
+    function placeIndicator(btn){
+      if (!indicator) return;
+      indicator.style.width = btn.offsetWidth + "px";
+      indicator.style.transform = "translateX(" + btn.offsetLeft + "px)";
+    }
+    tabs.forEach(function(tab){
+      tab.addEventListener("click", function(){
+        tabs.forEach(function(t){ t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
+        panels.forEach(function(p){ p.hidden = p.getAttribute("data-panel") !== tab.getAttribute("data-tab"); });
+        placeIndicator(tab);
+      });
+    });
+    var active = document.querySelector('.faq-tab[aria-selected="true"]');
+    if (active){ requestAnimationFrame(function(){ placeIndicator(active); }); }
+    window.addEventListener("resize", function(){
+      var a = document.querySelector('.faq-tab[aria-selected="true"]');
+      if (a) placeIndicator(a);
+    });
+
+    document.querySelectorAll(".acc-trigger").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var open = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", open ? "false" : "true");
+      });
+    });
+  }
+
+  /* ---------- CONSULTATION FORM (front-end demo) ---------- */
+  function initForm(){
+    var form = document.getElementById("consultForm");
+    var note = document.getElementById("formNote");
+    var success = document.getElementById("formSuccess");
+    var submitBtn = document.getElementById("consultSubmit");
+    if (!form) return;
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      if (!form.checkValidity()){
+        form.reportValidity();
+        note.textContent = "Please fill in the required fields.";
+        note.classList.remove("success");
+        return;
+      }
+      submitBtn.textContent = "Sending…";
+      submitBtn.disabled = true;
+      setTimeout(function(){
+        form.classList.add("submitted");
+        success.classList.add("show");
+      }, 700);
+    });
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function(){
+    runLoader();
+    initReveal();
+    initNav();
+    initTimeline();
+    initJourney();
+    initMagnetic();
+    initFaq();
+    initForm();
+    initCalligraphy();
+  });
+})();
+</script>
+</body>
+</html>

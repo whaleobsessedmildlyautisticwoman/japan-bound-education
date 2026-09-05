@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Japan Bound Education</title>
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --paper:#fbf8f7;
+    --paper-soft:#FAF8F5;
+    --ink:#15120F;
+    --ink-70:rgba(21,18,15,.7);
+    --ink-55:rgba(21,18,15,.55);
+    --ink-35:rgba(21,18,15,.35);
+    --line:rgba(21,18,15,.13);
+    --line-strong:rgba(21,18,15,.22);
+    --red:#BC002D;
+    --red-deep:#8C0022;
+    --red-soft:rgba(188,0,45,.07);
+    --red-soft-2:rgba(188,0,45,.14);
+    /* Section surfaces. Both are mixed from the brand's own ink and red over
+       paper, so the page gains separation without introducing a new hue.
+       They are never applied flat — each section ramps from paper into its
+       tint and back out over --fade, so neighbours blend instead of banding. */
+    --surface-mist:#EFEFED;   /* diluted sumi — cool, quiet */
+    --surface-blush:#F8EDEB;  /* diluted vermillion — warm, human */
+    --fade:clamp(5rem,14vh,11rem);
+    --cream:#F6F1E9;
+    --cream-70:rgba(246,241,233,.7);
+    --line-on-ink:rgba(246,241,233,.16);
+    --line-on-ink-strong:rgba(246,241,233,.3);
+    --max:1440px;
+    --pad:clamp(1.25rem, 5vw, 4.5rem);
+    --font-display:'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-body:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-jp:'Shippori Mincho', 'Fraunces', serif;
+    --font-ur:'Noto Nastaliq Urdu', serif;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    --ease-in-out:cubic-bezier(.65,0,.35,1);
+    --z-nav:60; --z-mobile:70; --z-loader:100;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; overscroll-behavior-x:none;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    overscroll-behavior-x:none;
+  }
+  img,svg{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul,ol{margin:0; padding:0; list-style:none;}
+  h1,h2,h3,h4,p{margin:0;}
+  button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer;}
+  input,textarea,select{font:inherit; color:inherit;}
+  h1,h2,h3{font-family:var(--font-display); text-wrap:balance; letter-spacing:-0.025em; line-height:1.15;}
+  p{text-wrap:pretty;}
+  :focus-visible{outline:2px solid var(--red); outline-offset:3px; border-radius:2px;}
+
+  .skip-link{position:absolute; left:-999px; top:0; background:var(--red); color:#fff; padding:.9rem 1.4rem; z-index:1000;}
+  .skip-link:focus{left:1rem; top:1rem;}
+  /* A large negative physical offset like -999px, under an RTL root, isn't
+     just clipped — Chromium anchors RTL overflow clipping to the opposite
+     edge, so it drags the entire page's visible window sideways instead of
+     quietly hiding this one link. Flipping the offset to the right edge
+     keeps it off-screen exactly like the LTR version does, without that
+     side effect. */
+  html[dir="rtl"] .skip-link{left:auto; right:-999px;}
+  html[dir="rtl"] .skip-link:focus{right:1rem; left:auto;}
+
+  .section-inner{max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad);}
+  .icon{width:1.5rem; height:1.5rem; stroke:currentColor; stroke-width:1.5; fill:none; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
+
+  /* ============ GRAIN OVERLAY ============ */
+  .grain{
+    position:fixed; inset:0; z-index:500; pointer-events:none;
+    opacity:.035; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:180px 180px;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex; align-items:center; gap:.55rem;
+    padding:.95rem 1.9rem; border-radius:999px;
+    font-weight:500; font-size:.98rem; letter-spacing:-0.005em;
+    white-space:nowrap; cursor:pointer; border:1.5px solid transparent;
+    transition:transform .25s var(--ease-out), background-color .25s var(--ease-out), border-color .25s var(--ease-out), color .25s var(--ease-out);
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-sm{padding:.7rem 1.35rem; font-size:.88rem;}
+  .btn-lg{padding:1.15rem 2.3rem; font-size:1.02rem;}
+  .btn-primary{background:var(--red); color:#fff;}
+  .btn-primary:hover{background:var(--red-deep); transform:translateY(-2px);}
+  .btn-outline{border-color:var(--line-strong); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--ink); background:var(--ink); color:var(--paper);}
+  .btn-outline-light{border-color:var(--line-on-ink-strong); color:var(--cream);}
+  .btn-outline-light:hover{border-color:var(--cream); background:var(--cream); color:var(--ink);}
+  .btn-light{background:var(--paper); color:var(--red);}
+  .btn-light:hover{background:var(--cream); transform:translateY(-2px);}
+  .btn-text{color:var(--ink); font-weight:500; border-bottom:1px solid transparent; padding:.5rem 0; border-radius:0;}
+  .btn-text:hover{border-color:var(--ink);}
+  .btn-text .icon{width:1.1rem; height:1.1rem; transition:transform .3s var(--ease-out);}
+  .btn-text:hover .icon{transform:translateX(4px);}
+
+  /* ============ REVEAL SYSTEM ============ */
+  .reveal.js-armed{opacity:0; transform:translateY(30px); transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); transition-delay:var(--d,0ms);}
+  .reveal.js-armed.in-view{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){
+    .reveal.js-armed{opacity:1!important; transform:none!important; transition:none!important;}
+  }
+
+  /* ============ LOADER ============ */
+  .loader{
+    position:fixed; inset:0; z-index:var(--z-loader); background:var(--paper);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.1rem;
+    animation:loaderFallback 0s 4.6s forwards;
+  }
+  .loader-mark{opacity:0; transform:scale(.7);}
+  /* Same write-on technique as the hero calligraphy — clip-path sweeping
+     left to right per character — reused here in red instead of ink so the
+     loader reads as the brand's opening beat rather than a separate effect. */
+  .loader-calligraphy{
+    display:flex; gap:.12em;
+    font-family:'Yuji Mai', serif; font-size:clamp(1.3rem,4vw,1.9rem); color:var(--red); line-height:1;
+  }
+  .loader-calligraphy .cal-char{display:inline-block;}
+  .loader-calligraphy .cal-char.js-armed{clip-path:inset(0 100% 0 0); opacity:0; transform:translateY(.08em);}
+  .loader-calligraphy .cal-char.js-armed.on{
+    clip-path:inset(0 0% 0 0); opacity:1; transform:translateY(0);
+    transition:clip-path .5s cubic-bezier(.4,0,.2,1), opacity .12s linear, transform .5s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes loaderFallback{to{opacity:0; visibility:hidden; pointer-events:none;}}
+  @media (prefers-reduced-motion:reduce){ .loader{display:none;} }
+
+  /* ============ HEADER ============ */
+  body{
+    --nav-bg:rgba(255,255,255,.68); --nav-border:rgba(21,18,15,.1);
+    --nav-text:var(--ink); --nav-text-soft:var(--ink-70); --nav-mark:var(--red);
+  }
+  body.nav-theme-dark{
+    --nav-bg:rgba(21,18,15,.6); --nav-border:rgba(246,241,233,.16);
+    --nav-text:#ffffff; --nav-text-soft:rgba(246,241,233,.78); --nav-mark:#ffffff;
+  }
+  body.nav-theme-red{
+    --nav-bg:rgba(140,0,34,.62); --nav-border:rgba(255,255,255,.28);
+    --nav-text:#ffffff; --nav-text-soft:rgba(255,255,255,.85); --nav-mark:#ffffff;
+  }
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:var(--z-nav);
+    background:var(--nav-bg); backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%);
+    border-bottom:1px solid transparent;
+    transition:background-color .45s var(--ease-out), border-color .45s var(--ease-out);
+  }
+  body.nav-scrolled .site-header{border-bottom-color:var(--nav-border);}
+  .header-inner{
+    max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad);
+    height:76px; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+  }
+  .brand{display:flex; align-items:center; gap:.65rem; min-width:0; flex-shrink:1; font-family:var(--font-display); font-size:1.08rem; font-weight:600; letter-spacing:-0.005em; color:var(--nav-text); transition:color .45s var(--ease-out);}
+  .brand-mark{position:relative; width:38px; height:38px; flex-shrink:0;}
+  .brand-mark svg{position:absolute; inset:0; width:100%; height:100%; transition:opacity .4s var(--ease-out);}
+  .brand-mark .mark-onred{opacity:0;}
+  body.nav-theme-red .brand-mark .mark-normal{opacity:0;}
+  body.nav-theme-red .brand-mark .mark-onred{opacity:1;}
+  .brand-name{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;}
+  .main-nav{display:flex; align-items:center; gap:2.1rem;}
+  .main-nav a{font-size:.94rem; color:var(--nav-text-soft); padding:.4rem 0; border-bottom:1px solid transparent; transition:color .35s var(--ease-out), border-color .35s var(--ease-out);}
+  .main-nav a:hover{color:var(--nav-text); border-color:var(--nav-border);}
+  .header-actions{display:flex; align-items:center; gap:1rem;}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; width:44px; height:44px; align-items:center; justify-content:center;}
+  .menu-toggle span{width:20px; height:1.5px; background:var(--nav-text); transition:transform .35s var(--ease-out), opacity .35s var(--ease-out), background-color .45s var(--ease-out);}
+
+  .mobile-menu{
+    position:fixed; inset:0; z-index:var(--z-mobile);
+    background:var(--surface-blush); color:var(--ink);
+    display:flex; flex-direction:column;
+    transform:translateY(-100%); transition:transform .55s var(--ease-in-out);
+  }
+  .mobile-menu.open{transform:translateY(0);}
+
+  /* Three anchored zones (brand bar / nav / utility bar) instead of one
+     flat list centered in the whole viewport — on a tall phone screen that
+     centered list just left large, arbitrary-feeling gaps above and below
+     it. Hairlines between zones borrow the same divider language used
+     throughout the rest of the page (parents register, footer, etc). */
+  .mobile-menu-top{
+    flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
+    padding:0 var(--pad); height:76px;
+  }
+  .mobile-menu-brand{display:flex; align-items:center; gap:.65rem; font-family:var(--font-display); font-size:1.05rem; font-weight:600; color:var(--ink);}
+  .mobile-menu-brand .brand-mark{width:34px; height:34px; flex-shrink:0;}
+  .mobile-close{width:44px; height:44px; flex-shrink:0;}
+
+  /* An index, not a stack of buttons — each row reads like an entry in a
+     table of contents (tracked red numeral, serif label, hairline rule),
+     borrowing the same numbered/hairline vocabulary already used by the
+     journey rail and the parents register instead of introducing generic
+     rounded-pill chrome the rest of the page never uses. */
+  .mobile-menu-links{
+    flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center; gap:.65rem;
+    padding:1rem var(--pad);
+    overflow-y:auto;
+  }
+  /* Real cards, not text-and-a-rule: same ink-rising-from-the-base reveal
+     already used on the Why Japan tiles, so tapping a nav item feels like
+     the same brand gesture rather than a new, generic button pattern. */
+  .mobile-menu-links a{
+    position:relative; isolation:isolate; overflow:hidden;
+    display:flex; align-items:center; gap:1rem;
+    padding:1.05rem 1.3rem; border-radius:16px;
+    background:var(--paper); border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(21,18,15,.04);
+    transition:border-color .4s var(--ease-out), box-shadow .4s var(--ease-out);
+  }
+  .mobile-menu-links a::before{
+    content:''; position:absolute; inset:0; z-index:-1; background:var(--red);
+    transform:scaleY(0); transform-origin:bottom;
+    transition:transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .mobile-menu-links .mnav-num{
+    flex-shrink:0; font-family:var(--font-body); font-size:.72rem; font-weight:600;
+    letter-spacing:.05em; color:var(--red); transition:color .3s var(--ease-out);
+  }
+  .mobile-menu-links .mnav-label{
+    flex:1; font-family:var(--font-display); font-size:1.3rem; font-weight:400;
+    color:var(--ink); transition:color .3s var(--ease-out);
+  }
+  .mobile-menu-links .mnav-arrow{
+    flex-shrink:0; width:1.05rem; height:1.05rem; color:var(--ink-35);
+    transition:color .3s var(--ease-out), transform .35s var(--ease-out);
+  }
+  .mobile-menu-links a:active{border-color:var(--red); box-shadow:0 10px 24px -14px rgba(188,0,45,.55);}
+  .mobile-menu-links a:active::before{transform:scaleY(1);}
+  .mobile-menu-links a:active .mnav-num,
+  .mobile-menu-links a:active .mnav-label{color:#fff;}
+  .mobile-menu-links a:active .mnav-arrow{color:#fff; transform:translateX(3px);}
+
+  .mobile-menu-bottom{
+    flex-shrink:0; padding:1.6rem var(--pad) 2.2rem; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:1.3rem;
+  }
+  .mobile-menu-bottom .btn{justify-content:center; text-align:center; width:100%;}
+  .mobile-menu-utility{display:flex; flex-direction:column; align-items:center; gap:1rem;}
+  .mobile-menu-contact{font-size:.88rem; color:var(--ink-70); border-bottom:1px solid transparent; transition:border-color .3s;}
+  .mobile-menu-contact:hover{border-color:var(--ink-55);}
+
+  /* ============ HERO ============ */
+  /* Header clearance lives on the section itself, not on hero-content, so
+     the content block can genuinely vertical-center in the remaining space
+     instead of centering a box with a lopsided top offset baked in. */
+  /* Fills the true first screen so the next section never peeks in before
+     you scroll — on tall/large displays a fixed cap here was leaving a gap
+     that exposed Why Japan underneath on initial load. */
+  .hero{position:relative; min-height:100dvh; padding-top:76px; display:flex; align-items:center; overflow:hidden; background:var(--paper);}
+  .hero-visual{position:absolute; inset:0; z-index:0;}
+  .hero-image{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top;}
+  .hero-calligraphy{
+    position:absolute; left:0; top:0;
+    display:flex; gap:.12em; pointer-events:none; visibility:hidden;
+    font-family:'Yuji Mai', serif; font-size:clamp(1.7rem,3.4vw,2.8rem); color:var(--ink); line-height:1;
+  }
+  .hero-calligraphy.positioned{visibility:visible;}
+  .hero-calligraphy .cal-char{display:inline-block;}
+  .hero-calligraphy .cal-char.js-armed{clip-path:inset(0 100% 0 0); opacity:0; transform:translateY(.08em);}
+  .hero-calligraphy .cal-char.js-armed.on{clip-path:inset(0 0% 0 0); opacity:1; transform:translateY(0); transition:clip-path .55s cubic-bezier(.4,0,.2,1), opacity .12s linear, transform .55s cubic-bezier(.4,0,.2,1);}
+  /* Fluid, not fixed: the artwork's visible reach grows at narrower desktop
+     widths (object-fit:cover scales it up), so the text column must shrink
+     with the viewport rather than holding a flat width and risking overlap. */
+  .hero-content{position:relative; z-index:2; max-width:clamp(420px, 46vw, 720px); padding:3.5rem var(--pad);}
+  .hero-kicker{font-family:var(--font-jp); color:var(--red); font-size:.95rem; font-weight:500; letter-spacing:.01em; margin-bottom:1.4rem;}
+  /* The one heading on the page allowed to feel like an opening line rather
+     than a section header: larger, and the destination itself picked out
+     in italic red so it reads as a distinct hero signature, not a bigger
+     copy of the H2 style used everywhere else. */
+  .hero-title{font-size:clamp(2.9rem, 5.8vw, 5.25rem); font-weight:500; line-height:1.06; letter-spacing:-0.03em; color:var(--ink); text-wrap:balance;}
+  .hero-title em{font-style:italic; color:var(--red); font-weight:400;}
+  .hero-lead{margin-top:1.6rem; font-size:1.15rem; line-height:1.65; color:var(--ink-70); max-width:40ch; text-wrap:pretty;}
+  .hero-actions{display:flex; align-items:center; gap:2.2rem; margin-top:2.6rem; flex-wrap:wrap;}
+  .btn-hero{padding:1rem 2.1rem; font-size:1rem;}
+  .scroll-cue{position:absolute; left:var(--pad); bottom:2.2rem; z-index:2; display:flex; align-items:center; gap:.7rem; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-55);}
+  .scroll-cue span{width:1px; height:34px; background:var(--ink-35); position:relative; overflow:hidden;}
+  .scroll-cue span::after{content:''; position:absolute; left:0; top:-100%; width:100%; height:100%; background:var(--red); animation:cueDrop 1.8s var(--ease-in-out) infinite;}
+  @keyframes cueDrop{ 0%{top:-100%;} 60%,100%{top:100%;} }
+  @media (prefers-reduced-motion:reduce){ .scroll-cue span::after{animation:none; top:0;} }
+
+  /* ============ SECTIONS: GENERIC ============ */
+  /* Every seam between sections stacks this section's bottom padding against
+     the next section's top padding, so a generous value on both sides
+     doubles the visible gap at each boundary. Kept small and symmetric so
+     consecutive sections read as close together, the way hero-to-Why-Japan
+     does. */
+  .section{position:relative; padding-top:clamp(2.5rem,5vw,4rem); padding-bottom:clamp(2.5rem,5vw,4rem);}
+  .section-head{max-width:640px; margin-bottom:clamp(2.6rem,6vw,4.5rem);}
+  .section-eyebrow{font-family:var(--font-jp); color:var(--red); font-size:.95rem; margin-bottom:1rem;}
+  .section-head h2{font-size:clamp(2rem,4vw,2.9rem); font-weight:500; line-height:1.12;}
+  .section-head h2 em, .services-sticky h2 em{font-style:italic; color:var(--red); font-weight:400;}
+  .contact-copy h2 em{font-style:italic; font-weight:400;}
+  .section-head p{margin-top:1.1rem; font-size:1.08rem; color:var(--ink-70); max-width:52ch;}
+
+  /* ============ WHY JAPAN — ink-wash tiles ============
+     Interactive tiles: on hover a red wash rises from the base of the tile
+     the way ink soaks up through paper, and the type inverts to read on it. */
+  /* Top padding cut well below the other sections' — this one follows the
+     full-bleed hero directly, so the heading should read the moment the
+     section starts rather than after another hero-sized pause. */
+  .study{background:linear-gradient(180deg, var(--paper) 0, var(--surface-mist) var(--fade), var(--surface-mist) calc(100% - var(--fade)), var(--paper) 100%); padding-top:clamp(2rem,4vw,3.25rem); padding-bottom:clamp(2.5rem,5vw,4rem);}
+  .section-head.why-head{max-width:none;}
+  /* No cap at all: any ch-based limit stops short of the tile grid's own
+     right edge, so the paragraph reads as narrower than the section
+     instead of matching it — same treatment as .why-head above. */
+  .section-head p.lead-wide{max-width:none;}
+  /* Explicit 3 columns rather than auto-fit: with a fixed set of 6 tiles,
+     auto-fit re-packs into 4-wide once the container is wide enough, which
+     orphans the last row as 2-of-4. A fixed count keeps the 3x2 grid whole
+     and just lets each tile grow wider on large screens instead. */
+  .why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.9rem,1.6vw,1.3rem);}
+  .why-tile{
+    position:relative; isolation:isolate; overflow:hidden;
+    padding:clamp(1.7rem,2.8vw,2.3rem);
+    background:var(--paper); border:1px solid var(--line);
+    display:flex; flex-direction:column; gap:.7rem;
+    transition:transform .5s var(--ease-out), border-color .5s var(--ease-out), box-shadow .5s var(--ease-out);
+  }
+  .why-tile::before{
+    content:''; position:absolute; inset:0; z-index:-1; background:var(--red);
+    transform:scaleY(0); transform-origin:bottom;
+    transition:transform .55s cubic-bezier(.22,1,.36,1);
+  }
+  .why-tile h3{font-family:var(--font-display); font-size:clamp(1.2rem,1.9vw,1.5rem); font-weight:500; line-height:1.25; letter-spacing:-0.01em; color:var(--ink); transition:color .4s var(--ease-out); text-wrap:balance;}
+  .why-tile p{font-size:.97rem; line-height:1.65; color:var(--ink-70); transition:color .4s var(--ease-out); text-wrap:pretty;}
+  .why-tile .why-mark{width:26px; height:2px; background:var(--red); transition:background-color .4s var(--ease-out), width .5s var(--ease-out);}
+  @media (hover:hover){
+    .why-tile:hover{transform:translateY(-4px); border-color:var(--red); box-shadow:0 18px 40px -24px rgba(188,0,45,.5);}
+    .why-tile:hover::before{transform:scaleY(1);}
+    .why-tile:hover h3{color:#fff;}
+    .why-tile:hover p{color:rgba(255,255,255,.86);}
+    .why-tile:hover .why-mark{background:#fff; width:44px;}
+  }
+  .why-tile:focus-within{border-color:var(--red);}
+  .reasons-close{margin:clamp(3.5rem,7vw,5.5rem) auto 0; padding-top:clamp(2rem,4vw,3rem); border-top:1px solid var(--line); max-width:680px; text-align:center;}
+  .reasons-close-q{font-family:var(--font-display); font-size:clamp(1.3rem,2.6vw,1.7rem); font-weight:400; line-height:1.4; color:var(--ink);}
+  .reasons-close-q em{font-style:italic; color:var(--red); font-weight:400;}
+  .reasons-close-q + .reasons-close-q{margin-top:.4rem;}
+  .reasons-close-a{margin-top:1.5rem; font-size:1.08rem; color:var(--ink-70);}
+
+  /* ============ PARENTS — direct address ============
+     A parent reads rather than scans, so this is one narrow column:
+     the question asked aloud, the answer directly beneath it. */
+  /* ============ PARENTS — the register ============
+     A two-column record: the question a parent actually asks on the left,
+     the plain answer on the right. Rules between rows, nothing boxed. */
+  .parents{background:linear-gradient(180deg, var(--paper) 0, var(--surface-blush) var(--fade), var(--surface-blush) calc(100% - var(--fade)), var(--paper) 100%); padding-top:clamp(2.5rem,5vw,4rem); padding-bottom:clamp(2.5rem,5vw,4rem);}
+  /* Same fix as the Why Japan lead: no cap on the header or its paragraph,
+     so the lead line runs the full width of the register below instead of
+     stopping short on the left. The <br> in the heading keeps its own
+     two-line break regardless. */
+  .section-head.parents-head{max-width:none;}
+  .section-head.parents-head p{max-width:none;}
+  .parents-eyebrow{font-family:var(--font-body); text-transform:uppercase; letter-spacing:.08em; font-weight:600;}
+  .parents-register{border-top:1px solid rgba(21,18,15,.16);}
+  .parents-row{
+    display:grid; grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);
+    gap:clamp(1.2rem,4vw,3.5rem);
+    padding:clamp(1.8rem,3.4vw,2.7rem) 0;
+    border-bottom:1px solid rgba(21,18,15,.16);
+  }
+  .parents-q{font-family:var(--font-display); font-size:clamp(1.25rem,2.3vw,1.72rem); font-weight:400; line-height:1.22; letter-spacing:-0.015em; color:var(--red); text-wrap:balance;}
+  .parents-a{font-size:1.02rem; line-height:1.75; color:var(--ink-70); text-wrap:pretty;}
+  /* No border here: the register's last row already draws the dividing rule,
+     and a second one directly beneath it read as a doubled line. */
+  .parents-close{margin-top:clamp(3rem,6vw,4.5rem); display:flex; flex-direction:column; align-items:center; text-align:center; gap:2rem;}
+  .parents-close-line{font-family:var(--font-display); font-size:clamp(1.25rem,2.4vw,1.55rem); font-weight:400; line-height:1.4; color:var(--ink);}
+  .parents-close-line + .parents-close-line{margin-top:.3rem;}
+
+  /* ============ JOURNEY LINE (station map) ============ */
+  /* Horizontal rail across the top of Services. It pins under the nav while
+     the section scrolls, and fills station by station as you go. */
+  .journey-rail{
+    position:sticky; top:76px; z-index:3;
+    margin-bottom:clamp(2.5rem,5vw,4rem);
+    padding:clamp(1.4rem,2.5vw,2rem) 0 clamp(1.2rem,2vw,1.6rem);
+    background:var(--paper); border-bottom:1px solid var(--line);
+  }
+  .rail-steps{display:flex; justify-content:space-between; align-items:flex-start; position:relative; width:100%;}
+  .rail-track{position:absolute; left:7px; right:7px; top:6px; height:2px; background:var(--line); overflow:hidden;}
+  .rail-fill{position:absolute; inset:0; background:var(--red); transform:scaleX(0); transform-origin:left center;}
+  .rail-step{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:.6rem; flex-shrink:0;}
+  .rail-dot{width:14px; height:14px; border-radius:50%; background:var(--paper); border:2px solid var(--line-strong);}
+  .rail-label{font-size:.85rem; color:var(--ink-55); white-space:nowrap;}
+  @media (max-width:640px){ .rail-label{font-size:.7rem;} }
+
+  /* ============ SERVICES — sticky split ============
+     The station map opens the section instead of a heading; the heading
+     then pins alongside the list so the two read as one held thought. */
+  .services-split{display:grid; grid-template-columns:minmax(240px,0.85fr) minmax(0,1.4fr); gap:clamp(2.5rem,6vw,5.5rem); align-items:start;}
+  /* Pins below the sticky rail, never behind it. --rail-h is measured in JS
+     because the rail's height moves with its clamped padding. */
+  .services-sticky{position:sticky; top:calc(76px + var(--rail-h, 104px) + 1.75rem);}
+  .services-sticky h2{font-size:clamp(2rem,4vw,2.9rem); font-weight:500; line-height:1.12; letter-spacing:-0.02em; text-wrap:balance;}
+  .services-sticky p{margin-top:1.1rem; font-size:1.05rem; line-height:1.7; color:var(--ink-70);}
+  .service-row{padding:clamp(1.7rem,3.2vw,2.4rem) 0; border-top:1px solid var(--line);}
+  .service-row:first-child{border-top:none; padding-top:0;}
+  .service-row h3{font-size:clamp(1.2rem,2.1vw,1.5rem); font-weight:500; letter-spacing:-0.01em;}
+  .service-hook{margin-top:.45rem; font-size:1.02rem; color:var(--ink);}
+  .service-row p{margin-top:.55rem; font-size:.98rem; line-height:1.7; color:var(--ink-70); text-wrap:pretty;}
+  .services-close{margin-top:clamp(2.5rem,5vw,3.5rem); padding-top:clamp(2rem,4vw,2.6rem); border-top:1px solid var(--line); max-width:52ch; font-family:var(--font-display); font-size:clamp(1.2rem,2.2vw,1.55rem); font-weight:400; line-height:1.45; color:var(--ink); text-wrap:pretty;}
+  .services-close em, .founder-copy p.founder-close em{font-style:italic; color:var(--red); font-weight:400;}
+
+
+  /* ============ CONSULTATION ============ */
+  /* No sticky descendants here, unlike the founder section, so overflow can
+     just live on the section itself to clip the watermark. */
+  .consultation{background:var(--red); color:#fff; position:relative; overflow:hidden;}
+  .consultation-mark{position:absolute; top:50%; left:clamp(-3rem,-6vw,-1.5rem); transform:translateY(-50%); font-family:var(--font-jp); font-size:clamp(16rem,32vw,28rem); line-height:1; color:#fff; opacity:.08; pointer-events:none; user-select:none; z-index:0;}
+  /* Centered rather than top-aligned: the copy is much shorter than the
+     form, and pinning it to the top just leaves a void underneath it —
+     centering distributes the extra room evenly instead. */
+  .consultation-grid{position:relative; z-index:1; display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(2.5rem,6vw,5rem); align-items:center;}
+  .consultation h2{font-size:clamp(2rem,4vw,2.9rem); color:#fff; font-weight:500;}
+  .consultation-copy p{margin-top:1.3rem; color:rgba(255,255,255,.85); font-size:1.15rem; line-height:1.65; max-width:46ch;}
+  .consultation-list{margin-top:2.4rem; display:flex; flex-direction:column; gap:1.3rem;}
+  .consultation-list li{display:flex; gap:.85rem; font-size:1.05rem; color:rgba(255,255,255,.92);}
+  .consultation-list .icon{color:#fff; width:1.1rem; height:1.1rem; margin-top:.2rem;}
+  /* Lifted off the red field behind it rather than just butting up against
+     it — a rounded card with real depth reads as an object you'd fill in,
+     not a flat panel that happens to be a different color. */
+  .consultation-form{background:#fbf8f7; color:var(--ink); padding:clamp(2rem,4.5vw,3rem); border-radius:20px; box-shadow:0 40px 70px -30px rgba(0,0,0,.45); display:flex; flex-direction:column; gap:1.3rem;}
+  .consultation-form-kicker{font-family:var(--font-display); font-weight:400; font-size:1.25rem; color:var(--ink); margin-bottom:.2rem;}
+  .field{display:flex; flex-direction:column; gap:.45rem;}
+  .field label{font-size:.82rem; font-weight:500; color:var(--ink-70);}
+  .field input, .field select, .field textarea{
+    border:1px solid var(--line-strong); border-radius:10px; padding:.85rem 1rem; background:var(--paper); font-size:.98rem; width:100%;
+    transition:border-color .25s var(--ease-out), box-shadow .25s var(--ease-out);
+  }
+  /* Height-only resize handle — the browser default drags width too, which
+     at this fixed-width form just breaks the layout. */
+  .field textarea{resize:vertical;}
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--red); box-shadow:0 0 0 3px rgba(188,0,45,.12); outline:none;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  .form-hint{font-size:.78rem; color:var(--ink-35);}
+  .consultation-form .btn{margin-top:.4rem; justify-content:center;}
+  .form-note{font-size:.85rem; min-height:1.2em;}
+  .form-note.success, .form-note.error{color:var(--red); font-weight:500;}
+  .form-privacy{margin-top:-.6rem; font-size:.78rem; line-height:1.5; color:var(--ink-35); text-align:center;}
+  .form-success{display:none; text-align:center; padding:1.5rem 0;}
+  .form-success.show{display:block;}
+  .form-success .icon{width:2.6rem; height:2.6rem; color:var(--red); margin:0 auto 1rem;}
+  .form-fields{display:contents;}
+  .form-honeypot{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .consultation-form.submitted .form-fields{display:none;}
+
+  /* ============ FAQ ============ */
+  .faq-tabs{display:inline-flex; position:relative; border:1px solid var(--line-strong); border-radius:999px; padding:4px; margin-bottom:2.8rem;}
+  .faq-tab{position:relative; z-index:2; padding:.75rem 1.7rem; font-size:.92rem; font-weight:500; color:var(--ink-55); border-radius:999px; transition:color .3s var(--ease-out);}
+  .faq-tab[aria-selected="true"]{color:#fff;}
+  .faq-indicator{position:absolute; z-index:1; top:4px; bottom:4px; left:4px; background:var(--red); border-radius:999px; transition:transform .4s var(--ease-out), width .4s var(--ease-out);}
+  .faq-panel[hidden]{display:none;}
+  .acc-item{border-top:1px solid var(--line);}
+  .acc-item:last-child{border-bottom:1px solid var(--line);}
+  .acc-trigger{width:100%; display:flex; justify-content:space-between; align-items:center; gap:1.5rem; padding:1.5rem 0; text-align:left; font-size:1.08rem; font-weight:500;}
+  .acc-plus{position:relative; width:18px; height:18px; flex-shrink:0;}
+  .acc-plus::before, .acc-plus::after{content:''; position:absolute; background:var(--ink); transition:transform .35s var(--ease-out);}
+  .acc-plus::before{left:0; top:50%; width:100%; height:1.5px; transform:translateY(-50%);}
+  .acc-plus::after{top:0; left:50%; width:1.5px; height:100%; transform:translateX(-50%);}
+  .acc-trigger[aria-expanded="true"] .acc-plus::after{transform:translateX(-50%) rotate(90deg); opacity:0;}
+  .acc-trigger[aria-expanded="true"] .acc-plus::before{background:var(--red);}
+  .acc-panel{display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s var(--ease-out);}
+  .acc-panel-inner{overflow:hidden;}
+  .acc-trigger[aria-expanded="true"] + .acc-panel{grid-template-rows:1fr;}
+  .acc-panel p{padding-bottom:1.6rem; padding-right:3.5rem; color:var(--ink-70); font-size:1rem;}
+
+  /* ============ FOUNDER ============ */
+  /* The one interlude on the page that isn't a grid, a register or a form:
+     a framed photo deck pinned beside a personal note, so it reads as a
+     pause in the site's rhythm rather than another content section. */
+  /* No overflow:hidden here even though the watermark bleeds past the edge —
+     an ancestor with overflow other than visible breaks position:sticky for
+     the photo ring below. body already clips horizontal overflow globally. */
+  /* A fine paper-fiber texture (same noise technique and strength as the
+     page-wide .grain overlay, just local to this section) — reads as a
+     slightly different sheet of paper rather than another flat section,
+     without touching the palette at all. */
+  .founder{background:var(--paper); position:relative;}
+  .founder-texture{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    opacity:.045; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:180px 180px;
+  }
+  /* Chapter-break mark instead of a rule: kome-jirushi (※) is the actual
+     Japanese typographic symbol for a note or aside — quietly on-theme for
+     "a note from the founder" and enough on its own to signal a change in
+     section without a line across the page. */
+  .founder-ornament{position:relative; z-index:1; display:flex; align-items:center; justify-content:center; gap:.9rem; padding-top:clamp(.5rem,1.5vw,1.2rem); margin-bottom:clamp(2rem,4vw,3.2rem);}
+  .founder-ornament::before, .founder-ornament::after{content:''; width:clamp(28px,4vw,48px); height:1px; background:var(--line-strong);}
+  .founder-ornament span{font-family:var(--font-jp); color:var(--red); font-size:1.6rem; line-height:1;}
+  /* Clips only the watermark, as its own layer — giving .founder itself
+     overflow:hidden would clip the mark too, but it also breaks
+     position:sticky for the photo ring elsewhere in this section. */
+  .founder-mark-clip{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;}
+  .founder-mark{position:absolute; top:50%; right:clamp(-3rem,-5vw,-1rem); transform:translateY(-50%); font-family:var(--font-jp); font-size:clamp(16rem,34vw,30rem); line-height:1; color:var(--ink); opacity:.035; user-select:none;}
+  .founder-grid{position:relative; z-index:1; display:grid; grid-template-columns:minmax(280px,0.9fr) 1.1fr; gap:clamp(2.5rem,6vw,5.5rem); align-items:start;}
+
+  /* One photo shows at a time inside a fixed polaroid frame that never
+     itself moves or resizes; only the picture inside changes. Each source
+     photo was pre-composited (see Pictures/web/) onto a square canvas with
+     a soft blurred continuation of its own background filling the edges —
+     so a photo that isn't naturally square never shows a flat empty
+     margin, just an out-of-focus extension of the same scene. */
+  /* min-width:0 overrides the grid item's default min-width:auto — without
+     it, a descendant's intrinsic size (here, an image at its native pixel
+     width before percentage sizing resolves) can force this column wider
+     than its own grid track. */
+  .founder-visual{position:sticky; top:calc(76px + 2rem); min-width:0;}
+  .founder-polaroid{
+    position:relative; width:100%; max-width:500px; margin:0 auto;
+    background-color:#fbf9f4; padding:16px 16px 60px;
+    box-shadow:0 30px 60px -24px rgba(21,18,15,.4), inset 0 0 0 1px rgba(21,18,15,.04);
+  }
+  /* A faint fiber texture on the card itself — same low-opacity noise
+     technique used elsewhere on the page — so the border reads as a
+     printed paper stock rather than a flat CSS rectangle. */
+  .founder-polaroid::before{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    opacity:.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:180px 180px;
+  }
+  .founder-window{position:relative; width:100%; aspect-ratio:1/1; background:var(--surface-mist); overflow:hidden;}
+  .founder-window img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .5s var(--ease-out);}
+  .founder-window img.is-active{opacity:1;}
+  /* Two strips of tape, torn off a roll rather than cut — jagged short ends
+     via clip-path, straight long edges — pinned at opposite corners on the
+     same diagonal, like a photo tacked to a corkboard. Patterned like real
+     washi tape (a Japanese paper tape, fittingly) rather than plain
+     masking tape: a dusty-rose tint of the brand red, dotted, with a soft
+     diagonal sheen. */
+  .polaroid-tape{
+    position:absolute; z-index:2;
+    width:104px; height:34px;
+    background-color:#e7ab9f;
+    background-image:radial-gradient(circle, rgba(255,255,255,.92) 2px, transparent 2.3px);
+    background-size:15px 15px;
+    background-position:4px 5px;
+    box-shadow:0 4px 8px rgba(21,18,15,.22);
+    opacity:.96;
+    clip-path:polygon(4% 0%, 9% 14%, 3% 26%, 10% 40%, 2% 54%, 9% 68%, 3% 82%, 8% 94%, 4% 100%, 96% 100%, 92% 90%, 98% 78%, 91% 64%, 99% 50%, 90% 36%, 97% 22%, 91% 10%, 96% 0%);
+  }
+  /* Centered exactly on the corner point (half the strip's own width/height
+     offset, not a flat guess) so rotating it -45deg leaves equal length
+     hanging past the edge on both sides — an even guess like -14px/-14px
+     looks symmetric on a square strip but not on a 104x34 rectangle. */
+  .polaroid-tape--tl{top:-17px; left:-52px; transform:rotate(-45deg);}
+  .polaroid-tape--br{bottom:-17px; right:-52px; transform:rotate(-45deg);}
+  .polaroid-tape::after{
+    content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(100deg, rgba(255,255,255,.35) 0 2px, transparent 2px 6px);
+    mix-blend-mode:overlay;
+  }
+  .founder-caption{margin-top:1.5rem; text-align:center; font-family:var(--font-display); font-style:italic; font-size:.95rem; color:var(--ink-70);}
+  .founder-controls{margin-top:1rem; display:flex; align-items:center; justify-content:center; gap:1.2rem;}
+  .founder-arrow{width:2.3rem; height:2.3rem; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; color:var(--ink-70); flex-shrink:0; transition:border-color .3s var(--ease-out), color .3s var(--ease-out);}
+  .founder-arrow:hover{border-color:var(--red); color:var(--red);}
+  .founder-arrow .icon{width:1rem; height:1rem;}
+  .founder-prev .icon{transform:rotate(180deg);}
+  .founder-progress{display:flex; align-items:center; gap:.5rem;}
+  .founder-dot{width:1.4rem; height:2px; background:var(--line-strong); cursor:pointer; transition:background-color .3s var(--ease-out), width .3s var(--ease-out);}
+  .founder-dot.is-active{background:var(--red); width:2.2rem;}
+
+  .founder-copy .section-head{margin-bottom:2rem;}
+  .founder-eyebrow{font-family:var(--font-display); font-style:italic; font-weight:400; color:var(--red); font-size:1.1rem; margin-bottom:.9rem;}
+  .founder-copy p{margin-top:1.4rem; max-width:62ch; color:var(--ink-70); font-size:1.03rem; line-height:1.75; text-wrap:pretty;}
+  /* Same type as every other paragraph here — only the spacing differs,
+     so the note reads as one consistent voice instead of switching styles
+     mid-story. */
+  .founder-copy p.founder-lede{margin-top:0;}
+  .founder-copy p.founder-close{margin-top:clamp(2.2rem,4.5vw,3rem); padding-top:clamp(1.8rem,3.5vw,2.4rem); border-top:1px solid var(--line);}
+
+  /* ============ CONTACT ============ */
+  .contact{background:var(--ink); color:var(--cream);}
+  /* Top-aligned rather than centered: the copy block is short and the map
+     is tall, and centering a short block against a much taller graphic
+     just splits the empty space above and below it instead of removing it. */
+  .contact-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(2.5rem,6vw,5rem); align-items:start;}
+  .contact h2{font-size:clamp(2.1rem,4.5vw,3.2rem); color:var(--cream); font-weight:500;}
+  .contact-copy > p{margin-top:1.2rem; color:var(--cream-70); font-size:1.08rem; max-width:44ch;}
+  .contact-links{display:flex; flex-direction:column; gap:.5rem; margin-top:2.2rem; font-size:1.05rem;}
+  .contact-links a{border-bottom:1px solid var(--line-on-ink-strong); width:fit-content; padding-bottom:.15rem; transition:border-color .3s;}
+  .contact-links a:hover{border-color:var(--red);}
+  .contact-map-wrap{max-width:none; width:100%;}
+  .contact-map-stage{position:relative; aspect-ratio:1999/1069; width:100%; display:block;}
+  .contact-map-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:.55;}
+
+  /* ============ SITE FOOTER ============ */
+  .site-footer{background:var(--ink); color:var(--cream);}
+  .footer-grid{display:grid; grid-template-columns:1.2fr 1.4fr 1fr; gap:clamp(2rem,5vw,4rem); padding-top:clamp(3rem,6vw,4.5rem); padding-bottom:clamp(2.5rem,5vw,3.5rem); border-bottom:1px solid var(--line-on-ink);}
+  .footer-col{display:flex; flex-direction:column; align-items:flex-start; gap:.85rem;}
+  .footer-heading{font-family:var(--font-body); font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.09em; color:var(--cream-70); margin-bottom:.3rem;}
+  .footer-col a{font-size:.95rem; line-height:1.4; color:var(--cream-70); width:fit-content; border-bottom:1px solid transparent; padding-bottom:1px; transition:color .3s var(--ease-out), border-color .3s var(--ease-out);}
+  .footer-col a:hover{color:var(--cream); border-color:var(--line-on-ink-strong);}
+  .footer-bottom-bar{padding-top:1.4rem; padding-bottom:1.8rem; font-size:.82rem; color:var(--cream-70);}
+  @media (max-width:860px){
+    .footer-grid{grid-template-columns:1fr; gap:2.2rem;}
+  }
+
+  /* ============ LANGUAGE SWITCH ============ */
+  .lang-switch{
+    position:relative; display:inline-flex; align-items:center; flex-shrink:0;
+    border:1px solid var(--nav-border); border-radius:999px; padding:3px;
+    transition:border-color .45s var(--ease-out);
+  }
+  .lang-switch-fill{
+    position:absolute; z-index:1; top:3px; bottom:3px; left:3px; width:36px;
+    background:var(--red); border-radius:999px;
+    transition:transform .35s var(--ease-out), width .35s var(--ease-out);
+  }
+  .lang-switch button{
+    position:relative; z-index:2; padding:.4rem .8rem; font-size:.82rem; font-weight:600;
+    color:var(--nav-text-soft); border-radius:999px; transition:color .35s var(--ease-out);
+  }
+  .lang-switch button[aria-pressed="true"]{color:#fff;}
+  .lang-switch button:not([aria-pressed="true"]):hover{color:var(--nav-text);}
+  .lang-switch-ur{font-family:var(--font-ur); font-size:1rem; line-height:1;}
+  .mobile-menu .lang-switch{border-color:var(--line-strong);}
+  .mobile-menu .lang-switch button{color:var(--ink-55);}
+  .mobile-menu .lang-switch button:not([aria-pressed="true"]):hover{color:var(--ink);}
+  .mobile-menu .lang-switch button[aria-pressed="true"]{color:#fff;}
+
+  /* ============ URDU / RTL ============ */
+  /* html[dir="rtl"] is set on the root, so every grid and flex container on
+     the page mirrors automatically (CSS Grid/Flexbox are direction-aware by
+     spec) — the parents Q&A columns, service split, founder photo/copy,
+     consultation form, contact map, card grids and nav all flip order for
+     free, with no manual reordering needed. What direction:rtl does NOT
+     touch is anything positioned with physical left/right/transform values
+     (watermarks, the hero's composited artwork, the scroll cue) — those stay
+     exactly where they were designed to sit. Two places are deliberately
+     opted OUT of the mirror below because flipping them breaks something:
+     the hero (its artwork is asymmetric — text sliding right would collide
+     with the blossom mass) and the journey rail (its fill bar is a scroll-
+     scrubbed GSAP animation anchored to a literal left edge; mirroring the
+     step order without also rewriting the animation would desync them). */
+  [data-i18n][dir="rtl"]{
+    font-family:var(--font-ur); direction:rtl; text-align:right;
+    line-height:2.1; unicode-bidi:isolate;
+  }
+  h1[data-i18n][dir="rtl"], h2[data-i18n][dir="rtl"], h3[data-i18n][dir="rtl"]{
+    letter-spacing:0; line-height:1.9;
+  }
+  [data-i18n][dir="rtl"] em{font-style:normal;}
+  .parents-eyebrow[data-i18n][dir="rtl"]{text-transform:none;}
+  .acc-trigger [data-i18n][dir="rtl"]{text-align:right;}
+  html[lang="ur"] .acc-panel p{padding-right:0; padding-left:3.5rem;}
+  html[lang="ur"] .form-hint[data-i18n][dir="rtl"]{display:inline;}
+
+  /* Opt-outs: these two keep their original left-to-right structure and
+     animation regardless of page direction; the Urdu text inside them still
+     renders correctly RTL via the [data-i18n][dir="rtl"] rule above, which
+     sets direction on the text node itself independent of its ancestors. */
+  html[dir="rtl"] .hero, html[dir="rtl"] .journey-rail, html[dir="rtl"] .rail-steps{
+    direction:ltr;
+  }
+
+  /* Directional icons: an arrow that means "forward" has to point the other
+     way once reading runs right-to-left, or it reads backwards. */
+  html[dir="rtl"] .btn-text .icon{transform:scaleX(-1);}
+  html[dir="rtl"] .btn-text:hover .icon{transform:scaleX(-1) translateX(4px);}
+  html[dir="rtl"] .founder-prev .icon{transform:rotate(0deg);}
+  html[dir="rtl"] .founder-next .icon{transform:rotate(180deg);}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .main-nav{display:none;}
+    .menu-toggle{display:flex;}
+    .header-actions > .btn{display:none;}
+    .consultation-grid, .contact-grid{grid-template-columns:1fr;}
+    .contact-grid{gap:3rem;}
+    .contact-map-wrap{max-width:460px; width:100%; margin:0 auto;}
+    .services-split{grid-template-columns:1fr; gap:2.5rem;}
+    .services-sticky{position:static;}
+    .founder-grid{grid-template-columns:1fr; gap:2.5rem;}
+    .founder-visual{position:static;}
+    /* Question stacked above answer instead of a cramped side-by-side split
+       — at phone widths the question column was narrow enough to force
+       "Is Japan safe?" and similar short questions onto two ragged lines,
+       and the answer column into a tall, awkward story of tiny short lines. */
+    .parents-row{grid-template-columns:1fr; gap:.6rem;}
+  }
+  @media (max-width:640px){
+    .founder-polaroid{max-width:380px;}
+  }
+  @media (max-width:860px){
+    .why-grid{grid-template-columns:1fr;}
+  }
+  @media (min-width:861px) and (max-width:1100px){
+    .why-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  /* Below 1280px the artwork's object-fit:cover scale becomes governed by
+     height rather than width, so it grows disproportionately large and the
+     branch reaches far enough into the frame that no side-by-side column
+     width clears it without becoming unreasonably narrow (verified directly:
+     even 300px still collided at 641px). The stacked layout — image as its
+     own band, text below rather than beside it — sidesteps the collision by
+     construction instead of chasing an ever-narrower column. */
+  @media (max-width:1279px){
+    /* Reflow only — the desktop side-by-side hero is untouched above 1279px.
+       .hero-content itself has no reason to keep its own box at this width:
+       display:contents dissolves it so its children (kicker, title, lead,
+       actions) become direct flex items of .hero and can be freed to
+       interleave with .hero-visual via `order`, instead of being stuck
+       together as one block before or after the artwork. Each child picks
+       up the horizontal padding and max-width .hero-content used to provide,
+       since a display:contents element renders no box of its own to carry
+       them. */
+    .hero{display:flex; flex-direction:column; align-items:center; min-height:auto; padding-top:calc(70px + 2.25rem); overflow:visible;}
+    .hero-content{display:contents;}
+    .hero-kicker{order:1; margin:0 var(--pad); max-width:640px; text-align:center; font-size:.8rem;}
+    .hero-title{order:2; margin:.4rem var(--pad) 0; max-width:640px; text-align:center; font-size:clamp(3rem,13.5vw,3.7rem); font-weight:500; line-height:1.02; letter-spacing:-0.025em;}
+    .hero-lead{order:3; margin:1.75rem var(--pad) 0; max-width:640px; text-align:center; font-size:.94rem; line-height:1.45;}
+    /* aspect-ratio matches the mobile artwork exactly (1280x720) and
+       object-fit:contain never crops — the full edge-to-edge branch is
+       always shown whole, letterboxing rather than cutting it if a given
+       phone's width ever rounds the box off-ratio by a pixel or two. */
+    .hero-visual{order:4; position:relative; inset:auto; margin-top:1.75rem; width:100%; height:auto; aspect-ratio:1280/720;}
+    .hero-image{object-fit:contain; object-position:center center;}
+    /* Promoted out of .hero-visual (see markup) so it can take its own row
+       in the mobile stack — the JS still computes a tip-relative left/top
+       for it, but as a statically-positioned element those are simply
+       ignored, and it centers itself as an ordinary block instead. */
+    .hero-calligraphy{
+      order:5; position:static !important; visibility:visible !important;
+      justify-content:center; margin:.65rem var(--pad) 0;
+      font-size:clamp(1.3rem,6.2vw,1.7rem);
+    }
+    .hero-actions{order:6; margin:2rem var(--pad) 0; justify-content:center; text-align:center;}
+    .scroll-cue{order:7; position:static; margin:.5rem var(--pad) .75rem;}
+  }
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .field-row{grid-template-columns:1fr;}
+    .reasons-close-q{font-size:clamp(0.8rem, 4.1vw, 1.12rem); line-height:1.35; white-space:nowrap;}
+  }
+  /* On narrow phones the card sits close enough to the screen edge that the
+     tape's normal bleed (right:-52px) pushes past the actual viewport edge,
+     creating real (if invisible) horizontal scroll room. Pull it in just
+     enough to stay inside the edge; unaffected above this width, where
+     there's enough side margin to absorb the full bleed. */
+  @media (max-width:480px){
+    .polaroid-tape--br{right:-20px;}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="logo-mark-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+      <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+      <g transform="translate(12,-17.92) scale(0.88)">
+        <polygon points="100,72 178,98 100,124 22,98" fill="#000"/>
+        <rect x="64" y="118" width="72" height="16" fill="#000"/>
+        <polygon points="74,134 90,134 84,196 64,196" fill="#000"/>
+        <polygon points="110,134 126,134 136,196 116,196" fill="#000"/>
+        <rect x="68" y="160" width="64" height="10" fill="#000"/>
+      </g>
+    </mask>
+  </defs>
+  <symbol id="logo-mark" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#BC002D" mask="url(#logo-mark-mask)"/></symbol>
+  <symbol id="logo-mark-ink" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#15120F" mask="url(#logo-mark-mask)"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9L12 4l10 5-10 5L2 9Z"/><path d="M6 11.3V16c0 1.66 2.69 3 6 3s6-1.34 6-3v-4.7"/><path d="M22 9v6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M3 5h13v9H9l-4.5 3.3V14H3V5Z"/><path d="M21 10.5v6.5h-3v3l-4-3h-3.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6V3Z"/><path d="M15 3v4h4"/><path d="M9 12.5h6M9 15.5h4"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.7v8.6"/><path d="M9.6 9.6c0-1 1-1.7 2.4-1.7s2.4.8 2.4 1.7c0 1.1-1 1.5-2.4 1.9-1.4.4-2.4.9-2.4 1.9 0 1 1 1.7 2.4 1.7s2.4-.6 2.4-1.7"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-1.8 5.6-5.6 1.8 1.8-5.6 5.6-1.8Z"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 11c-2.5 4.65-9.5 9-9.5 9Z"/><path d="M4.5 11.5h3l1.5-2.3 2 4.6 1.5-2.3h3.4"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</svg>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <img class="loader-mark" id="loaderMark" src="Painted_Logo.png" width="104" alt="" aria-hidden="true">
+  <p class="loader-calligraphy" id="loaderCalligraphy">
+    <span class="cal-char">日</span><span class="cal-char">本</span><span class="cal-char">で</span><span class="cal-char">、</span><span class="cal-char">夢</span><span class="cal-char">を</span><span class="cal-char">叶</span><span class="cal-char">え</span><span class="cal-char">る</span>
+  </p>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg class="mark-normal" viewBox="0 0 200 200"><use href="#logo-mark"/></svg>
+        <svg class="mark-onred" viewBox="0 0 200 200"><use href="#logo-mark-ink"/></svg>
+      </span>
+      <span class="brand-name">Japan Bound Education</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#study" data-i18n="nav.why">Why Japan</a>
+      <a href="#parents" data-i18n="nav.parents">For Parents</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#founder" data-i18n="nav.founder">Founder</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Language / زبان">
+        <span class="lang-switch-fill" aria-hidden="true"></span>
+        <button type="button" class="lang-switch-en" data-lang-btn="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-switch-ur" data-lang-btn="ur" aria-pressed="false">اردو</button>
+      </div>
+      <a href="#consultation" class="btn btn-primary btn-sm" data-i18n="cta.headerBook">Book Free Consultation</a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <div class="mobile-menu-top">
+    <a href="#top" class="mobile-menu-brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#logo-mark"/></svg></span>
+      <span>Japan Bound Education</span>
+    </a>
+    <button class="mobile-close icon" id="mobileClose" aria-label="Close menu"><svg class="icon" style="color:inherit;width:100%;height:100%"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="mobile-menu-links">
+    <a href="#study"><span class="mnav-num" aria-hidden="true">01</span><span class="mnav-label" data-i18n="nav.why">Why Japan</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a href="#parents"><span class="mnav-num" aria-hidden="true">02</span><span class="mnav-label" data-i18n="nav.parents">For Parents</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a href="#services"><span class="mnav-num" aria-hidden="true">03</span><span class="mnav-label" data-i18n="nav.services">Services</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a href="#founder"><span class="mnav-num" aria-hidden="true">04</span><span class="mnav-label" data-i18n="nav.founder">Founder</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a href="#faq"><span class="mnav-num" aria-hidden="true">05</span><span class="mnav-label" data-i18n="nav.faq">FAQ</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <a href="#contact"><span class="mnav-num" aria-hidden="true">06</span><span class="mnav-label" data-i18n="nav.contact">Contact</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+  <div class="mobile-menu-bottom">
+    <a href="#consultation" class="btn btn-primary" data-i18n="cta.headerBook">Book Free Consultation</a>
+    <div class="mobile-menu-utility">
+      <a href="mailto:info@japanboundeducation.com" class="mobile-menu-contact" dir="ltr">info@japanboundeducation.com</a>
+      <div class="lang-switch" role="group" aria-label="Language / زبان">
+        <span class="lang-switch-fill" aria-hidden="true"></span>
+        <button type="button" class="lang-switch-en" data-lang-btn="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-switch-ur" data-lang-btn="ur" aria-pressed="false">اردو</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="hero" id="top" data-nav-theme="light">
+  <div class="hero-visual">
+    <picture>
+      <source media="(max-width: 1279px)" srcset="Overview_Mobile_Layout.png">
+      <img class="hero-image" src="Website_Overview.png" alt="" aria-hidden="true">
+    </picture>
+  </div>
+  <p class="hero-calligraphy" id="heroCalligraphy" aria-hidden="true">
+    <span class="cal-char">日</span><span class="cal-char">本</span><span class="cal-char">で</span><span class="cal-char">、</span><span class="cal-char">夢</span><span class="cal-char">を</span><span class="cal-char">叶</span><span class="cal-char">え</span><span class="cal-char">る</span>
+  </p>
+  <div class="hero-content">
+    <p class="hero-kicker" data-i18n="hero.kicker">Japan Education Consulting</p>
+    <h1 class="hero-title" data-i18n="hero.title">Your gateway to <em>Japan</em></h1>
+    <p class="hero-lead" data-i18n="hero.lead">Japan Bound Education is an educational consultancy dedicated to helping high school students pursue higher education at Japanese universities. We provide comprehensive guidance throughout the entire journey, from university selection to pre-departure support.</p>
+    <div class="hero-actions">
+      <a href="#consultation" class="btn btn-primary btn-hero" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+      <a href="#services" class="btn btn-text"><span data-i18n="hero.seeHow">See how it works</span> <svg class="icon"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span></span>Scroll</div>
+</section>
+
+<section class="section study" id="study" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head why-head reveal">
+      <p class="section-eyebrow">なぜ今、日本か</p>
+      <h2 data-i18n="study.h2">Why Japan, Why <em>Now</em>?</h2>
+      <p class="lead-wide" data-i18n="study.lead">Japan offers a different path to an international education. While the US, UK, Canada and Australia remain popular choices, Japan offers students another opportunity: respected education, comparatively accessible costs, scholarship opportunities, and the chance to gain experience in a country where international talent is becoming increasingly important.</p>
+    </header>
+
+    <div class="why-grid reveal">
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why1.h">Strong universities, without the usual tuition</h3>
+        <p data-i18n="why1.p">Japan offers respected education at costs that compare favourably with the US, UK, Canada and Australia.</p>
+      </article>
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why2.h">Scholarships actually within reach</h3>
+        <p data-i18n="why2.p">Government, university, local and private scholarship programs can meaningfully reduce the cost of studying in Japan.</p>
+      </article>
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why3.h">A job market changing in your favour</h3>
+        <p data-i18n="why3.p">Japan's demographic and workforce challenges are creating growing opportunities for international graduates with the right skills.</p>
+      </article>
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why4.h">An education and an experience at once</h3>
+        <p data-i18n="why4.p">Study, learn the language, work part-time where permitted, build your network and gain experience while you're here.</p>
+      </article>
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why5.h">You can begin in English</h3>
+        <p data-i18n="why5.p">You don't necessarily need advanced Japanese to start. A growing number of Japanese universities offer degree programs taught entirely in English.</p>
+      </article>
+      <article class="why-tile" tabindex="0">
+        <span class="why-mark" aria-hidden="true"></span>
+        <h3 data-i18n="why6.h">A future that doesn't end at graduation</h3>
+        <p data-i18n="why6.p">For students who want to stay longer, Japan can be more than a place to earn a degree. It can become a place to build professional experience and explore a career.</p>
+      </article>
+    </div>
+
+    <div class="reasons-close reveal">
+      <p class="reasons-close-q" data-i18n="reasons.q1">The question isn't simply <em>&ldquo;Can I study in Japan?&rdquo;</em></p>
+      <p class="reasons-close-q" data-i18n="reasons.q2">It's <em>&ldquo;Could Japan be the right place for my future?&rdquo;</em></p>
+      <p class="reasons-close-a" data-i18n="reasons.a">That's what Japan Bound Education helps you figure out.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section parents" id="parents" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head parents-head reveal">
+      <p class="section-eyebrow parents-eyebrow" data-i18n="parents.eyebrow">For Parents</p>
+      <h2 data-i18n="parents.h2">For your child.<br>For your <em>peace of mind</em>.</h2>
+      <p data-i18n="parents.lead">Sending your child abroad is a major decision. We help you understand what studying and living in Japan actually means, so you can make that decision with confidence.</p>
+    </header>
+
+    <div class="parents-register">
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq1.q">Is Japan safe?</h3>
+        <p class="parents-a" data-i18n="pq1.a">Japan is consistently recognized as one of the safest countries in the world, with low crime, reliable public transportation, and a well-organized society. It gives students the opportunity to experience independence while living in a secure environment.</p>
+      </div>
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq2.q">Will my child be welcomed?</h3>
+        <p class="parents-a" data-i18n="pq2.a">Japan is becoming increasingly international, with students and professionals arriving from around the world. Regardless of their nationality, culture, or religious background, students can build their own community while experiencing Japanese society.</p>
+      </div>
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq3.q">What will it cost?</h3>
+        <p class="parents-a" data-i18n="pq3.a">Studying in Japan can be more affordable than many traditional study-abroad destinations, particularly when it comes to tuition and living costs. With careful planning and the right university or scholarship, Japan can offer a high-quality education at a manageable cost.</p>
+      </div>
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq4.q">Are there scholarships?</h3>
+        <p class="parents-a" data-i18n="pq4.a">Yes. Japan offers a wide range of scholarships and tuition-reduction opportunities, including government, university, local and private scholarships. The challenge is knowing which opportunities your child is eligible for and how to apply for them.</p>
+      </div>
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq5.q">What happens after graduation?</h3>
+        <p class="parents-a" data-i18n="pq5.a">Studying in Japan can be more than earning a degree. Students can develop Japanese language skills, gain international experience and explore opportunities to begin their careers in Japan after graduation.</p>
+      </div>
+      <div class="parents-row reveal">
+        <h3 class="parents-q" data-i18n="pq6.q">Who will support my child?</h3>
+        <p class="parents-a" data-i18n="pq6.a">Japan Bound Education supports students throughout the journey, from choosing the right university and preparing applications to understanding life in Japan and getting settled after arrival. Your child doesn't have to figure everything out alone.</p>
+      </div>
+    </div>
+
+    <div class="parents-close reveal">
+      <div class="parents-close-text">
+        <p class="parents-close-line" data-i18n="parents.close1">You don't have to make the decision alone.</p>
+        <p class="parents-close-line" data-i18n="parents.close2">Let's explore whether Japan is the right choice for your child.</p>
+      </div>
+      <a href="#consultation" class="btn btn-primary btn-lg" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<section class="section services" id="services" data-nav-theme="light">
+  <div class="section-inner">
+    <ol class="journey-rail" id="journeyRail" aria-label="Discover, Plan, Apply, Prepare, Arrive, Settle, Build">
+      <li class="rail-steps">
+        <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.discover">Discover</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.plan">Plan</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.apply">Apply</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.prepare">Prepare</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.arrive">Arrive</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.settle">Settle</span></span>
+        <span class="rail-step"><span class="rail-dot"></span><span class="rail-label" data-i18n="rail.build">Build</span></span>
+      </li>
+    </ol>
+
+    <div class="services-split">
+      <div class="services-sticky reveal">
+        <h2 data-i18n="services.h2">What we <em>actually</em> do for you.</h2>
+        <p data-i18n="services.lead">Not a stack of vague promises: seven concrete pieces of work, from your first shortlist to your first month settled in.</p>
+      </div>
+
+      <div class="services-list">
+        <article class="service-row reveal">
+          <h3 data-i18n="s1.h">Understand Your Goals</h3>
+          <p class="service-hook" data-i18n="s1.hook">We start with you, not a university.</p>
+          <p data-i18n="s1.p">We learn about your academic background, interests, budget, Japanese level and future goals to understand what kind of path in Japan could actually make sense for you.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s2.h">Find Your Best-Fit Path</h3>
+          <p class="service-hook" data-i18n="s2.hook">Not every university is right for every student.</p>
+          <p data-i18n="s2.p">We research universities, programs, cities, admission requirements and costs to help you find options that match your goals, qualifications and budget.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s3.h">Find Scholarships &amp; Plan Your Budget</h3>
+          <p class="service-hook" data-i18n="s3.hook">Know what you're committing to before you commit.</p>
+          <p data-i18n="s3.p">We help you understand tuition, living expenses, accommodation and available scholarships or tuition reductions, so you and your family can make an informed financial decision.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s4.h">Build Your Application</h3>
+          <p class="service-hook" data-i18n="s4.hook">Your application should tell your story.</p>
+          <p data-i18n="s4.p">From application strategies to SOPs and documentation, we help you present your experiences, goals and strengths clearly and authentically.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s5.h">Prepare for the Next Step</h3>
+          <p class="service-hook" data-i18n="s5.hook">Getting accepted is only part of the journey.</p>
+          <p data-i18n="s5.p">We help you prepare for interviews, understand the visa process, organize important documents and get ready for the transition from your home country to Japan.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s6.h">Get Ready for Japan</h3>
+          <p class="service-hook" data-i18n="s6.hook">Moving to another country is a big step.</p>
+          <p data-i18n="s6.p">Before you arrive, we'll help you understand accommodation, living costs, transportation, essential procedures and what to expect from everyday life in Japan.</p>
+        </article>
+        <article class="service-row reveal">
+          <h3 data-i18n="s7.h">Settle In &amp; Find Your Way</h3>
+          <p class="service-hook" data-i18n="s7.hook">Our goal isn't just to get you to Japan.</p>
+          <p data-i18n="s7.p">We want you to feel prepared once you get here. We help you understand your new environment, find useful resources and navigate the early stages of student life in Japan.</p>
+        </article>
+
+        <p class="services-close reveal" data-i18n="services.close">We don't choose your future for you. We help you understand your options, make informed decisions and <em>build a path that fits you</em>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section founder" id="founder" data-nav-theme="light">
+  <div class="founder-texture" aria-hidden="true"></div>
+  <div class="founder-mark-clip" aria-hidden="true"><span class="founder-mark">夢</span></div>
+  <div class="founder-ornament" aria-hidden="true"><span>※</span></div>
+  <div class="section-inner founder-grid">
+    <div class="founder-visual">
+      <div class="founder-polaroid">
+        <span class="polaroid-tape polaroid-tape--tl" aria-hidden="true"></span>
+        <span class="polaroid-tape polaroid-tape--br" aria-hidden="true"></span>
+        <div class="founder-window" id="founderWindow">
+          <img class="is-active" src="Pictures/web/founder-1.jpg" alt="Zujajah with the President of Ritsumeikan Asia Pacific University">
+          <img src="Pictures/web/founder-2.jpg" alt="Zujajah with a trophy and award from an international law moot competition">
+          <img src="Pictures/web/founder-3.jpg" alt="Zujajah receiving an award certificate">
+          <img src="Pictures/web/founder-4.jpg" alt="Zujajah with delegates at the Red Cross International Humanitarian Law Moot, Hong Kong">
+          <img src="Pictures/web/founder-5.jpg" alt="Zujajah with classmates at Sophia University">
+        </div>
+      </div>
+      <p class="founder-caption" id="founderCaption" data-i18n="founder.caption">Founder, Japan Bound Education</p>
+      <div class="founder-controls">
+        <button class="founder-arrow founder-prev" type="button" aria-label="Previous photo"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <div class="founder-progress">
+          <span class="founder-dot is-active" role="button" tabindex="0" aria-label="Photo 1"></span>
+          <span class="founder-dot" role="button" tabindex="0" aria-label="Photo 2"></span>
+          <span class="founder-dot" role="button" tabindex="0" aria-label="Photo 3"></span>
+          <span class="founder-dot" role="button" tabindex="0" aria-label="Photo 4"></span>
+          <span class="founder-dot" role="button" tabindex="0" aria-label="Photo 5"></span>
+        </div>
+        <button class="founder-arrow founder-next" type="button" aria-label="Next photo"><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+
+    <div class="founder-copy">
+      <header class="section-head reveal">
+        <p class="section-eyebrow founder-eyebrow" data-i18n="founder.eyebrow">A note from the founder</p>
+        <h2 data-i18n="founder.h2">Why I Started <em>Japan Bound Education</em></h2>
+      </header>
+
+      <p class="founder-lede reveal" data-i18n="founder.lede">I was once a 16 years old girl, passionate about studying in Japan, figuring out the application process, visa requirements, logistics, etc all alone. Eventually, I arrived in Japan with a suitcase of basic necessities and endless hope. Over time, through mistakes, breakthroughs, and a lot of adapting, I transformed into someone who was independent, saw a piece of the world, and learned to pave my own way.</p>
+
+      <p class="reveal" data-i18n="founder.p2">I built projects, represented the student body of my university, competed in international competitions, and so much more. But there was always something I noticed. I watched other students go through the same struggle I did. And I kept thinking: this doesn't have to be so hard.</p>
+
+      <p class="reveal" data-i18n="founder.p3">So I started helping. Just informally at first: answering messages, reviewing essays, walking someone through visa requirements at midnight. But the more I did it, the more I realized how much people needed this. Not complicated advice. Not a sales pitch. Just real talk from someone who's been here, who understands where you're coming from, and who knows what's actually possible.</p>
+
+      <p class="reveal" data-i18n="founder.p4">I want to make that journey easier for you. Not by oversimplifying the process, but by making sure you're not walking it alone. You deserve to focus your energy on growth, not on figuring out logistics.</p>
+
+      <p class="founder-close reveal" data-i18n="founder.close">Japan opened doors for me I didn't know existed. <em>Now it's your turn</em>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section consultation" id="consultation" data-nav-theme="red">
+  <span class="consultation-mark" aria-hidden="true">道</span>
+  <div class="section-inner consultation-grid">
+    <div class="consultation-copy reveal">
+      <h2 data-i18n="consult.h2">Let's Build Your Path to Japan.</h2>
+      <p data-i18n="consult.p">Not sure where to start? Let's talk about your goals, budget, and options, and help you understand what your next step could be.</p>
+      <ul class="consultation-list">
+        <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li1">30-minute video or phone consultation</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li2">English, Hindi &amp; Urdu support</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li3">Completely free, with no obligation</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li4">Personalized guidance based on your goals and profile</span></li>
+      </ul>
+    </div>
+    <form class="consultation-form reveal" id="consultForm" action="/api/consult" method="POST" novalidate>
+      <div class="form-fields">
+        <h3 class="consultation-form-kicker" data-i18n="consult.formKicker">Ready to explore Japan?</h3>
+        <input type="text" name="website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="field">
+          <label for="c-name" data-i18n="consult.labelName">Full name</label>
+          <input id="c-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-email" data-i18n="consult.labelEmail">Email</label>
+            <input id="c-email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="c-phone" data-i18n="consult.labelPhone">Phone / WhatsApp</label>
+            <input id="c-phone" name="phone" type="tel" required autocomplete="tel">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-country" data-i18n="consult.labelCountry">Country</label>
+            <select id="c-country" name="country" required>
+              <option value="" data-i18n="consult.optSelectCountry">Select country</option>
+              <option data-i18n="consult.optPakistan">Pakistan</option><option data-i18n="consult.optIndia">India</option><option data-i18n="consult.optBangladesh">Bangladesh</option>
+              <option data-i18n="consult.optNepal">Nepal</option><option data-i18n="consult.optSriLanka">Sri Lanka</option><option data-i18n="consult.optOther">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="c-intake" data-i18n="consult.labelIntake">Preferred intake</label>
+            <select id="c-intake" name="intake">
+              <option value="" data-i18n="consult.optNotSure">Not sure yet</option>
+              <option data-i18n="consult.optApr27">April 2027</option><option data-i18n="consult.optOct27">October 2027</option><option data-i18n="consult.optApr28">April 2028</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-msg"><span data-i18n="consult.labelMsg">Anything we should know?</span> <span class="form-hint" data-i18n="consult.hintOptional">(optional)</span></label>
+          <textarea id="c-msg" name="message" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" id="consultSubmit" data-i18n="consult.submitBtn">Book My Free Call</button>
+        <p class="form-note" id="formNote" aria-live="polite"></p>
+        <p class="form-privacy" data-i18n="consult.privacy">Your information will only be used to contact you about your inquiry.</p>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <svg class="icon"><use href="#i-check"/></svg>
+        <h3 style="font-size:1.3rem;font-weight:500;" data-i18n="consult.successTitle">Thank you for your submission.</h3>
+        <p style="margin-top:.6rem;color:var(--ink-70);" data-i18n="consult.successBody">Our team will review your details and get back to you within one business day to schedule your free consultation.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section faq" id="faq" data-nav-theme="light">
+  <div class="section-inner">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">よくある質問</p>
+      <h2 data-i18n="faq.h2">Questions we hear the <em>most</em>.</h2>
+      <p data-i18n="faq.lead">Students and parents tend to worry about different things, so we've split the answers.</p>
+    </header>
+
+    <div class="faq-tabs reveal" role="tablist" id="faqTabs">
+      <div class="faq-indicator" id="faqIndicator"></div>
+      <button class="faq-tab" role="tab" aria-selected="true" data-tab="students" id="tab-students" data-i18n="faq.tabStudents">For Students</button>
+      <button class="faq-tab" role="tab" aria-selected="false" data-tab="parents" id="tab-parents" data-i18n="faq.tabParents">For Parents</button>
+    </div>
+
+    <div class="faq-panels reveal">
+      <div class="faq-panel" data-panel="students" role="tabpanel">
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="true"><span data-i18n="sq1.q">Do I need to know Japanese to study in Japan?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq1.a">Not necessarily. Japan has universities and programs taught in English, so you can begin your studies without advanced Japanese. However, learning Japanese can make everyday life easier and open up more opportunities in Japan.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="sq2.q">How much does it cost to study in Japan?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq2.a">The cost depends on your university, city, accommodation, and lifestyle. Japan can be more affordable than many traditional study destinations, and scholarships and tuition reductions can further reduce the cost.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="sq3.q">Are scholarships available for international students?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq3.a">Yes. Japan offers government, university, local, and private scholarships, as well as tuition-reduction opportunities. We help you identify opportunities that may fit your academic profile and goals.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="sq4.q">Can I work in Japan while studying?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq4.a">International students may be able to work part-time with the required permission and within the limits set by Japanese regulations. Part-time work can provide valuable experience and help with some living expenses.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="sq5.q">Can I stay and work in Japan after graduation?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq5.a">Yes. International graduates can explore employment opportunities in Japan and may be able to transition to an appropriate work status if they meet the relevant requirements. Your opportunities will depend on your skills, qualifications, Japanese ability, and field.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="sq6.q">What if I don't know which university or program to choose?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="sq6.a">That's exactly where we can help. We look at your academic background, interests, budget, and future goals to research suitable universities and programs and help you build a realistic path to Japan.</p></div></div>
+        </div>
+      </div>
+
+      <div class="faq-panel" data-panel="parents" role="tabpanel" hidden>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="true"><span data-i18n="pfq1.q">Is Japan safe for my child?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq1.a">Japan is widely regarded as one of the safest countries in the world, with low crime and reliable public infrastructure. It offers students a secure environment while allowing them to develop independence and confidence.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="pfq2.q">Is Japan a good investment in my child's future?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq2.a">Japan offers quality education, scholarship opportunities, relatively manageable study costs, and the possibility of gaining international experience and exploring career opportunities after graduation. We help you understand the options before making a major financial decision.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="pfq3.q">How much will my child's education cost?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq3.a">Costs vary depending on the university, city, accommodation, and lifestyle. We help families understand tuition, living expenses, accommodation, and other expected costs so they can plan their finances realistically.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="pfq4.q">Can my child study in Japan without knowing Japanese?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq4.a">Yes. There are English-taught programs available at Japanese universities. We also encourage students to learn Japanese alongside their studies because it can make daily life easier and expand future opportunities.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="pfq5.q">What happens to my child after graduation?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq5.a">For students who want to stay in Japan, graduation can be the beginning of a professional career. Eligible graduates can explore employment opportunities and potentially transition to an appropriate work status based on their qualifications and circumstances.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-trigger" aria-expanded="false"><span data-i18n="pfq6.q">Who will support my child throughout the journey?</span><span class="acc-plus"></span></button>
+          <div class="acc-panel"><div class="acc-panel-inner"><p data-i18n="pfq6.a">Japan Bound helps students navigate the process from university research and application preparation to visa guidance, pre-departure planning, and adjusting to life in Japan. We help them understand what to do at each stage so they don't have to figure everything out alone.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact" data-nav-theme="dark">
+  <div class="section-inner contact-grid">
+    <div class="contact-copy reveal">
+      <h2 data-i18n="contact.h2">Your door is <em>open</em>.</h2>
+      <p data-i18n="contact.p">Reach us directly, or book a free consultation and we'll come to you.</p>
+      <div class="contact-links">
+        <a href="mailto:info@japanboundeducation.com" dir="ltr">info@japanboundeducation.com</a>
+        <a href="tel:+923218847710" data-i18n="contact.phoneLabel">+92 321 884 7710 (WhatsApp)</a>
+      </div>
+    </div>
+    <div class="contact-map-wrap reveal">
+      <div class="contact-map-stage">
+        <img class="contact-map-img" src="map-world.png" alt="" aria-hidden="true">
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer" data-nav-theme="dark">
+  <div class="section-inner footer-grid">
+    <div class="footer-col">
+      <h4 class="footer-heading" data-i18n="footer.exploreHeading">Explore</h4>
+      <a href="#top" data-i18n="footer.home">Home</a>
+      <a href="#study" data-i18n="nav.why">Why Japan</a>
+      <a href="#services" data-i18n="footer.whatWeDo">What We Do</a>
+      <a href="#consultation" data-i18n="footer.howItWorks">How It Works</a>
+      <a href="#founder" data-i18n="footer.aboutUs">About Us</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-heading" data-i18n="footer.legalHeading">Legal</h4>
+      <a href="legal.html#privacy-policy" data-i18n="footer.privacyPolicy">Privacy Policy</a>
+      <a href="legal.html#terms-of-use" data-i18n="footer.termsOfUse">Terms of Use</a>
+      <a href="legal.html#service-disclaimer" data-i18n="footer.serviceDisclaimer">Service Disclaimer</a>
+      <a href="legal.html#refund-policy" data-i18n="footer.refundPolicy">Refund &amp; Cancellation Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-heading" data-i18n="footer.contactHeading">Contact</h4>
+      <a href="mailto:info@japanboundeducation.com" dir="ltr">info@japanboundeducation.com</a>
+      <a href="mailto:legal@japanboundeducation.com" dir="ltr">legal@japanboundeducation.com</a>
+    </div>
+  </div>
+  <div class="section-inner footer-bottom-bar">
+    <span data-i18n="footer.copyright">© 2026 Japan Bound Education (JBE). All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasGSAP = typeof gsap !== "undefined";
+  if (hasGSAP && typeof ScrollTrigger !== "undefined"){
+    gsap.registerPlugin(ScrollTrigger);
+    // Mobile browsers change window.innerHeight as the address bar shows/
+    // hides while scrolling. Without this, ScrollTrigger treats that as a
+    // real resize and recalculates the journey rail's start/end mid-scroll —
+    // which is exactly what made it race ahead one moment and freeze the
+    // next on phones.
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    window.addEventListener("load", function(){ ScrollTrigger.refresh(); });
+  }
+
+  /* ---------- LANGUAGE (EN / UR) ---------- */
+  // English lives only in the HTML — it's read straight off each [data-i18n]
+  // element the first time applyLang runs, so it can never drift out of sync
+  // with the markup. Only the Urdu side needs authoring here.
+  var currentLang = "en";
+  var langChangeCallbacks = [];
+  function onLangChange(fn){ langChangeCallbacks.push(fn); }
+
+  var UR = {
+    "nav.why":"جاپان کیوں؟", "nav.parents":"والدین کے لیے", "nav.services":"خدمات",
+    "nav.founder":"بانی", "nav.faq":"اکثر پوچھے گئے سوالات", "nav.contact":"رابطہ",
+    "cta.headerBook":"مفت مشاورت بک کریں", "cta.bookConsult":"مفت مشاورت بک کریں",
+
+    "hero.kicker":"جاپان ایجوکیشن کنسلٹنگ",
+    "hero.title":"آپ کا <em>جاپان</em> کا دروازہ",
+    "hero.lead":"جاپان باؤنڈ ایجوکیشن ایک تعلیمی مشاورتی ادارہ ہے جو ہائی اسکول کے طلبہ کو جاپانی جامعات میں اعلیٰ تعلیم حاصل کرنے میں مدد فراہم کرتا ہے۔ ہم یونیورسٹی کے انتخاب سے لے کر روانگی سے پہلے کی تیاری تک، پورے سفر میں مکمل رہنمائی فراہم کرتے ہیں۔",
+    "hero.seeHow":"یہ کیسے کام کرتا ہے",
+
+    "study.h2":"جاپان کیوں، اور <em>ابھی</em> کیوں؟",
+    "study.lead":"جاپان بین الاقوامی تعلیم کے لیے ایک مختلف راستہ پیش کرتا ہے۔ اگرچہ امریکہ، برطانیہ، کینیڈا اور آسٹریلیا مقبول انتخاب ہیں، جاپان طلبہ کو ایک اور موقع دیتا ہے: معتبر تعلیم، نسبتاً کم لاگت، وظائف کے مواقع، اور ایک ایسے ملک میں تجربہ حاصل کرنے کا موقع جہاں بین الاقوامی ہنر کی اہمیت مسلسل بڑھ رہی ہے۔",
+    "why1.h":"معیاری جامعات، معمول کی بھاری فیس کے بغیر",
+    "why1.p":"جاپان امریکہ، برطانیہ، کینیڈا اور آسٹریلیا کے مقابلے میں کم لاگت پر معتبر تعلیم فراہم کرتا ہے۔",
+    "why2.h":"وظائف جو واقعی حاصل کیے جا سکتے ہیں",
+    "why2.p":"حکومتی، جامعاتی، مقامی اور نجی وظائف کے پروگرام جاپان میں تعلیم کی لاگت کو نمایاں طور پر کم کر سکتے ہیں۔",
+    "why3.h":"ایک ایسی جاب مارکیٹ جو آپ کے حق میں بدل رہی ہے",
+    "why3.p":"جاپان کے آبادیاتی اور افرادی قوت کے چیلنجز صحیح مہارت رکھنے والے بین الاقوامی گریجویٹس کے لیے بڑھتے ہوئے مواقع پیدا کر رہے ہیں۔",
+    "why4.h":"تعلیم بھی، تجربہ بھی، ایک ساتھ",
+    "why4.p":"پڑھائی کریں، زبان سیکھیں، جہاں اجازت ہو وہاں پارٹ ٹائم کام کریں، اپنا نیٹ ورک بنائیں اور یہاں رہتے ہوئے تجربہ حاصل کریں۔",
+    "why5.h":"آپ انگریزی میں آغاز کر سکتے ہیں",
+    "why5.p":"آغاز کے لیے جاپانی زبان میں مہارت ضروری نہیں۔ جاپانی جامعات کی بڑھتی ہوئی تعداد مکمل طور پر انگریزی میں ڈگری پروگرام پیش کرتی ہے۔",
+    "why6.h":"ایک مستقبل جو گریجویشن پر ختم نہیں ہوتا",
+    "why6.p":"جو طلبہ زیادہ عرصہ رہنا چاہتے ہیں، ان کے لیے جاپان صرف ڈگری حاصل کرنے کی جگہ سے کہیں بڑھ کر ہے۔ یہ پیشہ ورانہ تجربہ حاصل کرنے اور کیریئر بنانے کی جگہ بھی بن سکتا ہے۔",
+    "reasons.q1":"سوال محض یہ نہیں کہ <em>&ldquo;کیا میں جاپان میں پڑھ سکتا ہوں؟&rdquo;</em>",
+    "reasons.q2":"بلکہ یہ کہ <em>&ldquo;کیا جاپان میرے مستقبل کے لیے صحیح جگہ ہو سکتا ہے؟&rdquo;</em>",
+    "reasons.a":"اور یہی وہ چیز ہے جس کا جواب تلاش کرنے میں جاپان باؤنڈ ایجوکیشن آپ کی مدد کرتا ہے۔",
+
+    "parents.eyebrow":"والدین کے لیے",
+    "parents.h2":"آپ کے بچے کے لیے۔<br>آپ کے <em>ذہنی سکون</em> کے لیے۔",
+    "parents.lead":"اپنے بچے کو بیرونِ ملک بھیجنا ایک اہم فیصلہ ہے۔ ہم آپ کو یہ سمجھنے میں مدد دیتے ہیں کہ جاپان میں پڑھائی اور رہائش اصل میں کیا معنی رکھتی ہے، تاکہ آپ اعتماد کے ساتھ یہ فیصلہ کر سکیں۔",
+    "pq1.q":"کیا جاپان محفوظ ہے؟",
+    "pq1.a":"جاپان کو مسلسل دنیا کے محفوظ ترین ممالک میں شمار کیا جاتا ہے، جہاں جرائم کی شرح کم، پبلک ٹرانسپورٹ قابلِ بھروسہ، اور معاشرہ منظم ہے۔ یہاں طلبہ کو ایک محفوظ ماحول میں رہتے ہوئے خودمختاری کا تجربہ کرنے کا موقع ملتا ہے۔",
+    "pq2.q":"کیا میرے بچے کا خیرمقدم کیا جائے گا؟",
+    "pq2.a":"جاپان تیزی سے بین الاقوامی ہوتا جا رہا ہے، جہاں دنیا بھر سے طلبہ اور پیشہ ور افراد آ رہے ہیں۔ قومیت، ثقافت یا مذہبی پس منظر سے قطع نظر، طلبہ جاپانی معاشرے کا تجربہ کرتے ہوئے اپنی برادری بھی بنا سکتے ہیں۔",
+    "pq3.q":"لاگت کتنی ہوگی؟",
+    "pq3.a":"جاپان میں تعلیم بہت سے روایتی بیرونِ ملک تعلیمی مقامات کے مقابلے میں زیادہ سستی ہو سکتی ہے، خاص طور پر فیس اور رہائشی اخراجات کے لحاظ سے۔ مناسب منصوبہ بندی اور صحیح یونیورسٹی یا وظیفے کے ساتھ، جاپان معقول لاگت میں معیاری تعلیم فراہم کر سکتا ہے۔",
+    "pq4.q":"کیا وظائف دستیاب ہیں؟",
+    "pq4.a":"جی ہاں۔ جاپان حکومتی، جامعاتی، مقامی اور نجی وظائف سمیت وسیع پیمانے پر وظائف اور فیس میں رعایت کے مواقع فراہم کرتا ہے۔ اصل چیلنج یہ جاننا ہے کہ آپ کا بچہ کن مواقع کا اہل ہے اور ان کے لیے درخواست کیسے دی جائے۔",
+    "pq5.q":"گریجویشن کے بعد کیا ہوتا ہے؟",
+    "pq5.a":"جاپان میں تعلیم صرف ڈگری حاصل کرنے تک محدود نہیں۔ طلبہ جاپانی زبان کی مہارت پیدا کر سکتے ہیں، بین الاقوامی تجربہ حاصل کر سکتے ہیں، اور گریجویشن کے بعد جاپان میں اپنا کیریئر شروع کرنے کے مواقع تلاش کر سکتے ہیں۔",
+    "pq6.q":"میرے بچے کی مدد کون کرے گا؟",
+    "pq6.a":"جاپان باؤنڈ ایجوکیشن پورے سفر میں طلبہ کی مدد کرتا ہے، صحیح یونیورسٹی کے انتخاب اور درخواست کی تیاری سے لے کر جاپان میں زندگی سمجھنے اور پہنچنے کے بعد سیٹل ہونے تک۔ آپ کے بچے کو سب کچھ اکیلے نہیں سمجھنا پڑے گا۔",
+    "parents.close1":"آپ کو یہ فیصلہ اکیلے کرنے کی ضرورت نہیں۔",
+    "parents.close2":"آئیے مل کر معلوم کرتے ہیں کہ کیا جاپان آپ کے بچے کے لیے صحیح انتخاب ہے۔",
+
+    "rail.discover":"دریافت", "rail.plan":"منصوبہ بندی", "rail.apply":"درخواست",
+    "rail.prepare":"تیاری", "rail.arrive":"آمد", "rail.settle":"سیٹلمنٹ", "rail.build":"تعمیر",
+
+    "services.h2":"ہم آپ کے لیے <em>حقیقت</em> میں کیا کرتے ہیں۔",
+    "services.lead":"مبہم وعدوں کا ڈھیر نہیں، سات ٹھوس مراحل، آپ کی پہلی شارٹ لسٹ سے لے کر جاپان میں آپ کے پہلے مہینے تک۔",
+    "s1.h":"آپ کے اہداف کو سمجھنا",
+    "s1.hook":"ہم آپ سے شروعات کرتے ہیں، کسی یونیورسٹی سے نہیں۔",
+    "s1.p":"ہم آپ کے تعلیمی پس منظر، دلچسپیوں، بجٹ، جاپانی زبان کی سطح اور مستقبل کے اہداف کو سمجھتے ہیں تاکہ یہ معلوم کیا جا سکے کہ جاپان میں کون سا راستہ واقعی آپ کے لیے موزوں ہے۔",
+    "s2.h":"آپ کے لیے بہترین راستہ تلاش کرنا",
+    "s2.hook":"ہر یونیورسٹی ہر طالب علم کے لیے موزوں نہیں ہوتی۔",
+    "s2.p":"ہم جامعات، پروگراموں، شہروں، داخلے کی شرائط اور اخراجات کی تحقیق کرتے ہیں تاکہ آپ کو ایسے اختیارات مل سکیں جو آپ کے اہداف، قابلیت اور بجٹ سے میل کھاتے ہوں۔",
+    "s3.h":"وظائف تلاش کرنا اور بجٹ کی منصوبہ بندی",
+    "s3.hook":"عہد کرنے سے پہلے جانیں کہ آپ کس چیز کا عہد کر رہے ہیں۔",
+    "s3.p":"ہم آپ کو فیس، رہائشی اخراجات، قیام اور دستیاب وظائف یا فیس میں رعایت کو سمجھنے میں مدد دیتے ہیں، تاکہ آپ اور آپ کا خاندان باخبر مالی فیصلہ کر سکیں۔",
+    "s4.h":"اپنی درخواست تیار کرنا",
+    "s4.hook":"آپ کی درخواست کو آپ کی کہانی بیان کرنی چاہیے۔",
+    "s4.p":"درخواست کی حکمتِ عملی سے لے کر SOP اور دستاویزات تک، ہم آپ کے تجربات، اہداف اور خوبیوں کو واضح اور مستند انداز میں پیش کرنے میں مدد دیتے ہیں۔",
+    "s5.h":"اگلے مرحلے کے لیے تیاری",
+    "s5.hook":"قبول ہونا صرف سفر کا ایک حصہ ہے۔",
+    "s5.p":"ہم آپ کو انٹرویو کی تیاری، ویزا کے عمل کو سمجھنے، اہم دستاویزات کو ترتیب دینے اور اپنے ملک سے جاپان منتقل ہونے کے لیے تیار کرنے میں مدد دیتے ہیں۔",
+    "s6.h":"جاپان کے لیے تیاری کریں",
+    "s6.hook":"دوسرے ملک منتقل ہونا ایک بڑا قدم ہے۔",
+    "s6.p":"پہنچنے سے پہلے، ہم آپ کو رہائش، رہائشی اخراجات، ٹرانسپورٹ، ضروری کارروائیوں اور جاپان کی روزمرہ زندگی کے بارے میں سمجھنے میں مدد دیں گے۔",
+    "s7.h":"سیٹل ہونا اور اپنا راستہ تلاش کرنا",
+    "s7.hook":"ہمارا مقصد صرف آپ کو جاپان پہنچانا نہیں ہے۔",
+    "s7.p":"ہم چاہتے ہیں کہ یہاں پہنچنے کے بعد آپ خود کو تیار محسوس کریں۔ ہم آپ کو نئے ماحول کو سمجھنے، مفید وسائل تلاش کرنے اور جاپان میں طالب علمی کی زندگی کے ابتدائی مراحل طے کرنے میں مدد دیتے ہیں۔",
+    "services.close":"ہم آپ کا مستقبل خود منتخب نہیں کرتے۔ ہم آپ کو اپنے اختیارات سمجھنے، باخبر فیصلے کرنے اور <em>اپنے لیے موزوں راستہ بنانے</em> میں مدد دیتے ہیں۔",
+
+    "founder.eyebrow":"بانی کی جانب سے ایک پیغام",
+    "founder.h2":"میں نے <em>جاپان باؤنڈ ایجوکیشن</em> کیوں شروع کیا",
+    "founder.lede":"میں کبھی ایک سولہ سالہ لڑکی تھی، جاپان میں پڑھنے کی خواہش مند، جو اکیلے ہی درخواست کے عمل، ویزا کی شرائط اور تمام لاجسٹکس کو سمجھنے کی کوشش کر رہی تھی۔ آخرکار میں بنیادی ضروریات کے ایک سوٹ کیس اور لامحدود امید کے ساتھ جاپان پہنچی۔ وقت کے ساتھ، غلطیوں، کامیابیوں اور بہت ساری موافقت کے ذریعے، میں ایک خودمختار انسان بن گئی، دنیا کا ایک حصہ دیکھا، اور اپنا راستہ خود بنانا سیکھا۔",
+    "founder.p2":"میں نے منصوبے بنائے، اپنی یونیورسٹی کے طلبہ کی نمائندگی کی، بین الاقوامی مقابلوں میں حصہ لیا، اور بہت کچھ کیا۔ لیکن مجھے ہمیشہ ایک چیز محسوس ہوتی رہی۔ میں دوسرے طلبہ کو اسی جدوجہد سے گزرتے دیکھتی جس سے میں گزری تھی۔ اور میں سوچتی رہی: یہ اتنا مشکل ہونا ضروری نہیں۔",
+    "founder.p3":"تو میں نے مدد کرنا شروع کر دی۔ شروع میں غیر رسمی طور پر، پیغامات کے جواب دینا، مضامین کا جائزہ لینا، آدھی رات کو کسی کو ویزا کی شرائط سمجھانا۔ لیکن جتنا میں نے یہ کیا، اتنا ہی مجھے احساس ہوا کہ لوگوں کو اس کی کتنی ضرورت ہے۔ پیچیدہ مشورے نہیں۔ سیلز پچ نہیں۔ بس ایک ایسے شخص کی حقیقی بات جو خود اس راستے سے گزر چکا ہے، جو آپ کی صورتحال سمجھتا ہے، اور جو جانتا ہے کہ اصل میں کیا ممکن ہے۔",
+    "founder.p4":"میں یہ سفر آپ کے لیے آسان بنانا چاہتی ہوں۔ عمل کو بہت آسان بنا کر نہیں، بلکہ اس بات کو یقینی بنا کر کہ آپ یہ راستہ اکیلے نہ چلیں۔ آپ اپنی توانائی نشوونما پر لگانے کے مستحق ہیں، لاجسٹکس سلجھانے پر نہیں۔",
+    "founder.close":"جاپان نے میرے لیے وہ دروازے کھولے جن کا مجھے علم بھی نہیں تھا۔ <em>اب باری آپ کی ہے</em>۔",
+    "founder.caption":"بانی، جاپان باؤنڈ ایجوکیشن",
+
+    "consult.h2":"آئیے جاپان کا آپ کا راستہ بناتے ہیں۔",
+    "consult.p":"شروعات کہاں سے کریں سمجھ نہیں آ رہی؟ آئیے آپ کے اہداف، بجٹ اور اختیارات پر بات کرتے ہیں، اور آپ کو یہ سمجھنے میں مدد دیتے ہیں کہ آپ کا اگلا قدم کیا ہو سکتا ہے۔",
+    "consult.li1":"30 منٹ کی ویڈیو یا فون مشاورت",
+    "consult.li2":"انگریزی، ہندی اور اردو میں معاونت",
+    "consult.li3":"مکمل طور پر مفت، کسی پابندی کے بغیر",
+    "consult.li4":"آپ کے اہداف اور پروفائل کی بنیاد پر ذاتی نوعیت کی رہنمائی",
+    "consult.formKicker":"جاپان کے بارے میں جاننے کے لیے تیار ہیں؟",
+    "consult.labelName":"پورا نام", "consult.labelEmail":"ای میل", "consult.labelPhone":"فون / واٹس ایپ",
+    "consult.labelCountry":"ملک", "consult.optSelectCountry":"ملک منتخب کریں",
+    "consult.optPakistan":"پاکستان", "consult.optIndia":"بھارت", "consult.optBangladesh":"بنگلہ دیش",
+    "consult.optNepal":"نیپال", "consult.optSriLanka":"سری لنکا", "consult.optOther":"دیگر",
+    "consult.labelIntake":"ترجیحی داخلہ سیشن", "consult.optNotSure":"ابھی یقین نہیں",
+    "consult.optApr27":"اپریل 2027", "consult.optOct27":"اکتوبر 2027", "consult.optApr28":"اپریل 2028",
+    "consult.labelMsg":"کیا ہمیں کچھ بتانا چاہیں گے؟", "consult.hintOptional":"(اختیاری)",
+    "consult.submitBtn":"میری مفت کال بک کریں",
+    "consult.privacy":"آپ کی معلومات صرف آپ سے آپ کی درخواست کے متعلق رابطہ کرنے کے لیے استعمال کی جائیں گی۔",
+    "consult.successTitle":"شکریہ، آپ کی درخواست موصول ہو گئی ہے۔",
+    "consult.successBody":"ہماری ٹیم آپ کی تفصیلات کا جائزہ لے کر ایک کاروباری دن کے اندر آپ سے رابطہ کرے گی تاکہ آپ کی مفت مشاورت شیڈول کی جا سکے۔",
+
+    "faq.h2":"وہ سوالات جو ہم <em>اکثر</em> سنتے ہیں۔",
+    "faq.lead":"طلبہ اور والدین عام طور پر مختلف باتوں کی فکر کرتے ہیں، اس لیے ہم نے جوابات کو الگ الگ تقسیم کیا ہے۔",
+    "faq.tabStudents":"طلبہ کے لیے", "faq.tabParents":"والدین کے لیے",
+
+    "sq1.q":"کیا جاپان میں پڑھنے کے لیے جاپانی زبان جاننا ضروری ہے؟",
+    "sq1.a":"ضروری نہیں۔ جاپان میں ایسی جامعات اور پروگرام موجود ہیں جو انگریزی میں پڑھائے جاتے ہیں، اس لیے آپ اعلیٰ درجے کی جاپانی کے بغیر بھی تعلیم شروع کر سکتے ہیں۔ تاہم، جاپانی زبان سیکھنا روزمرہ زندگی کو آسان بنا سکتا ہے اور جاپان میں مزید مواقع کھول سکتا ہے۔",
+    "sq2.q":"جاپان میں تعلیم کی لاگت کتنی ہے؟",
+    "sq2.a":"لاگت آپ کی یونیورسٹی، شہر، رہائش اور طرزِ زندگی پر منحصر ہے۔ جاپان بہت سے روایتی تعلیمی مقامات کے مقابلے میں زیادہ سستا ہو سکتا ہے، اور وظائف و فیس میں رعایت لاگت کو مزید کم کر سکتے ہیں۔",
+    "sq3.q":"کیا بین الاقوامی طلبہ کے لیے وظائف دستیاب ہیں؟",
+    "sq3.a":"جی ہاں۔ جاپان حکومتی، جامعاتی، مقامی اور نجی وظائف کے ساتھ ساتھ فیس میں رعایت کے مواقع بھی فراہم کرتا ہے۔ ہم آپ کو ایسے مواقع تلاش کرنے میں مدد دیتے ہیں جو آپ کے تعلیمی پروفائل اور اہداف سے میل کھاتے ہوں۔",
+    "sq4.q":"کیا میں پڑھائی کے دوران جاپان میں کام کر سکتا ہوں؟",
+    "sq4.a":"بین الاقوامی طلبہ مطلوبہ اجازت کے ساتھ اور جاپانی قوانین کی مقرر کردہ حدود کے اندر پارٹ ٹائم کام کر سکتے ہیں۔ پارٹ ٹائم کام قیمتی تجربہ فراہم کر سکتا ہے اور کچھ رہائشی اخراجات میں مدد دے سکتا ہے۔",
+    "sq5.q":"کیا میں گریجویشن کے بعد جاپان میں رہ کر کام کر سکتا ہوں؟",
+    "sq5.a":"جی ہاں۔ بین الاقوامی گریجویٹس جاپان میں ملازمت کے مواقع تلاش کر سکتے ہیں اور مطلوبہ شرائط پوری کرنے پر مناسب ورک اسٹیٹس میں منتقل ہو سکتے ہیں۔ آپ کے مواقع آپ کی مہارت، قابلیت، جاپانی زبان کی صلاحیت اور شعبے پر منحصر ہوں گے۔",
+    "sq6.q":"اگر مجھے معلوم نہ ہو کہ کون سی یونیورسٹی یا پروگرام منتخب کروں تو؟",
+    "sq6.a":"یہیں پر ہم آپ کی مدد کر سکتے ہیں۔ ہم آپ کے تعلیمی پس منظر، دلچسپیوں، بجٹ اور مستقبل کے اہداف کو دیکھتے ہوئے موزوں جامعات اور پروگراموں کی تحقیق کرتے ہیں اور جاپان کے لیے ایک حقیقت پسندانہ راستہ بنانے میں مدد دیتے ہیں۔",
+
+    "pfq1.q":"کیا میرے بچے کے لیے جاپان محفوظ ہے؟",
+    "pfq1.a":"جاپان کو دنیا کے محفوظ ترین ممالک میں سے ایک سمجھا جاتا ہے، جہاں جرائم کی شرح کم اور عوامی انفراسٹرکچر قابلِ بھروسہ ہے۔ یہ طلبہ کو محفوظ ماحول فراہم کرتے ہوئے خودمختاری اور اعتماد پیدا کرنے کا موقع دیتا ہے۔",
+    "pfq2.q":"کیا جاپان میرے بچے کے مستقبل کے لیے ایک اچھی سرمایہ کاری ہے؟",
+    "pfq2.a":"جاپان معیاری تعلیم، وظائف کے مواقع، نسبتاً معقول تعلیمی اخراجات، اور گریجویشن کے بعد بین الاقوامی تجربہ حاصل کرنے اور کیریئر کے مواقع تلاش کرنے کا امکان فراہم کرتا ہے۔ ہم کوئی بڑا مالی فیصلہ کرنے سے پہلے آپ کو تمام اختیارات سمجھنے میں مدد دیتے ہیں۔",
+    "pfq3.q":"میرے بچے کی تعلیم پر کتنا خرچہ آئے گا؟",
+    "pfq3.a":"اخراجات یونیورسٹی، شہر، رہائش اور طرزِ زندگی کے لحاظ سے مختلف ہوتے ہیں۔ ہم خاندانوں کو فیس، رہائشی اخراجات، قیام اور دیگر متوقع اخراجات سمجھنے میں مدد دیتے ہیں تاکہ وہ حقیقت پسندانہ طور پر اپنے مالی معاملات کی منصوبہ بندی کر سکیں۔",
+    "pfq4.q":"کیا میرا بچہ جاپانی زبان جانے بغیر جاپان میں پڑھ سکتا ہے؟",
+    "pfq4.a":"جی ہاں۔ جاپانی جامعات میں انگریزی میں پڑھائے جانے والے پروگرام دستیاب ہیں۔ ہم طلبہ کو پڑھائی کے ساتھ ساتھ جاپانی زبان سیکھنے کی بھی ترغیب دیتے ہیں کیونکہ یہ روزمرہ زندگی کو آسان بنا سکتی ہے اور مستقبل کے مواقع بڑھا سکتی ہے۔",
+    "pfq5.q":"گریجویشن کے بعد میرے بچے کے ساتھ کیا ہوگا؟",
+    "pfq5.a":"جو طلبہ جاپان میں رہنا چاہتے ہیں ان کے لیے گریجویشن ایک پیشہ ورانہ کیریئر کا آغاز ہو سکتی ہے۔ اہل گریجویٹس ملازمت کے مواقع تلاش کر سکتے ہیں اور اپنی قابلیت اور حالات کی بنیاد پر مناسب ورک اسٹیٹس میں منتقل ہو سکتے ہیں۔",
+    "pfq6.q":"پورے سفر میں میرے بچے کی مدد کون کرے گا؟",
+    "pfq6.a":"جاپان باؤنڈ طلبہ کو یونیورسٹی کی تحقیق اور درخواست کی تیاری سے لے کر ویزا رہنمائی، روانگی سے پہلے کی منصوبہ بندی اور جاپان میں زندگی سے ہم آہنگ ہونے تک، پورے عمل میں مدد دیتا ہے۔ ہم انہیں ہر مرحلے پر یہ سمجھنے میں مدد دیتے ہیں کہ کیا کرنا ہے تاکہ انہیں سب کچھ اکیلے نہ سمجھنا پڑے۔",
+
+    "contact.h2":"آپ کے لیے ہمارا دروازہ <em>کھلا</em> ہے۔",
+    "contact.p":"براہِ راست ہم سے رابطہ کریں، یا مفت مشاورت بک کریں اور ہم خود آپ سے رابطہ کریں گے۔",
+    "contact.phoneLabel":"+92 321 884 7710 (واٹس ایپ)",
+    "footer.copyright":"© 2026 جاپان باؤنڈ ایجوکیشن (JBE)۔ جملہ حقوق محفوظ ہیں۔",
+    "footer.exploreHeading":"دریافت کریں", "footer.home":"ہوم", "footer.whatWeDo":"ہم کیا کرتے ہیں",
+    "footer.howItWorks":"یہ کیسے کام کرتا ہے", "footer.aboutUs":"ہمارے بارے میں",
+    "footer.legalHeading":"قانونی", "footer.privacyPolicy":"پرائیویسی پالیسی", "footer.termsOfUse":"شرائطِ استعمال",
+    "footer.serviceDisclaimer":"سروس ڈسکلیمر", "footer.refundPolicy":"رقم کی واپسی اور منسوخی کی پالیسی",
+    "footer.contactHeading":"رابطہ"
+  };
+
+  var EN = {}; // populated from the live DOM the first time applyLang runs
+  var enCached = false;
+  function cacheEnglish(){
+    if (enCached) return;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      if (!(key in EN)) EN[key] = el.innerHTML;
+    });
+    enCached = true;
+  }
+
+  function applyLang(lang){
+    cacheEnglish();
+    currentLang = lang;
+    document.documentElement.setAttribute("lang", lang === "ur" ? "ur" : "en");
+    document.documentElement.setAttribute("dir", lang === "ur" ? "rtl" : "ltr");
+    document.title = lang === "ur" ? "جاپان باؤنڈ ایجوکیشن" : "Japan Bound Education";
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      var html = lang === "ur" ? (UR[key] || EN[key]) : EN[key];
+      if (html != null) el.innerHTML = html;
+      el.setAttribute("dir", lang === "ur" ? "rtl" : "ltr");
+    });
+    document.querySelectorAll("[data-lang-btn]").forEach(function(btn){
+      btn.setAttribute("aria-pressed", btn.getAttribute("data-lang-btn") === lang ? "true" : "false");
+    });
+    placeLangFills();
+    try { localStorage.setItem("jbe-lang", lang); } catch(e){}
+    langChangeCallbacks.forEach(function(fn){ fn(); });
+  }
+
+  // Each .lang-switch instance (header + mobile menu) positions its own
+  // pill against its own buttons' real widths — "EN" and "اردو" don't render
+  // the same width, so a CSS 50/50 split would misalign under one of them.
+  function placeLangFills(){
+    document.querySelectorAll(".lang-switch").forEach(function(group){
+      var fill = group.querySelector(".lang-switch-fill");
+      var active = group.querySelector('[data-lang-btn][aria-pressed="true"]');
+      if (!fill || !active) return;
+      fill.style.width = active.offsetWidth + "px";
+      fill.style.transform = "translateX(" + (active.offsetLeft - 3) + "px)";
+    });
+  }
+
+  function initI18n(){
+    cacheEnglish();
+    var saved = "en";
+    try { saved = localStorage.getItem("jbe-lang") || "en"; } catch(e){}
+    document.querySelectorAll("[data-lang-btn]").forEach(function(btn){
+      btn.addEventListener("click", function(){ applyLang(btn.getAttribute("data-lang-btn")); });
+    });
+    if (saved === "ur") applyLang("ur"); else placeLangFills();
+    window.addEventListener("resize", placeLangFills);
+  }
+
+  /* ---------- LOADER ---------- */
+  function runLoader(){
+    var loader = document.getElementById("loader");
+    if (!loader) return;
+    if (reduced || !hasGSAP){ loader.style.display = "none"; return; }
+    document.body.style.overflow = "hidden";
+    var mark = document.getElementById("loaderMark");
+    var cal = document.getElementById("loaderCalligraphy");
+    var chars = cal ? cal.querySelectorAll(".cal-char") : [];
+    chars.forEach(function(c){ c.classList.add("js-armed"); });
+
+    var tl = gsap.timeline({ onComplete: function(){
+      loader.style.display = "none";
+      document.body.style.overflow = "";
+    }});
+    tl.to(mark, { opacity:1, scale:1, duration:.5, ease:"power3.out" })
+      .call(function(){
+        chars.forEach(function(c, i){ setTimeout(function(){ c.classList.add("on"); }, i * 85); });
+      }, [], "+=0.1")
+      .to({}, { duration: chars.length * 0.085 + 0.55 })
+      .to([mark, cal], { opacity:0, duration:.3, ease:"power2.in" })
+      .to(loader, { yPercent:-100, duration:.65, ease:"power4.inOut" }, "-=0.1");
+  }
+
+  /* ---------- HERO CALLIGRAPHY ---------- */
+  function initCalligraphy(){
+    var cal = document.getElementById("heroCalligraphy");
+    var img = document.querySelector(".hero-image");
+    var visual = document.querySelector(".hero-visual");
+    var chars = cal ? cal.querySelectorAll(".cal-char") : [];
+    if (!cal || !img || !visual || !chars.length) return;
+
+    // Reproduce the browser's own object-fit:cover math using the actual
+    // rendered box, so this stays correct at any viewport size instead of
+    // relying on a fixed vw guess (which broke once the hero's height caps out).
+    var NATURAL_W = 1920, NATURAL_H = 1080;
+    var STEM_X = 1159, STEM_Y = 838; // pixel location of the branch tip in the source image
+
+    function position(){
+      var boxW = visual.clientWidth, boxH = visual.clientHeight;
+      if (!boxW || !boxH) return;
+      var scale = Math.max(boxW / NATURAL_W, boxH / NATURAL_H);
+      var renderedW = NATURAL_W * scale, renderedH = NATURAL_H * scale;
+      var posStr = getComputedStyle(img).objectPosition || "50% 0%";
+      var parts = posStr.split(" ");
+      var pctX = parseFloat(parts[0]) / 100;
+      var pctY = parts[1] && parts[1].indexOf("%") > -1 ? parseFloat(parts[1]) / 100 : 0;
+      var offsetX = (boxW - renderedW) * pctX;
+      var offsetY = (boxH - renderedH) * pctY;
+      var tipX = offsetX + STEM_X * scale;
+      var py = offsetY + STEM_Y * scale + 16;
+
+      // Centered in the gap between the branch tip and the right edge of the
+      // screen, rather than starting flush at the tip.
+      var textW = cal.offsetWidth || 200, textH = cal.offsetHeight || 40;
+      var px = tipX + (boxW - tipX) / 2 - textW / 2;
+
+      // On very wide screens the hero's capped height crops the actual branch
+      // tip out of the visible image before we ever get this far down, so
+      // clamp to the visible box instead of placing text outside it.
+      var maxTop = boxH - textH - 12;
+      if (py > maxTop) py = maxTop;
+      var minLeft = 12, maxLeft = boxW - textW - 12;
+      if (px < minLeft) px = minLeft;
+      if (px > maxLeft) px = maxLeft;
+
+      cal.style.left = px + "px";
+      cal.style.top = py + "px";
+      cal.classList.add("positioned");
+    }
+    position();
+    window.addEventListener("resize", position);
+
+    if (reduced){ chars.forEach(function(c){ c.classList.add("on"); }); return; }
+    chars.forEach(function(c){ c.classList.add("js-armed"); });
+    setTimeout(function(){
+      chars.forEach(function(c, i){
+        setTimeout(function(){ c.classList.add("on"); }, i * 220);
+      });
+    }, 1800);
+  }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  function initReveal(){
+    var els = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)){ return; }
+    els.forEach(function(el, i){
+      el.classList.add("js-armed");
+      el.style.setProperty("--d", (i % 4) * 70 + "ms");
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- NAV THEME + SOLID ON SCROLL ---------- */
+  function initNav(){
+    var header = document.getElementById("siteHeader");
+    var sections = document.querySelectorAll("[data-nav-theme]");
+    function onScroll(){
+      document.body.classList.toggle("nav-scrolled", window.scrollY > 10);
+    }
+    window.addEventListener("scroll", onScroll, { passive:true });
+    onScroll();
+    if ("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            var theme = entry.target.getAttribute("data-nav-theme");
+            document.body.classList.remove("nav-theme-dark","nav-theme-red");
+            if (theme === "dark") document.body.classList.add("nav-theme-dark");
+            if (theme === "red") document.body.classList.add("nav-theme-red");
+          }
+        });
+      }, { rootMargin: "-50% 0px -49% 0px" });
+      sections.forEach(function(s){ io.observe(s); });
+    }
+
+    var toggle = document.getElementById("menuToggle");
+    var closeBtn = document.getElementById("mobileClose");
+    var menu = document.getElementById("mobileMenu");
+    function openMenu(){ menu.classList.add("open"); toggle.setAttribute("aria-expanded","true"); document.body.style.overflow="hidden"; }
+    function closeMenu(){ menu.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); document.body.style.overflow=""; }
+    toggle.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+    menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMenu); });
+  }
+
+  /* ---------- JOURNEY RAIL ---------- */
+  function initJourney(){
+    var rail = document.getElementById("journeyRail");
+    var fill = document.getElementById("railFill");
+    var list = document.querySelector(".services-list");
+    if (!rail || !fill || !list) return;
+
+    var dots = rail.querySelectorAll(".rail-dot");
+    var labels = rail.querySelectorAll(".rail-label");
+    var RED = "#BC002D";
+    var DIM_BORDER = "rgba(21,18,15,.22)";
+    var DIM_TEXT = "rgba(21,18,15,.55)";
+    var INK = "#15120F";
+
+    // The heading pins directly beneath the rail; publish the rail's real
+    // height so it can never end up sliding behind it.
+    var section = rail.closest(".services");
+    function syncRailHeight(){
+      if (section) section.style.setProperty("--rail-h", rail.offsetHeight + "px");
+    }
+    syncRailHeight();
+    window.addEventListener("resize", syncRailHeight);
+
+    function showAll(){
+      fill.style.transform = "scaleX(1)";
+      dots.forEach(function(d){ d.style.backgroundColor = RED; d.style.borderColor = RED; });
+      labels.forEach(function(l){ l.style.color = INK; l.style.fontWeight = "600"; });
+    }
+    if (reduced || !hasGSAP){ showAll(); return; }
+
+    gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
+    gsap.set(dots, { backgroundColor: "#fbf8f7", borderColor: DIM_BORDER });
+    gsap.set(labels, { color: DIM_TEXT, fontWeight: 400 });
+
+    // Scrubbed against the service list itself: scrolling down advances the
+    // rail station by station, scrolling back up reverses it.
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: list,
+        start: "top 65%",
+        end: "bottom 85%",
+        scrub: 0.8
+      }
+    });
+    tl.to(fill, { scaleX: 1, ease: "none", duration: 1 }, 0);
+
+    var n = dots.length;
+    dots.forEach(function(dot, i){
+      var at = i / (n - 1);           // station 1 lights immediately, last at the end
+      tl.to(dot, { backgroundColor: RED, borderColor: RED, duration: 0.02, ease: "none" }, at)
+        .to(labels[i], { color: INK, fontWeight: 600, duration: 0.02, ease: "none" }, at);
+    });
+  }
+
+  /* ---------- FOUNDER PHOTO DECK ---------- */
+  var founderCaptionsEN = [
+    "With the President of APU, Ritsumeikan Asia Pacific University",
+    "Recognized at the International Humanitarian Law Moot Court Competition",
+    "Receiving an award for academic excellence",
+    "At the Red Cross International Humanitarian Law Moot, Hong Kong",
+    "With classmates at Sophia University, Tokyo"
+  ];
+  var founderCaptionsUR = [
+    "اے پی یو (رٹسومیکان ایشیا پیسیفک یونیورسٹی) کے صدر کے ساتھ",
+    "بین الاقوامی ہیومینیٹیرین لاء موٹ کورٹ مقابلے میں پذیرائی",
+    "تعلیمی امتیاز کا ایوارڈ وصول کرتے ہوئے",
+    "ریڈ کراس انٹرنیشنل ہیومینیٹیرین لاء موٹ، ہانگ کانگ میں",
+    "سوفیا یونیورسٹی، ٹوکیو میں کلاس فیلوز کے ساتھ"
+  ];
+  function initFounderReveal(){
+    var window_ = document.getElementById("founderWindow");
+    var imgs = window_ ? window_.querySelectorAll("img") : [];
+    var caption = document.getElementById("founderCaption");
+    var dots = document.querySelectorAll(".founder-dot");
+    var prevBtn = document.querySelector(".founder-prev");
+    var nextBtn = document.querySelector(".founder-next");
+    if (!window_ || !imgs.length) return;
+
+    var n = imgs.length;
+    var current = 0;
+    var interacted = false;
+
+    function swapCaption(text){
+      if (!caption) return;
+      caption.setAttribute("dir", currentLang === "ur" ? "rtl" : "ltr");
+      if (!hasGSAP || reduced){ caption.textContent = text; return; }
+      gsap.to(caption, { opacity: 0, duration: .2, onComplete: function(){
+        caption.textContent = text;
+        gsap.to(caption, { opacity: 1, duration: .4 });
+      }});
+    }
+
+    function render(i){
+      imgs.forEach(function(img, idx){ img.classList.toggle("is-active", idx === i); });
+      dots.forEach(function(d, idx){ d.classList.toggle("is-active", idx === i); });
+      swapCaption((currentLang === "ur" ? founderCaptionsUR : founderCaptionsEN)[i]);
+      current = i;
+    }
+
+    function goToIndex(i){ interacted = true; if (i !== current) render(i); }
+    function next(){ goToIndex((current + 1) % n); }
+    function prev(){ goToIndex((current - 1 + n) % n); }
+
+    if (nextBtn) nextBtn.addEventListener("click", function(e){ e.stopPropagation(); next(); });
+    if (prevBtn) prevBtn.addEventListener("click", function(e){ e.stopPropagation(); prev(); });
+    dots.forEach(function(dot, i){
+      dot.addEventListener("click", function(e){ e.stopPropagation(); goToIndex(i); });
+      dot.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); goToIndex(i); }
+      });
+    });
+
+    // Once the deck has been browsed, a language switch should keep showing
+    // the caption for whichever photo is currently active (in the new
+    // language) rather than snapping back to the generic default caption
+    // that data-i18n would otherwise restore.
+    onLangChange(function(){ if (interacted) swapCaption((currentLang === "ur" ? founderCaptionsUR : founderCaptionsEN)[current]); });
+  }
+
+  /* ---------- FAQ TABS + ACCORDION ---------- */
+  function initFaq(){
+    var tabs = document.querySelectorAll(".faq-tab");
+    var panels = document.querySelectorAll(".faq-panel");
+    var indicator = document.getElementById("faqIndicator");
+    function placeIndicator(btn){
+      if (!indicator) return;
+      indicator.style.width = btn.offsetWidth + "px";
+      indicator.style.transform = "translateX(" + btn.offsetLeft + "px)";
+    }
+    tabs.forEach(function(tab){
+      tab.addEventListener("click", function(){
+        tabs.forEach(function(t){ t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
+        panels.forEach(function(p){ p.hidden = p.getAttribute("data-panel") !== tab.getAttribute("data-tab"); });
+        placeIndicator(tab);
+      });
+    });
+    var active = document.querySelector('.faq-tab[aria-selected="true"]');
+    if (active){ requestAnimationFrame(function(){ placeIndicator(active); }); }
+    window.addEventListener("resize", function(){
+      var a = document.querySelector('.faq-tab[aria-selected="true"]');
+      if (a) placeIndicator(a);
+    });
+
+    document.querySelectorAll(".acc-trigger").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var open = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", open ? "false" : "true");
+      });
+    });
+  }
+
+  /* ---------- CONSULTATION FORM (front-end demo) ---------- */
+  var FORM_MSG = {
+    en:{ required:"Please fill in the required fields.", sending:"Sending…", error:"Something went wrong. Please try again, or email us directly." },
+    ur:{ required:"براہ کرم لازمی خانے پُر کریں۔", sending:"بھیجا جا رہا ہے…", error:"کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں، یا ہمیں براہِ راست ای میل کریں۔" }
+  };
+  function initForm(){
+    var form = document.getElementById("consultForm");
+    var note = document.getElementById("formNote");
+    var success = document.getElementById("formSuccess");
+    var submitBtn = document.getElementById("consultSubmit");
+    if (!form) return;
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var msg = FORM_MSG[currentLang] || FORM_MSG.en;
+      if (!form.checkValidity()){
+        form.reportValidity();
+        note.textContent = msg.required;
+        note.setAttribute("dir", currentLang === "ur" ? "rtl" : "ltr");
+        note.classList.remove("success");
+        return;
+      }
+      note.textContent = "";
+      note.classList.remove("error");
+      submitBtn.textContent = msg.sending;
+      submitBtn.disabled = true;
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      }).then(function(response){
+        if (response.ok){
+          form.classList.add("submitted");
+          success.classList.add("show");
+        } else {
+          throw new Error("Form submission failed");
+        }
+      }).catch(function(){
+        note.textContent = msg.error;
+        note.setAttribute("dir", currentLang === "ur" ? "rtl" : "ltr");
+        note.classList.add("error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = (currentLang === "ur" ? UR : EN)["consult.submitBtn"];
+      });
+    });
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function(){
+    runLoader();
+    initI18n();
+    initReveal();
+    initNav();
+    initJourney();
+    initFounderReveal();
+    initFaq();
+    initForm();
+    initCalligraphy();
+  });
+})();
+</script>
+</body>
+</html>
