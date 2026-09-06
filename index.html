@@ -613,11 +613,17 @@
      is tall, and centering a short block against a much taller graphic
      just splits the empty space above and below it instead of removing it. */
   .contact-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(2.5rem,6vw,5rem); align-items:start;}
+  /* min-width:0 so this track honors its .8fr share — without it, the
+     WhatsApp button's own nowrap min-content width forces the grid track
+     (and everything else in this column) wider than intended. */
+  .contact-copy{min-width:0;}
   .contact h2{font-size:clamp(2.1rem,4.5vw,3.2rem); color:var(--cream); font-weight:500;}
   .contact-copy > p{margin-top:1.2rem; color:var(--cream-70); font-size:1.08rem; max-width:44ch;}
   .contact-links{display:flex; flex-direction:column; gap:.5rem; margin-top:2.2rem; font-size:1.05rem;}
   .contact-links a{border-bottom:1px solid var(--line-on-ink-strong); width:fit-content; padding-bottom:.15rem; transition:border-color .3s;}
   .contact-links a:hover{border-color:var(--red);}
+  .whatsapp-cta{margin-top:1.6rem; gap:.75rem; white-space:normal; text-align:left; max-width:100%;}
+  .whatsapp-cta-icon{width:2rem; height:2rem; flex-shrink:0;}
   .contact-map-wrap{max-width:none; width:100%;}
   .contact-map-stage{position:relative; aspect-ratio:1999/1069; width:100%; display:block;}
   .contact-map-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:.55;}
@@ -811,6 +817,10 @@
   <symbol id="i-plane" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></symbol>
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 11c-2.5 4.65-9.5 9-9.5 9Z"/><path d="M4.5 11.5h3l1.5-2.3 2 4.6 1.5-2.3h3.4"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 32 32">
+    <path fill="#25D366" d="M16 3C9.373 3 4 8.373 4 15c0 2.386.7 4.61 1.902 6.478L4 29l7.72-1.87A11.94 11.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3Z"/>
+    <path fill="#fff" d="M11.5 10.5c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .7.5.3.6 1 2.1 1 2.3.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.5.6-.2.2-.4.4-.2.7.2.4 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 3 1.9.4.2.6.1.8-.1.2-.2.9-1 1.1-1.4.2-.4.5-.3.8-.2.3.1 2 .9 2.3 1.1.3.2.5.2.6.4.1.2.1 1-.3 1.9-.4.9-2.1 1.8-2.9 1.9-.8.1-1.5.2-4.9-1.1-4.1-1.6-6.7-5.7-6.9-6-.2-.3-1.6-2.1-1.6-4s1-2.8 1.4-3.2Z"/>
+  </symbol>
 </svg>
 
 <div class="loader" id="loader" aria-hidden="true">
@@ -895,7 +905,7 @@
   <div class="hero-content">
     <p class="hero-kicker" data-i18n="hero.kicker">Japan Education Consulting</p>
     <h1 class="hero-title" data-i18n="hero.title">Your gateway to <em>Japan</em></h1>
-    <p class="hero-lead" data-i18n="hero.lead">Japan Bound Education is an educational consultancy dedicated to helping high school students pursue higher education at Japanese universities. We provide comprehensive guidance throughout the entire journey, from university selection to pre-departure support.</p>
+    <p class="hero-lead" data-i18n="hero.lead">Japan Bound Education is a student-led education guidance initiative dedicated to helping high school students pursue higher education at Japanese universities. We provide comprehensive guidance throughout the entire journey, from university selection to pre-departure support.</p>
     <div class="hero-actions">
       <a href="#consultation" class="btn btn-primary btn-hero" data-i18n="cta.bookConsult">Book a Free Consultation</a>
       <a href="#services" class="btn btn-text"><span data-i18n="hero.seeHow">See how it works</span> <svg class="icon"><use href="#i-arrow"/></svg></a>
@@ -1256,8 +1266,11 @@
       <p data-i18n="contact.p">Reach us directly, or book a free consultation and we'll come to you.</p>
       <div class="contact-links">
         <a href="mailto:info@japanboundeducation.com" dir="ltr">info@japanboundeducation.com</a>
-        <a href="tel:+923218847710" data-i18n="contact.phoneLabel">+92 321 884 7710 (WhatsApp)</a>
       </div>
+      <a class="btn btn-lg btn-outline-light whatsapp-cta" href="https://wa.me/qr/BPWYNWCKKMPXH1?text=Hi%21%20I%27d%20like%20to%20book%20a%20free%20consultation%20about%20studying%20in%20Japan." target="_blank" rel="noopener">
+        <svg class="whatsapp-cta-icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+        <span data-i18n="contact.whatsappCta">Chat with us on WhatsApp</span>
+      </a>
     </div>
     <div class="contact-map-wrap reveal">
       <div class="contact-map-stage">
@@ -1332,7 +1345,7 @@
 
     "hero.kicker":"جاپان ایجوکیشن کنسلٹنگ",
     "hero.title":"آپ کا <em>جاپان</em> کا دروازہ",
-    "hero.lead":"جاپان باؤنڈ ایجوکیشن ایک تعلیمی مشاورتی ادارہ ہے جو ہائی اسکول کے طلبہ کو جاپانی جامعات میں اعلیٰ تعلیم حاصل کرنے میں مدد فراہم کرتا ہے۔ ہم یونیورسٹی کے انتخاب سے لے کر روانگی سے پہلے کی تیاری تک، پورے سفر میں مکمل رہنمائی فراہم کرتے ہیں۔",
+    "hero.lead":"جاپان باؤنڈ ایجوکیشن طلبہ کی زیرِ قیادت ایک تعلیمی رہنمائی کا اقدام ہے جو ہائی اسکول کے طلبہ کو جاپانی جامعات میں اعلیٰ تعلیم حاصل کرنے میں مدد فراہم کرتا ہے۔ ہم یونیورسٹی کے انتخاب سے لے کر روانگی سے پہلے کی تیاری تک، پورے سفر میں مکمل رہنمائی فراہم کرتے ہیں۔",
     "hero.seeHow":"یہ کیسے کام کرتا ہے",
 
     "study.h2":"جاپان کیوں، اور <em>ابھی</em> کیوں؟",
@@ -1458,7 +1471,7 @@
 
     "contact.h2":"آپ کے لیے ہمارا دروازہ <em>کھلا</em> ہے۔",
     "contact.p":"براہِ راست ہم سے رابطہ کریں، یا مفت مشاورت بک کریں اور ہم خود آپ سے رابطہ کریں گے۔",
-    "contact.phoneLabel":"+92 321 884 7710 (واٹس ایپ)",
+    "contact.whatsappCta":"واٹس ایپ پر ہم سے بات کریں",
     "footer.copyright":"© 2026 جاپان باؤنڈ ایجوکیشن (JBE)۔ جملہ حقوق محفوظ ہیں۔",
     "footer.exploreHeading":"دریافت کریں", "footer.home":"ہوم", "footer.whatWeDo":"ہم کیا کرتے ہیں",
     "footer.howItWorks":"یہ کیسے کام کرتا ہے", "footer.aboutUs":"ہمارے بارے میں",
