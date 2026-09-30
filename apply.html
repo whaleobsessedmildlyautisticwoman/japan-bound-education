@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start Your Journey | Japan Bound Education</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo/apple-touch-icon-180.png">
+<style>
+  /* ============ TOKENS (mirrors index.html) ============ */
+  :root{
+    --paper:#fbf8f7; --ink:#15120F; --ink-70:rgba(21,18,15,.7); --ink-55:rgba(21,18,15,.55); --ink-35:rgba(21,18,15,.35);
+    --line:rgba(21,18,15,.13); --line-strong:rgba(21,18,15,.22);
+    --red:#BC002D; --red-deep:#8C0022;
+    --max:1440px; --pad:clamp(1.25rem, 5vw, 4.5rem);
+    --font-display:'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-jp:'Shippori Mincho', 'Fraunces', serif;
+    --font-body:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; overscroll-behavior-x:none;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; overscroll-behavior-x:none;}
+  a{color:inherit; text-decoration:none;}
+  ul,ol{margin:0; padding:0; list-style:none;}
+  h1,h2,h3,p{margin:0;}
+  h1,h2,h3{font-family:var(--font-display); letter-spacing:-0.02em; line-height:1.15;}
+  button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--red); outline-offset:3px; border-radius:2px;}
+  .section-inner{max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad);}
+
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.55rem; padding:.95rem 1.9rem; border-radius:999px; font-weight:500; font-size:.98rem; letter-spacing:-0.005em; white-space:nowrap; cursor:pointer; border:1.5px solid transparent; transition:transform .25s var(--ease-out), background-color .25s var(--ease-out), border-color .25s var(--ease-out), color .25s var(--ease-out);}
+  .btn:active{transform:scale(.97);}
+  .btn-lg{padding:1.15rem 2.3rem; font-size:1.02rem;}
+  .btn-primary{background:var(--red); color:#fff; width:100%;}
+  .btn-primary:hover{background:var(--red-deep);}
+  .btn-primary:disabled{opacity:.6; cursor:default;}
+
+  /* ============ HEADER ============ */
+  .site-header{background:rgba(255,255,255,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10;}
+  .header-inner{max-width:var(--max); margin:0 auto; padding:0 var(--pad); height:76px; display:flex; align-items:center; justify-content:space-between; gap:1.5rem;}
+  .brand{display:flex; align-items:center; gap:.65rem; min-width:0; flex-shrink:1; font-family:var(--font-display); font-size:1.08rem; font-weight:600; letter-spacing:-.005em; color:var(--ink);}
+  .brand-mark{width:38px; height:38px; flex-shrink:0;}
+  .brand-mark svg{width:100%; height:100%;}
+  .brand span:last-child{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;}
+  .back-link{font-size:.92rem; color:var(--ink-70); border-bottom:1px solid var(--line-strong); padding-bottom:2px; white-space:nowrap; flex-shrink:0; transition:color .3s var(--ease-out), border-color .3s var(--ease-out);}
+  .back-link:hover{color:var(--ink); border-color:var(--ink);}
+
+  /* ============ APPLY HERO ============ */
+  .apply-hero{padding:clamp(2.75rem,6vw,4.5rem) 0 clamp(1.75rem,3.5vw,2.25rem); text-align:center;}
+  .apply-kicker{font-family:var(--font-jp); color:var(--red); font-size:.95rem; font-weight:500; letter-spacing:.02em; margin-bottom:1.1rem;}
+  .apply-hero h1{font-size:clamp(2.3rem,5vw,3.4rem); font-weight:500; line-height:1.08; letter-spacing:-0.03em; text-wrap:balance;}
+  .apply-hero h1 em{font-style:italic; color:var(--red); font-weight:400;}
+  .apply-hero p{margin-top:1.2rem; font-size:1.08rem; color:var(--ink-70); max-width:52ch; margin-left:auto; margin-right:auto;}
+  .apply-hero .apply-time{margin-top:.9rem; font-size:.88rem; color:var(--ink-55); font-style:italic;}
+
+  /* ============ FORM ============ */
+  .apply-wrap{max-width:640px; margin:0 auto; padding-bottom:clamp(3rem,6vw,5rem);}
+  .apply-card{background:#fff; border:1px solid var(--line); border-radius:20px; padding:clamp(1.5rem,4vw,2.75rem); box-shadow:0 30px 60px -30px rgba(21,18,15,.15);}
+
+  .q-section-title{margin-top:2.75rem; padding-bottom:.7rem; border-bottom:1px solid var(--line); font-family:var(--font-body); font-size:.78rem; font-weight:600; text-transform:uppercase; letter-spacing:.09em; color:var(--red);}
+  .apply-form-fields > .q-section-title:first-child{margin-top:0;}
+  .q-section-title + .q{margin-top:1.4rem;}
+
+  .q{margin-top:2rem;}
+  .q:first-child{margin-top:0;}
+  .q-label{display:flex; align-items:flex-start; gap:.65rem; font-size:1.02rem; font-weight:500; color:var(--ink); line-height:1.5;}
+  .q-number{display:inline-flex; align-items:center; justify-content:center; width:1.6rem; height:1.6rem; border-radius:50%; background:rgba(188,0,45,.09); color:var(--red); font-size:.76rem; font-weight:700; flex-shrink:0; margin-top:.05rem;}
+  .q-label-text{flex:1; padding-top:.1rem;}
+  .q-required{color:var(--red);}
+  .q-hint{margin-top:.3rem; margin-left:2.25rem; font-size:.85rem; color:var(--ink-55);}
+  .q input[type="text"], .q input[type="email"], .q input[type="tel"], .q select, .q textarea{
+    margin-top:.8rem; width:100%; border:1px solid var(--line-strong); border-radius:10px; padding:.85rem 1rem;
+    background:var(--paper); font-size:.98rem; font-family:inherit;
+    transition:border-color .25s var(--ease-out), box-shadow .25s var(--ease-out);
+  }
+  .q select{cursor:pointer;}
+  .q textarea{resize:vertical; min-height:5.5rem;}
+  .q input:focus, .q select:focus, .q textarea:focus{border-color:var(--red); box-shadow:0 0 0 3px rgba(188,0,45,.12); outline:none;}
+  .q-options{margin-top:.9rem; display:flex; flex-direction:column; gap:.6rem;}
+  .q-option{display:flex; align-items:flex-start; gap:.7rem; padding:.75rem .95rem; border:1px solid var(--line-strong); border-radius:10px; cursor:pointer; transition:border-color .2s var(--ease-out), background-color .2s var(--ease-out), box-shadow .2s var(--ease-out);}
+  .q-option:hover{border-color:var(--ink-35); box-shadow:0 6px 16px -12px rgba(21,18,15,.25);}
+  .q-option span{font-size:.95rem; color:var(--ink);}
+  .q-option:has(input:checked){border-color:var(--red); background:rgba(188,0,45,.05); box-shadow:0 6px 16px -12px rgba(188,0,45,.3);}
+  /* Custom radio/checkbox faces (native control kept for a11y + click
+     target, just visually replaced) so selections read as on-brand red
+     rather than the browser's default OS-styled control. */
+  .q-option input[type="radio"], .q-option input[type="checkbox"]{
+    appearance:none; -webkit-appearance:none; width:1.15rem; height:1.15rem; margin-top:.15rem; flex-shrink:0;
+    border:1.5px solid var(--line-strong); background:#fff; position:relative; cursor:pointer;
+    transition:border-color .2s var(--ease-out), background-color .2s var(--ease-out);
+  }
+  .q-option input[type="radio"]{border-radius:50%;}
+  .q-option input[type="checkbox"]{border-radius:5px;}
+  .q-option input[type="radio"]:checked, .q-option input[type="checkbox"]:checked{border-color:var(--red); background:var(--red);}
+  .q-option input[type="radio"]:checked::after{content:""; position:absolute; inset:4px; border-radius:50%; background:#fff;}
+  .q-option input[type="checkbox"]:checked::after{content:""; position:absolute; left:4px; top:1px; width:4px; height:8px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg);}
+  .q-option input:focus-visible{outline:2px solid var(--red); outline-offset:2px;}
+  .q-other-input{margin-top:.7rem; margin-left:0;}
+  .q-other-input[hidden]{display:none;}
+  .apply-submit{margin-top:2.75rem;}
+  .apply-error{margin-top:.9rem; font-size:.9rem; color:var(--red); font-weight:500; text-align:center; min-height:1.2em;}
+  .apply-privacy{margin-top:1.1rem; font-size:.8rem; line-height:1.5; color:var(--ink-35); text-align:center;}
+
+  /* ============ SUCCESS ============ */
+  .apply-success{display:none; text-align:center; padding:1rem 0;}
+  .apply-success.show{display:block;}
+  .apply-success .icon-circle{width:4.5rem; height:4.5rem; border-radius:50%; background:rgba(188,0,45,.09); display:flex; align-items:center; justify-content:center; margin:0 auto 1.4rem;}
+  .apply-success .icon-mark{width:2.1rem; height:2.1rem; color:var(--red);}
+  .apply-success h2{font-size:1.5rem; font-weight:500;}
+  .apply-success p{margin-top:.9rem; font-size:1.02rem; color:var(--ink-70); max-width:44ch; margin-left:auto; margin-right:auto;}
+  .apply-success p + p{margin-top:.7rem;}
+  .apply-form.submitted .apply-form-fields{display:none;}
+
+  /* ============ SIMPLE FOOTER ============ */
+  .apply-footer{padding:1.5rem 0; text-align:center; font-size:.82rem; color:var(--ink-35); border-top:1px solid var(--line);}
+
+  @media (max-width:600px){
+    .apply-card{border-radius:16px;}
+    .q-hint{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <mask id="lm-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+              <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+              <g transform="translate(12,-17.92) scale(0.88)">
+                <polygon points="100,72 178,98 100,124 22,98" fill="#000"/>
+                <rect x="64" y="118" width="72" height="16" fill="#000"/>
+                <polygon points="74,134 90,134 84,196 64,196" fill="#000"/>
+                <polygon points="110,134 126,134 136,196 116,196" fill="#000"/>
+                <rect x="68" y="160" width="64" height="10" fill="#000"/>
+              </g>
+            </mask>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#BC002D" mask="url(#lm-mask)"/>
+        </svg>
+      </span>
+      <span>Japan Bound Education</span>
+    </a>
+    <a href="index.html#top" class="back-link">← Back to homepage</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="apply-hero">
+    <div class="section-inner">
+      <p class="apply-kicker">Start Your Application</p>
+      <h1>Let's start your journey to <em>Japan</em></h1>
+      <p>Thinking about studying in Japan but not sure where to start? Tell us a little about yourself and your plans. We'll review your information and get in touch to arrange a free 1:1 consultation.</p>
+      <p class="apply-time">Takes about 2–3 minutes.</p>
+    </div>
+  </section>
+
+  <div class="section-inner apply-wrap">
+    <div class="apply-card">
+      <form class="apply-form" id="applyForm" novalidate>
+        <div class="apply-form-fields">
+
+          <p class="q-section-title">Your Details</p>
+
+          <div class="q">
+            <label class="q-label" for="q-name"><span class="q-number">1</span><span class="q-label-text">Full Name <span class="q-required">*</span></span></label>
+            <input type="text" id="q-name" name="full_name" required autocomplete="name">
+          </div>
+
+          <div class="q">
+            <label class="q-label" for="q-email"><span class="q-number">2</span><span class="q-label-text">Email Address <span class="q-required">*</span></span></label>
+            <input type="email" id="q-email" name="email" required autocomplete="email">
+          </div>
+
+          <div class="q">
+            <label class="q-label" for="q-phone"><span class="q-number">3</span><span class="q-label-text">WhatsApp / Contact Number <span class="q-required">*</span></span></label>
+            <input type="tel" id="q-phone" name="phone" required autocomplete="tel">
+          </div>
+
+          <div class="q" data-question="country">
+            <label class="q-label" for="q-country"><span class="q-number">4</span><span class="q-label-text">Country <span class="q-required">*</span></span></label>
+            <select id="q-country" name="country" required>
+              <option value="" disabled selected>Select your country</option>
+              <option value="Pakistan">Pakistan</option>
+              <option value="India">India</option>
+              <option value="Bangladesh">Bangladesh</option>
+              <option value="Nepal">Nepal</option>
+              <option value="Sri Lanka">Sri Lanka</option>
+              <option value="Afghanistan">Afghanistan</option>
+              <option value="Bhutan">Bhutan</option>
+              <option value="Maldives">Maldives</option>
+              <option value="Myanmar">Myanmar</option>
+              <option value="China">China</option>
+              <option value="Indonesia">Indonesia</option>
+              <option value="Vietnam">Vietnam</option>
+              <option value="Philippines">Philippines</option>
+              <option value="Malaysia">Malaysia</option>
+              <option value="Thailand">Thailand</option>
+              <option value="South Korea">South Korea</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Japan">Japan</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+              <option value="Other" data-other-toggle>Other</option>
+            </select>
+            <input type="text" class="q-other-input" name="country_other" placeholder="Please specify" hidden>
+          </div>
+
+          <div class="q">
+            <label class="q-label" for="q-city"><span class="q-number">5</span><span class="q-label-text">City <span class="q-required">*</span></span></label>
+            <input type="text" id="q-city" name="city" required autocomplete="address-level2">
+          </div>
+
+          <p class="q-section-title">Your Study Plans</p>
+
+          <div class="q" data-question="study_stage">
+            <p class="q-label"><span class="q-number">6</span><span class="q-label-text">Where are you in your studies right now? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="radio" name="study_stage" value="Currently in high school" required><span>Currently in high school</span></label>
+              <label class="q-option"><input type="radio" name="study_stage" value="Completed high school"><span>Completed high school</span></label>
+              <label class="q-option"><input type="radio" name="study_stage" value="Taking a gap year"><span>Taking a gap year</span></label>
+              <label class="q-option"><input type="radio" name="study_stage" value="Currently studying at a university/college"><span>Currently studying at a university/college</span></label>
+              <label class="q-option"><input type="radio" name="study_stage" value="Other" data-other-toggle><span>Other</span></label>
+            </div>
+            <input type="text" class="q-other-input" name="study_stage_other" placeholder="Please specify" hidden>
+          </div>
+
+          <div class="q" data-question="study_level">
+            <p class="q-label"><span class="q-number">7</span><span class="q-label-text">What level of study are you interested in? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="radio" name="study_level" value="Bachelor's" required><span>Bachelor's</span></label>
+              <label class="q-option"><input type="radio" name="study_level" value="Master's"><span>Master's</span></label>
+              <label class="q-option"><input type="radio" name="study_level" value="Not sure yet"><span>Not sure yet</span></label>
+              <label class="q-option"><input type="radio" name="study_level" value="Other" data-other-toggle><span>Other</span></label>
+            </div>
+            <input type="text" class="q-other-input" name="study_level_other" placeholder="Please specify" hidden>
+          </div>
+
+          <div class="q" data-question="field_of_study">
+            <p class="q-label"><span class="q-number">8</span><span class="q-label-text">Do you have a field of study in mind? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="radio" name="field_of_study" value="Business / Management" required><span>Business / Management</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Engineering"><span>Engineering</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Computer Science / IT"><span>Computer Science / IT</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Social Sciences"><span>Social Sciences</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Humanities"><span>Humanities</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Arts / Design / Media"><span>Arts / Design / Media</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Health / Life Sciences"><span>Health / Life Sciences</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="Other" data-other-toggle><span>Other</span></label>
+              <label class="q-option"><input type="radio" name="field_of_study" value="I'm not sure yet"><span>I'm not sure yet</span></label>
+            </div>
+            <input type="text" class="q-other-input" name="field_of_study_other" placeholder="Please specify" hidden>
+          </div>
+
+          <div class="q" data-question="start_timeline">
+            <p class="q-label"><span class="q-number">9</span><span class="q-label-text">When are you planning to start? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="radio" name="start_timeline" value="2027" required><span>2027</span></label>
+              <label class="q-option"><input type="radio" name="start_timeline" value="2028"><span>2028</span></label>
+              <label class="q-option"><input type="radio" name="start_timeline" value="2029 or later"><span>2029 or later</span></label>
+              <label class="q-option"><input type="radio" name="start_timeline" value="I'm not sure yet"><span>I'm not sure yet</span></label>
+            </div>
+          </div>
+
+          <p class="q-section-title">How We Can Help</p>
+
+          <div class="q">
+            <p class="q-label"><span class="q-number">10</span><span class="q-label-text">What would you like help with? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="checkbox" name="help_with" value="Universities & programs"><span>Universities &amp; programs</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Scholarships"><span>Scholarships</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Costs & budgeting"><span>Costs &amp; budgeting</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Admission requirements"><span>Admission requirements</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Application & SOP/essay guidance"><span>Application &amp; SOP/essay guidance</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Interview preparation"><span>Interview preparation</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="COE & visa guidance"><span>COE &amp; visa guidance</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="Preparing for life in Japan"><span>Preparing for life in Japan</span></label>
+              <label class="q-option"><input type="checkbox" name="help_with" value="I'm not sure where to start"><span>I'm not sure where to start</span></label>
+            </div>
+          </div>
+
+          <p class="q-section-title">Tell Us More</p>
+
+          <div class="q">
+            <label class="q-label" for="q-interest"><span class="q-number">11</span><span class="q-label-text">What makes you interested in studying in Japan? <span class="q-required">*</span></span></label>
+            <p class="q-hint">Tell us a little about yourself, your interests, goals, or what attracts you to Japan. A few sentences are enough.</p>
+            <textarea id="q-interest" name="interest_reason" rows="4" required></textarea>
+          </div>
+
+          <div class="q" data-question="heard_from">
+            <p class="q-label"><span class="q-number">12</span><span class="q-label-text">How did you hear about Japan Bound Education? <span class="q-required">*</span></span></p>
+            <div class="q-options">
+              <label class="q-option"><input type="radio" name="heard_from" value="Instagram" required><span>Instagram</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="TikTok"><span>TikTok</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="YouTube"><span>YouTube</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="Friend / Family"><span>Friend / Family</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="School / Teacher / Counselor"><span>School / Teacher / Counselor</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="Event / Webinar"><span>Event / Webinar</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="Google / Search"><span>Google / Search</span></label>
+              <label class="q-option"><input type="radio" name="heard_from" value="Other" data-other-toggle><span>Other</span></label>
+            </div>
+            <input type="text" class="q-other-input" name="heard_from_other" placeholder="Please specify" hidden>
+          </div>
+
+          <div class="q">
+            <label class="q-label" for="q-notes"><span class="q-number">13</span><span class="q-label-text">Anything you'd like us to know before the consultation?</span></label>
+            <p class="q-hint">Optional</p>
+            <textarea id="q-notes" name="additional_notes" rows="3"></textarea>
+          </div>
+
+          <div class="apply-submit">
+            <button type="submit" class="btn btn-primary btn-lg" id="applySubmit">Submit</button>
+            <p class="apply-error" id="applyError" aria-live="polite"></p>
+            <p class="apply-privacy">Your information is only used to review your request and arrange your consultation.</p>
+          </div>
+
+        </div>
+
+        <div class="apply-success" id="applySuccess">
+          <div class="icon-circle">
+            <svg class="icon-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg>
+          </div>
+          <h2>You're all set!</h2>
+          <p>Thank you for reaching out to Japan Bound Education.</p>
+          <p>We've received your information and will review it before getting in touch with you. Our team will contact you soon to arrange your free 30-minute 1:1 consultation.</p>
+          <p>In the meantime, if you have any questions, you can reach us at <a href="mailto:hello@japanboundeducation.com" style="text-decoration:underline;">hello@japanboundeducation.com</a>.</p>
+          <p>We look forward to learning more about your plans for Japan.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="apply-footer">
+    © 2026 Japan Bound Education (JBE). All rights reserved.
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="module">
+  // Phase 3: submissions now go to the Supabase submit-inquiry Edge
+  // Function instead of Firestore. Firebase/Firestore have been removed
+  // from this file entirely -- nothing else here ever used them, and the
+  // old consultationRequests write was their only purpose. Historical
+  // Firestore data and dashboard.html are untouched; this only changes
+  // where a NEW submission from this form goes. EmailJS is unchanged
+  // (own script tag above, own init/send calls below) and is not
+  // affected by this at all.
+  //
+  // The only Supabase-related value the browser needs is this public
+  // Edge Function URL -- no service_role key, no database credentials, no
+  // Supabase PAT, nothing beyond an ordinary fetch() target.
+  var SUBMIT_INQUIRY_URL = "https://pkzxcodpcatqabzorcaf.supabase.co/functions/v1/submit-inquiry";
+
+  var EMAILJS_SERVICE_ID = "service_nc25hqi";
+  var EMAILJS_TEMPLATE_ID = "template_5hc3cl6";
+  emailjs.init({ publicKey: "ngxYnIGwH49-p6zjm" });
+
+  var form = document.getElementById("applyForm");
+  var error = document.getElementById("applyError");
+  var success = document.getElementById("applySuccess");
+  var submitBtn = document.getElementById("applySubmit");
+
+  // Reveal each question's "please specify" field only when its own
+  // "Other" choice is the one selected, and clear it if the visitor picks
+  // something else after typing -- otherwise a stray leftover value could
+  // get submitted for an option that isn't chosen. Handles both the
+  // existing radio-group questions and the country <select> the same way.
+  document.querySelectorAll('[data-question]').forEach(function(group){
+    var otherInput = group.querySelector('.q-other-input');
+    if (!otherInput) return;
+
+    function syncOther(isOther){
+      otherInput.hidden = !isOther;
+      if (!isOther) otherInput.value = "";
+      if (isOther) otherInput.focus();
+    }
+
+    var select = group.querySelector('select');
+    if (select){
+      select.addEventListener("change", function(){
+        var selected = select.options[select.selectedIndex];
+        syncOther(!!(selected && selected.hasAttribute("data-other-toggle")));
+      });
+      return;
+    }
+
+    group.querySelectorAll('input[type="radio"]').forEach(function(radio){
+      radio.addEventListener("change", function(){
+        syncOther(radio.hasAttribute("data-other-toggle") && radio.checked);
+      });
+    });
+  });
+
+  function getCheckedValues(name){
+    return Array.from(form.querySelectorAll('input[name="' + name + '"]:checked')).map(function(el){ return el.value; });
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    error.textContent = "";
+
+    if (!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+    var helpWith = getCheckedValues("help_with");
+    if (helpWith.length === 0){
+      error.textContent = "Please select at least one option for \"What would you like help with?\"";
+      return;
+    }
+
+    // Collected for the existing EmailJS notification and, where a field
+    // has a home in the new inquiries schema, for Supabase too. See the
+    // Phase 3 report for exactly which of these does and doesn't reach
+    // Supabase and why (study_stage currently doesn't -- the schema has
+    // no field for it yet; everything else does). city was added to the
+    // schema in Phase 6.2, split out from what used to be a single
+    // combined "City & Country" field -- it has its own input now (#5),
+    // not an Other-style fallback, so it's just a plain trimmed value.
+    var fullName = form.full_name.value.trim();
+    var email = form.email.value.trim();
+    var phone = form.phone.value.trim();
+    var country = form.country_other.value.trim() || form.country.value;
+    var city = form.city.value.trim();
+    var studyStage = form.study_stage_other.value.trim() || form.study_stage.value;
+    var studyLevel = form.study_level_other.value.trim() || form.study_level.value;
+    var fieldOfStudy = form.field_of_study_other.value.trim() || form.field_of_study.value;
+    var startTimeline = form.start_timeline.value;
+    var interestReason = form.interest_reason.value.trim();
+    var heardFrom = form.heard_from_other.value.trim() || form.heard_from.value;
+    var additionalNotes = form.additional_notes.value.trim();
+
+    // Supabase's `inquiries` table has one `message` field, not two --
+    // "Interest reason" is required and always present; "Additional
+    // notes" is optional and, when filled in, is appended as a clearly
+    // labeled second paragraph rather than silently dropped. EmailJS
+    // below still gets both as separate variables, unchanged from before.
+    var message = interestReason + (additionalNotes ? "\n\nAdditional notes: " + additionalNotes : "");
+
+    var inquiryPayload = {
+      full_name: fullName,
+      email: email,
+      phone: phone,
+      country: country,
+      city: city,
+      study_level: studyLevel,
+      field_of_interest: fieldOfStudy,
+      intake: startTimeline,
+      help_with: helpWith,
+      message: message,
+      heard_from: heardFrom
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting…";
+
+    fetch(SUBMIT_INQUIRY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inquiryPayload)
+    }).then(function(res){
+      if (!res.ok){
+        // The Edge Function's own error responses are already generic
+        // (see Phase 2) -- never surface res text/status details beyond
+        // that to the applicant.
+        throw new Error("submission failed");
+      }
+      return res.json();
+    }).then(function(){
+      // Supabase succeeded -- this is the point where the applicant's
+      // submission is considered successful, full stop. Everything after
+      // this is best-effort: the success screen is shown regardless of
+      // what happens next.
+      form.classList.add("submitted");
+      success.classList.add("show");
+      success.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // Best-effort notification email -- the inquiry is already safely
+      // stored in Supabase above, so a failure here (EmailJS outage,
+      // quota, etc.) is logged only and never affects the applicant's
+      // already-shown success screen. Same template/variables as before;
+      // Unchanged by Phase 6.2: city_country here still only ever contains
+      // the country, same as before city was reintroduced as its own
+      // Supabase field -- this notification's fields and behavior are
+      // deliberately untouched. study_stage is still sent here even though
+      // it doesn't reach Supabase.
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        full_name: fullName,
+        email: email,
+        phone: phone,
+        city_country: country,
+        study_stage: studyStage,
+        study_level: studyLevel,
+        field_of_study: fieldOfStudy,
+        start_timeline: startTimeline,
+        help_with: helpWith.join(", "),
+        interest_reason: interestReason,
+        heard_from: heardFrom,
+        additional_notes: additionalNotes || "(none)"
+      }).catch(function(err){ console.error("Email notification failed:", err); });
+    }).catch(function(err){
+      // Supabase failed (or never returned ok) -- EmailJS is never
+      // triggered in this branch, and the applicant is never told the
+      // submission succeeded. No database/server detail is shown, only a
+      // generic message.
+      console.error(err);
+      error.textContent = "Something went wrong. Please try again, or email us directly at hello@japanboundeducation.com.";
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit";
+    });
+  });
+</script>
+</body>
+</html>
