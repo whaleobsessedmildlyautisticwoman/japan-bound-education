@@ -443,15 +443,26 @@
      just live on the section itself to clip the watermark. */
   .consultation{background:var(--red); color:#fff; position:relative; overflow:hidden;}
   .consultation-mark{position:absolute; top:50%; left:clamp(-3rem,-6vw,-1.5rem); transform:translateY(-50%); font-family:var(--font-jp); font-size:clamp(16rem,32vw,28rem); line-height:1; color:#fff; opacity:.08; pointer-events:none; user-select:none; z-index:0;}
-  /* Centered rather than top-aligned: the copy is much shorter than the
-     form, and pinning it to the top just leaves a void underneath it —
-     centering distributes the extra room evenly instead. */
-  .consultation-grid{position:relative; z-index:1; display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(2.5rem,6vw,5rem); align-items:center;}
+  /* Top-aligned so the map starts level with the "Let's Build..." heading
+     instead of being vertically centered against the taller copy column. */
+  .consultation-grid{position:relative; z-index:1; display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(2.5rem,6vw,5rem); align-items:start;}
   .consultation h2{font-size:clamp(2rem,4vw,2.9rem); color:#fff; font-weight:500;}
   .consultation-copy p{margin-top:1.3rem; color:rgba(255,255,255,.85); font-size:1.15rem; line-height:1.65; max-width:46ch;}
   .consultation-list{margin-top:2.4rem; display:flex; flex-direction:column; gap:1.3rem;}
   .consultation-list li{display:flex; gap:.85rem; font-size:1.05rem; color:rgba(255,255,255,.92);}
   .consultation-list .icon{color:#fff; width:1.1rem; height:1.1rem; margin-top:.2rem;}
+  .consultation-right{display:flex; flex-direction:column; gap:1.6rem;}
+  .consultation-map-wrap{max-width:none; width:100%; position:relative; z-index:1;}
+  .consultation-map-stage{position:relative; aspect-ratio:1999/1069; width:100%; display:block;}
+  .consultation-map-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:.4;}
+  .consultation-contact-buttons{position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:.75rem;}
+  /* Slightly tighter than the standard .btn-lg horizontal padding so the
+     two buttons don't wrap to two lines on common laptop widths (~1280px). */
+  .consultation-contact-buttons .btn{padding-left:1.7rem; padding-right:1.7rem;}
+  /* .whatsapp-cta's shared margin-top is for its standalone uses (mobile
+     menu, the #contact section below) -- inside this flex row the
+     container's own gap already provides the spacing. */
+  .consultation-contact-buttons .whatsapp-cta{margin-top:0;}
   /* Lifted off the red field behind it rather than just butting up against
      it — a rounded card with real depth reads as an object you'd fill in,
      not a flat panel that happens to be a different color. */
@@ -627,6 +638,10 @@
   .contact-map-wrap{max-width:none; width:100%;}
   .contact-map-stage{position:relative; aspect-ratio:1999/1069; width:100%; display:block;}
   .contact-map-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:.55;}
+  /* Site-link columns moved up from the footer into the map's old spot --
+     reuses .footer-col/.footer-heading as-is (same dark background, same
+     type) so this reads as one consistent system, not a second style. */
+  .contact-links-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(1.5rem,3vw,2.5rem);}
 
   /* ============ SITE FOOTER ============ */
   .site-footer{background:var(--ink); color:var(--cream);}
@@ -713,6 +728,7 @@
     .consultation-grid, .contact-grid{grid-template-columns:1fr;}
     .contact-grid{gap:3rem;}
     .contact-map-wrap{max-width:460px; width:100%; margin:0 auto;}
+    .contact-links-grid{gap:2rem;}
     .services-split{grid-template-columns:1fr; gap:2.5rem;}
     .services-sticky{position:static;}
     .founder-grid{grid-template-columns:1fr; gap:2.5rem;}
@@ -725,6 +741,7 @@
   }
   @media (max-width:640px){
     .founder-polaroid{max-width:380px;}
+    .contact-links-grid{grid-template-columns:1fr; gap:2rem;}
   }
   @media (max-width:860px){
     .why-grid{grid-template-columns:1fr;}
@@ -1139,10 +1156,19 @@
         <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li4">Personalized guidance based on your goals and profile</span></li>
       </ul>
     </div>
-    <div class="consultation-form reveal">
-      <h3 class="consultation-form-kicker" data-i18n="consult.formKicker">Ready to explore Japan?</h3>
-      <a href="apply.html" class="btn btn-primary btn-lg" data-i18n="cta.bookConsult">Book a Free Consultation</a>
-      <p class="form-privacy" data-i18n="consult.privacy">Your information will only be used to contact you about your inquiry.</p>
+    <div class="consultation-right">
+      <div class="consultation-map-wrap reveal">
+        <div class="consultation-map-stage">
+          <img class="consultation-map-img" src="map-world.png" alt="" aria-hidden="true">
+        </div>
+      </div>
+      <div class="consultation-contact-buttons reveal">
+        <a class="btn btn-lg btn-light" href="apply.html" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+        <a class="btn btn-lg btn-light whatsapp-cta" href="https://wa.me/818096579307?text=Hi%21%20I%27d%20like%20to%20book%20a%20free%20consultation%20about%20studying%20in%20Japan." target="_blank" rel="noopener">
+          <svg class="whatsapp-cta-icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+          <span data-i18n="contact.whatsappCta">Chat with us on WhatsApp</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -1232,9 +1258,28 @@
         <span data-i18n="contact.whatsappCta">Chat with us on WhatsApp</span>
       </a>
     </div>
-    <div class="contact-map-wrap reveal">
-      <div class="contact-map-stage">
-        <img class="contact-map-img" src="map-world.png" alt="" aria-hidden="true">
+    <div class="contact-links-grid reveal">
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footer.exploreHeading">Explore</h4>
+        <a href="#top" data-i18n="footer.home">Home</a>
+        <a href="#study" data-i18n="nav.why">Why Japan</a>
+        <a href="#services" data-i18n="footer.whatWeDo">What We Do</a>
+        <a href="#consultation" data-i18n="footer.howItWorks">How It Works</a>
+        <a href="#founder" data-i18n="footer.aboutUs">About Us</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footer.legalHeading">Legal</h4>
+        <a href="legal.html#privacy-policy" data-i18n="footer.privacyPolicy">Privacy Policy</a>
+        <a href="legal.html#terms-of-use" data-i18n="footer.termsOfUse">Terms of Use</a>
+        <a href="legal.html#service-disclaimer" data-i18n="footer.serviceDisclaimer">Service Disclaimer</a>
+        <a href="legal.html#refund-policy" data-i18n="footer.refundPolicy">Refund &amp; Cancellation Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading" data-i18n="footer.contactHeading">Contact</h4>
+        <a href="mailto:info@japanboundeducation.com" dir="ltr">info@japanboundeducation.com</a>
+        <a href="mailto:legal@japanboundeducation.com" dir="ltr">legal@japanboundeducation.com</a>
       </div>
     </div>
   </div>
@@ -1243,30 +1288,6 @@
 </main>
 
 <footer class="site-footer" data-nav-theme="dark">
-  <div class="section-inner footer-grid">
-    <div class="footer-col">
-      <h4 class="footer-heading" data-i18n="footer.exploreHeading">Explore</h4>
-      <a href="#top" data-i18n="footer.home">Home</a>
-      <a href="#study" data-i18n="nav.why">Why Japan</a>
-      <a href="#services" data-i18n="footer.whatWeDo">What We Do</a>
-      <a href="#consultation" data-i18n="footer.howItWorks">How It Works</a>
-      <a href="#founder" data-i18n="footer.aboutUs">About Us</a>
-      <a href="#faq" data-i18n="nav.faq">FAQ</a>
-      <a href="#contact" data-i18n="nav.contact">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-heading" data-i18n="footer.legalHeading">Legal</h4>
-      <a href="legal.html#privacy-policy" data-i18n="footer.privacyPolicy">Privacy Policy</a>
-      <a href="legal.html#terms-of-use" data-i18n="footer.termsOfUse">Terms of Use</a>
-      <a href="legal.html#service-disclaimer" data-i18n="footer.serviceDisclaimer">Service Disclaimer</a>
-      <a href="legal.html#refund-policy" data-i18n="footer.refundPolicy">Refund &amp; Cancellation Policy</a>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-heading" data-i18n="footer.contactHeading">Contact</h4>
-      <a href="mailto:info@japanboundeducation.com" dir="ltr">info@japanboundeducation.com</a>
-      <a href="mailto:legal@japanboundeducation.com" dir="ltr">legal@japanboundeducation.com</a>
-    </div>
-  </div>
   <div class="section-inner footer-bottom-bar">
     <span data-i18n="footer.copyright">© 2026 Japan Bound Education (JBE). All rights reserved.</span>
   </div>
