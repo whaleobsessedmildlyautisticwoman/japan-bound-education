@@ -853,7 +853,7 @@
         <button type="button" class="lang-switch-en" data-lang-btn="en" aria-pressed="true">EN</button>
         <button type="button" class="lang-switch-ur" data-lang-btn="ur" aria-pressed="false">اردو</button>
       </div>
-      <a href="#consultation" class="btn btn-primary btn-sm" data-i18n="cta.headerBook">Book Free Consultation</a>
+      <a href="apply.html" class="btn btn-primary btn-sm" data-i18n="cta.headerBook">Book Free Consultation</a>
       <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -878,7 +878,7 @@
     <a href="#contact"><span class="mnav-num" aria-hidden="true">06</span><span class="mnav-label" data-i18n="nav.contact">Contact</span><svg class="icon mnav-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
   </div>
   <div class="mobile-menu-bottom">
-    <a href="#consultation" class="btn btn-primary" data-i18n="cta.headerBook">Book Free Consultation</a>
+    <a href="apply.html" class="btn btn-primary" data-i18n="cta.headerBook">Book Free Consultation</a>
     <a class="btn btn-light whatsapp-cta" href="https://wa.me/818096579307?text=Hi%21%20I%27d%20like%20to%20book%20a%20free%20consultation%20about%20studying%20in%20Japan." target="_blank" rel="noopener">
       <svg class="whatsapp-cta-icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
       <span data-i18n="contact.whatsappCta">Chat with us on WhatsApp</span>
@@ -911,7 +911,7 @@
     <h1 class="hero-title" data-i18n="hero.title">Your gateway to <em>Japan</em></h1>
     <p class="hero-lead" data-i18n="hero.lead">Japan Bound Education is a student-led education guidance initiative dedicated to helping high school students pursue higher education at Japanese universities. We provide comprehensive guidance throughout the entire journey, from university selection to pre-departure support.</p>
     <div class="hero-actions">
-      <a href="#consultation" class="btn btn-primary btn-hero" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+      <a href="apply.html" class="btn btn-primary btn-hero" data-i18n="cta.bookConsult">Book a Free Consultation</a>
       <a href="#services" class="btn btn-text"><span data-i18n="hero.seeHow">See how it works</span> <svg class="icon"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
@@ -1007,7 +1007,7 @@
         <p class="parents-close-line" data-i18n="parents.close1">You don't have to make the decision alone.</p>
         <p class="parents-close-line" data-i18n="parents.close2">Let's explore whether Japan is the right choice for your child.</p>
       </div>
-      <a href="#consultation" class="btn btn-primary btn-lg" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+      <a href="apply.html" class="btn btn-primary btn-lg" data-i18n="cta.bookConsult">Book a Free Consultation</a>
     </div>
   </div>
 </section>
@@ -1139,55 +1139,11 @@
         <li><svg class="icon"><use href="#i-check"/></svg><span data-i18n="consult.li4">Personalized guidance based on your goals and profile</span></li>
       </ul>
     </div>
-    <form class="consultation-form reveal" id="consultForm" action="https://formspree.io/f/xqpkljzw" method="POST" novalidate>
-      <div class="form-fields">
-        <h3 class="consultation-form-kicker" data-i18n="consult.formKicker">Ready to explore Japan?</h3>
-        <input type="hidden" name="_subject" value="New consultation request: Japan Bound Education">
-        <div class="field">
-          <label for="c-name" data-i18n="consult.labelName">Full name</label>
-          <input id="c-name" name="name" type="text" required autocomplete="name">
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="c-email" data-i18n="consult.labelEmail">Email</label>
-            <input id="c-email" name="email" type="email" required autocomplete="email">
-          </div>
-          <div class="field">
-            <label for="c-phone" data-i18n="consult.labelPhone">Phone / WhatsApp</label>
-            <input id="c-phone" name="phone" type="tel" required autocomplete="tel">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="c-country" data-i18n="consult.labelCountry">Country</label>
-            <select id="c-country" name="country" required>
-              <option value="" data-i18n="consult.optSelectCountry">Select country</option>
-              <option data-i18n="consult.optPakistan">Pakistan</option><option data-i18n="consult.optIndia">India</option><option data-i18n="consult.optBangladesh">Bangladesh</option>
-              <option data-i18n="consult.optNepal">Nepal</option><option data-i18n="consult.optSriLanka">Sri Lanka</option><option data-i18n="consult.optOther">Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="c-intake" data-i18n="consult.labelIntake">Preferred intake</label>
-            <select id="c-intake" name="intake">
-              <option value="" data-i18n="consult.optNotSure">Not sure yet</option>
-              <option data-i18n="consult.optApr27">April 2027</option><option data-i18n="consult.optOct27">October 2027</option><option data-i18n="consult.optApr28">April 2028</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="c-msg"><span data-i18n="consult.labelMsg">Anything we should know?</span> <span class="form-hint" data-i18n="consult.hintOptional">(optional)</span></label>
-          <textarea id="c-msg" name="message" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg" id="consultSubmit" data-i18n="consult.submitBtn">Book My Free Call</button>
-        <p class="form-note" id="formNote" aria-live="polite"></p>
-        <p class="form-privacy" data-i18n="consult.privacy">Your information will only be used to contact you about your inquiry.</p>
-      </div>
-      <div class="form-success" id="formSuccess">
-        <svg class="icon"><use href="#i-check"/></svg>
-        <h3 style="font-size:1.3rem;font-weight:500;" data-i18n="consult.successTitle">Thank you for your submission.</h3>
-        <p style="margin-top:.6rem;color:var(--ink-70);" data-i18n="consult.successBody">Our team will review your details and get back to you within one business day to schedule your free consultation.</p>
-      </div>
-    </form>
+    <div class="consultation-form reveal">
+      <h3 class="consultation-form-kicker" data-i18n="consult.formKicker">Ready to explore Japan?</h3>
+      <a href="apply.html" class="btn btn-primary btn-lg" data-i18n="cta.bookConsult">Book a Free Consultation</a>
+      <p class="form-privacy" data-i18n="consult.privacy">Your information will only be used to contact you about your inquiry.</p>
+    </div>
   </div>
 </section>
 
