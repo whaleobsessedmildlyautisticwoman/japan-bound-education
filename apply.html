@@ -418,13 +418,12 @@
     }
 
     // Collected for the existing EmailJS notification and, where a field
-    // has a home in the new inquiries schema, for Supabase too. See the
-    // Phase 3 report for exactly which of these does and doesn't reach
-    // Supabase and why (study_stage currently doesn't -- the schema has
-    // no field for it yet; everything else does). city was added to the
-    // schema in Phase 6.2, split out from what used to be a single
-    // combined "City & Country" field -- it has its own input now (#5),
-    // not an Other-style fallback, so it's just a plain trimmed value.
+    // has a home in the inquiries schema, for Supabase too -- every field
+    // below now reaches Supabase. study_stage was added to the schema
+    // later than the rest (see inquiryPayload below); city was added in
+    // Phase 6.2, split out from what used to be a single combined "City &
+    // Country" field -- it has its own input now (#5), not an Other-style
+    // fallback, so it's just a plain trimmed value.
     var fullName = form.full_name.value.trim();
     var email = form.email.value.trim();
     var phone = form.phone.value.trim();
@@ -456,7 +455,8 @@
       intake: startTimeline,
       help_with: helpWith,
       message: message,
-      heard_from: heardFrom
+      heard_from: heardFrom,
+      study_stage: studyStage
     };
 
     submitBtn.disabled = true;
